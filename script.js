@@ -58,7 +58,7 @@ function parseValue(text) {
   return { num: parseFloat(m[1].replace(/\s/g, '').replace(',', '.')), unit };
 }
 
-// Сравнивает два значения тарифа и возвращает текст разницы и CSS-класс (зелёный/красный)
+// Возвращает текст разницы и класс: pos (плюс, зелёный), neg (минус, красный)
 function compare(a, b) {
   if (a === b) return { text: 'без изменений', cls: '' };
   if (isUnavailable(a) && !isUnavailable(b)) return { text: 'добавлено: ' + show(b), cls: 'pos' };
@@ -179,6 +179,7 @@ function render() {
       first.appendChild(remove);
     }
     if (isStorage(r)) first.appendChild(storageSelect());
+    if (r.parameter === PROFILE_PARAM) first.appendChild(profileQtyInput());
     tr.appendChild(first);
     tr.appendChild(discountCell(key + 'c', noDiscC));
     tr.appendChild(textCell(show(curT)));
@@ -298,10 +299,10 @@ function bindSuggest(inputId, listId, rowsFn) {
   // Закрывает список подсказок
   const hide = () => list.classList.remove('open');
   const pick = i => { input.value = items[i].text; hide(); };
-  // Фильтрует функции по введённому тексту и показывает подсказки
-  input.oninput = () => {
+  // Фильтрует по введённому тексту; пустое поле показывает весь список
+  const show = () => {
     const q = input.value.trim().toLowerCase();
-    items = q ? rowsFn().filter(r => r.text.toLowerCase().includes(q)).slice(0, 50) : [];
+    items = rowsFn().filter(r => r.text.toLowerCase().includes(q)).slice(0, 50);
     active = -1;
     list.replaceChildren(...items.map((r, i) => {
       const li = document.createElement('li');
@@ -311,6 +312,9 @@ function bindSuggest(inputId, listId, rowsFn) {
     }));
     list.classList.toggle('open', items.length > 0);
   };
+  input.oninput = show;
+  input.onfocus = show;
+  input.onclick = show;
   input.onblur = hide;
   // Навигация стрелками, выбор Enter и закрытие Escape
   input.onkeydown = e => {
@@ -431,6 +435,7 @@ const storageState = { gb: 1 };
 const isStorage = r => r.parameter.startsWith('Облачное хранилище');
 // Значение строки для тарифа; для хранилища - цена выбранного объёма, если тариф его включает
 function rowValue(r, tariff) {
+  if (r.parameter === PROFILE_PARAM && !isUnavailable(r.values[tariff])) return fmt(round2(profilePrice(tariff) * qtys.profiles)) + ' руб./мес.';
   if (!isStorage(r) || isUnavailable(r.values[tariff])) return r.values[tariff];
   const plan = STORAGE_PLANS.find(p => p.gb === storageState.gb);
   return fmt(plan.price) + ' руб./мес.';
@@ -443,6 +448,24 @@ function storageSelect() {
   sel.value = storageState.gb;
   sel.onchange = () => { storageState.gb = Number(sel.value); update(); };
   return sel;
+}
+// Поле количества доп. профилей в строке стоимости профиля; делит значение с блоком доп. профилей
+function profileQtyInput() {
+  const input = document.createElement('input');
+  input.className = 'qty';
+  input.type = 'text';
+  input.inputMode = 'numeric';
+  input.id = 'qty-profile-row';
+  input.value = qtys.profiles;
+  input.oninput = e => {
+    e.target.value = e.target.value.replace(/\D/g, '');
+    qtys.profiles = Math.floor(Number(e.target.value) || 0);
+    update();
+    const again = $('qty-profile-row');
+    again.focus();
+    again.setSelectionRange(again.value.length, again.value.length);
+  };
+  return input;
 }
 
 // Ячейка с текстом значения строки
