@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сравнение тарифов</title>
+<!-- Подключение шрифтов Raleway и Roboto и стилей страницы -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Сравнение тарифов</h1>
+
+<!-- Выбор продукта, текущего и нового тарифа; флажок показа блока КЦ -->
+<div class="card">
+  <div class="row">
+    <div class="field">
+      <label for="product">Продукт</label>
+      <select id="product">
+        <option value="vats">ВАТС</option>
+        <option value="kc">КЦ</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="current">Текущий тариф</label>
+      <select id="current"></select>
+    </div>
+    <div class="field">
+      <label for="target">Новый тариф</label>
+      <select id="target"></select>
+    </div>
+    <!-- Флажок показа блока КЦ (виден только для ВАТС) -->
+    <div class="field" id="kcToggle" style="flex: 0 0 auto; align-self: flex-end;">
+      <label style="font-weight: 400; cursor: pointer;"><input type="checkbox" id="addKc"> Добавить КЦ</label>
+    </div>
+  </div>
+</div>
+
+<!-- Поиск функции ВАТС с подсказками и список добавленных функций -->
+<div class="card">
+  <div class="row">
+    <div class="field">
+      <label for="feature">Функция</label>
+      <div class="suggest">
+        <input class="qty" type="text" id="feature" autocomplete="off" placeholder="Начните вводить название">
+        <ul id="suggestList" class="suggest-list"></ul>
+      </div>
+    </div>
+    <div class="field" style="flex: 0 0 auto; align-self: flex-end;">
+      <button id="add" type="button">Добавить в сравнение</button>
+    </div>
+  </div>
+  <ul id="chips"></ul>
+</div>
+
+<!-- Основная таблица сравнения ВАТС с итогами внизу -->
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Функция</th>
+        <th>Скидка текущего, %</th>
+        <th id="colCur"></th>
+        <th>Скидка нового, %</th>
+        <th id="colTgt"></th>
+        <th>Разница</th>
+      </tr>
+    </thead>
+    <tbody id="body"></tbody>
+    <tfoot id="foot"></tfoot>
+  </table>
+  <div class="note">Сумма учитывает только значения в руб./мес. Зелёным отмечена разница между тарифами.</div>
+  <div class="note warn" id="numbersWarn"></div>
+</div>
+
+<!-- Блок КЦ: скрыт по умолчанию, открывается флажком «Добавить КЦ» -->
+<div class="card" id="kcCard" hidden>
+  <h2 style="font-family: Raleway, Arial, sans-serif; font-size: 20px; color: var(--text-dark); margin: 0 0 12px;">Контакт-центр (КЦ)</h2>
+  <div class="row">
+    <div class="field">
+      <label for="kcCurrent">Текущий тариф КЦ</label>
+      <select id="kcCurrent"></select>
+    </div>
+    <div class="field">
+      <label for="kcTarget">Новый тариф КЦ</label>
+      <select id="kcTarget"></select>
+    </div>
+  </div>
+  <!-- Выбор функции КЦ с подсказками и кнопка добавления -->
+<div class="row" style="margin-top: 16px;">
+    <div class="field">
+      <label for="kcFeature">Функция КЦ</label>
+      <div class="suggest">
+        <input class="qty" type="text" id="kcFeature" autocomplete="off" placeholder="Начните вводить название">
+        <ul id="kcSuggestList" class="suggest-list"></ul>
+      </div>
+    </div>
+    <div class="field" style="flex: 0 0 auto; align-self: flex-end;">
+      <button id="kcAdd" type="button">Добавить в сравнение</button>
+    </div>
+  </div>
+  <!-- Выбранные функции КЦ; ниже таблица сравнения КЦ с итогами -->
+  <ul id="kcChips"></ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Функция</th>
+        <th>Скидка текущего, %</th>
+        <th id="kcColCur"></th>
+        <th>Скидка нового, %</th>
+        <th id="kcColTgt"></th>
+        <th>Разница</th>
+      </tr>
+    </thead>
+    <tbody id="kcBody"></tbody>
+    <tfoot id="kcFoot"></tfoot>
+  </table>
+</div>
+
+<!-- Логика калькулятора: данные тарифов, расчёт и отрисовка -->
+<script src="script.js"></script>
+</body>
+</html>
