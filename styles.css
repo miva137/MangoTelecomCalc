@@ -91,7 +91,7 @@ button {
 /* Компактная кнопка удаления строки в итоговой таблице */
 button.row-remove {
   padding: 2px 8px;
-  margin-left: 6px;
+  margin-left: 8px;
   font-size: 14px;
   line-height: 1;
 }
@@ -109,9 +109,9 @@ table {
 th,
 td {
   border-bottom: 1px solid #ececec;
-  padding: 5px 6px;
-  text-align: left;
-  vertical-align: top;
+  padding: 8px 10px;
+  text-align: center;
+  vertical-align: middle;
 }
 /* Ширины колонок в долях таблицы; скидки (2 и 4) узкие */
 th:nth-child(1),
@@ -136,10 +136,14 @@ td:nth-child(6) {
 }
 td:nth-child(2) input.qty,
 td:nth-child(4) input.qty,
-#qty-profile-row {
+td:first-child input.qty {
   width: 52px;
   padding: 3px 4px;
   text-align: center;
+}
+td:first-child select {
+  width: auto;
+  margin: 0 8px;
 }
 /* Заголовки колонок таблицы */
 th {
@@ -157,11 +161,11 @@ tfoot td {
 }
 /* Плюс (рост суммы) - зелёный, минус (снижение суммы) - красный */
 .pos {
-  color: var(--green);
+  color: #c0392b;
   font-weight: 600;
 }
 .neg {
-  color: #c0392b;
+  color: var(--green);
   font-weight: 600;
 }
 /* Список выбранных функций в виде плашек */
@@ -192,6 +196,22 @@ ul#chips button {
   font-weight: 700;
   color: var(--text-dark);
   margin-top: 12px;
+}
+/* Режим стоимости: скрыть колонки нового тарифа и пояснение о сравнении */
+body.single th:nth-child(n + 4):not(.once-col),
+body.single td:nth-child(n + 4):not(.once-col),
+body.single .cmp-only {
+  display: none;
+}
+/* Колонка разового платежа видна только в режиме расчёта */
+body:not(.single) .once-col {
+  display: none;
+}
+body.single th.once-col,
+body.single td.once-col {
+  display: table-cell;
+  width: 12%;
+  white-space: nowrap;
 }
 /* Мелкие пояснения под таблицами и полями */
 .note {

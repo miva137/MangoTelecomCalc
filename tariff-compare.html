@@ -17,6 +17,13 @@
 <div class="card">
   <div class="row">
     <div class="field">
+      <label for="mode">Режим</label>
+      <select id="mode">
+        <option value="compare">Сравнение тарифов</option>
+        <option value="cost">Расчет тарифа</option>
+      </select>
+    </div>
+    <div class="field">
       <label for="product">Продукт</label>
       <select id="product">
         <option value="vats">ВАТС</option>
@@ -24,10 +31,10 @@
       </select>
     </div>
     <div class="field">
-      <label for="current">Текущий тариф</label>
+      <label for="current" id="currentLabel">Текущий тариф</label>
       <select id="current"></select>
     </div>
-    <div class="field">
+    <div class="field" id="targetField">
       <label for="target">Новый тариф</label>
       <select id="target"></select>
     </div>
@@ -42,7 +49,7 @@
 <div class="card">
   <div class="row">
     <div class="field">
-      <label for="feature">Функция</label>
+      <label for="feature">Услуга</label>
       <div class="suggest">
         <input class="qty" type="text" id="feature" autocomplete="off" placeholder="Начните вводить название">
         <ul id="suggestList" class="suggest-list"></ul>
@@ -60,18 +67,19 @@
   <table>
     <thead>
       <tr>
-        <th>Функция</th>
+        <th>Услуга</th>
         <th>Скидка текущего, %</th>
         <th id="colCur"></th>
         <th>Скидка нового, %</th>
         <th id="colTgt"></th>
         <th>Разница</th>
+        <th class="once-col">Разово, руб.</th>
       </tr>
     </thead>
     <tbody id="body"></tbody>
     <tfoot id="foot"></tfoot>
   </table>
-  <div class="note">Сумма учитывает только значения в руб./мес. Зелёным отмечена разница между тарифами.</div>
+  <div class="note cmp-only">Сумма учитывает только значения в руб./мес. Зелёным отмечена разница между тарифами.</div>
   <div class="note warn" id="numbersWarn"></div>
 </div>
 
@@ -83,7 +91,7 @@
       <label for="kcCurrent">Текущий тариф КЦ</label>
       <select id="kcCurrent"></select>
     </div>
-    <div class="field">
+    <div class="field" id="kcTargetField">
       <label for="kcTarget">Новый тариф КЦ</label>
       <select id="kcTarget"></select>
     </div>
