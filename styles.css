@@ -14,7 +14,10 @@ body {
     Arial,
     "Helvetica Neue",
     sans-serif;
-  margin: 12px;
+  margin: 12px auto;
+  max-width: 1100px;
+  padding: 0 24px;
+  box-sizing: border-box;
   background: var(--bg);
   color: var(--text-body);
 }
@@ -54,7 +57,6 @@ label {
   margin-bottom: 2px;
 }
 /* Выпадающие списки и поля ввода в едином стиле */
-select,
 input.qty {
   width: 100%;
   padding: 5px 8px;
@@ -69,11 +71,78 @@ input.qty {
   box-sizing: border-box;
 }
 /* Оранжевая рамка у активного поля */
-select:focus,
+.csel-btn:focus,
 input.qty:focus {
   outline: none;
   border-color: var(--orange);
   box-shadow: 0 0 0 3px var(--orange-soft);
+}
+/* Единый вид стрелки и пунктов выпадающих списков */
+/* Собственный выпадающий список: видимая кнопка, скрытый select хранит значение */
+.csel {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+.csel > select {
+  display: none;
+}
+.csel-btn {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 28px 5px 8px;
+  font: 13px Roboto, Arial, sans-serif;
+  font-weight: 400;
+  color: var(--text-dark);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23f77736' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.csel-btn:hover,
+.csel.open .csel-btn {
+  border-color: var(--orange);
+  background-color: #fff;
+}
+.csel-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  max-height: 260px;
+  overflow-y: auto;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+.csel-list li {
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--text-dark);
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: normal;
+}
+.csel-list li:hover,
+.csel-list li.selected {
+  background: var(--orange-soft);
+}
+.csel-list li.selected {
+  font-weight: 600;
 }
 /* Оранжевые кнопки в стиле Манго Телеком */
 button {
@@ -113,22 +182,27 @@ td {
   text-align: center;
   vertical-align: middle;
 }
+/* Колонка «Услуга» выровнена по левому краю */
+th:first-child,
+td:first-child {
+  text-align: left;
+}
 /* Ширины колонок в долях таблицы; скидки (2 и 4) узкие */
 th:nth-child(1),
 td:nth-child(1) {
-  width: 30%;
+  width: 60%;
 }
 th:nth-child(2),
 th:nth-child(4),
 td:nth-child(2),
 td:nth-child(4) {
-  width: 12%;
+  width: 10%;
 }
 th:nth-child(3),
 td:nth-child(3),
 th:nth-child(5),
 td:nth-child(5) {
-  width: 18%;
+  width: 20%;
 }
 th:nth-child(6),
 td:nth-child(6) {
@@ -141,9 +215,13 @@ td:first-child input.qty {
   padding: 3px 4px;
   text-align: center;
 }
-td:first-child select {
+td:first-child .csel {
+  display: inline-block;
   width: auto;
   margin: 0 8px;
+}
+td:first-child .csel-btn {
+  width: auto;
 }
 /* Заголовки колонок таблицы */
 th {
@@ -152,12 +230,13 @@ th {
   color: var(--text-dark);
   background: var(--orange-soft);
 }
-/* Строки итогов внизу таблицы */
+/* Строки итогов внизу таблицы выровнены по левому краю */
 tfoot td {
   font-family: Raleway, Arial, sans-serif;
   font-weight: 700;
   color: var(--text-dark);
   background: var(--orange-soft);
+  text-align: left;
 }
 /* Плюс (рост суммы) - зелёный, минус (снижение суммы) - красный */
 .pos {
@@ -251,13 +330,19 @@ body.single td.once-col {
   display: block;
 }
 .suggest-list li {
+  margin: 2px 6px;
   padding: 8px 12px;
-  font-size: 14px;
-  color: var(--text-dark);
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--text-body);
+  border-radius: 8px;
   cursor: pointer;
+  white-space: normal;
 }
 /* Подсветка подсказки при наведении мыши и выборе стрелками */
 .suggest-list li:hover,
 .suggest-list li.active {
   background: var(--orange-soft);
+  color: var(--text-dark);
+  font-weight: 600;
 }
