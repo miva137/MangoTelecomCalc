@@ -169,20 +169,21 @@ tfoot td {
   font-weight: 600;
 }
 /* Список выбранных функций в виде плашек */
-ul#chips {
+ul#chips, ul#kcChips {
   list-style: none;
   padding: 0;
   margin: 12px 0 0;
 }
-ul#chips li {
+ul#chips li, ul#kcChips li {
   display: inline-block;
   background: var(--orange-soft);
   color: var(--text-dark);
+  border: 1px solid var(--orange);
   border-radius: 14px;
   padding: 4px 10px;
   margin: 4px 6px 4px 0;
 }
-ul#chips button {
+ul#chips button, ul#kcChips button {
   background: none;
   border: none;
   color: var(--orange);
