@@ -77,7 +77,6 @@ function compare(a, b) {
   return { text: show(b) + ' (не сравнимо)', cls: '' };
 }
 
-// Перерисовывает все блоки после изменения выбора или ввода
 // Режим «Стоимость тарифа»: показывается только текущий тариф
 const isSingle = () => $('mode').value === 'cost';
 
@@ -354,7 +353,7 @@ function render() {
 }
 
 // Подключает выпадающий список подсказок к полю ввода; возвращает функцию его скрытия
-function bindSuggest(inputId, listId, rowsFn) {
+function bindSuggest(inputId, listId, rowsFn, onEnter) {
   const input = $(inputId), list = $(listId);
   let items = [], active = -1;
   // Закрывает список подсказок
@@ -380,14 +379,17 @@ function bindSuggest(inputId, listId, rowsFn) {
   // Навигация стрелками, выбор Enter и закрытие Escape
   input.onkeydown = e => {
     const lis = list.children;
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (list.classList.contains('open') && active >= 0) pick(active);
+      onEnter();
+      return;
+    }
     if (!list.classList.contains('open')) return;
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
       active = (active + (e.key === 'ArrowDown' ? 1 : -1) + lis.length) % lis.length;
       [...lis].forEach((li, i) => li.classList.toggle('active', i === active));
-    } else if (e.key === 'Enter' && active >= 0) {
-      e.preventDefault();
-      pick(active);
     } else if (e.key === 'Escape') {
       hide();
     }
@@ -447,7 +449,7 @@ $('target').onchange = update;
 $('mode').onchange = update;
 // Количество номеров и профилей задаётся в строках таблицы
 // Подсказки для поля поиска функций ВАТС
-const hideSuggestions = bindSuggest('feature', 'suggestList', () => featureRows(product));
+const hideSuggestions = bindSuggest('feature', 'suggestList', () => featureRows(product), () => $('add').click());
 // Кнопка добавления функции ВАТС в сравнение
 $('add').onclick = () => addFeature('feature', product, selected, update);
 
@@ -656,7 +658,7 @@ function kcInit() {
 }
 
 // Подсказки для поля поиска функций КЦ
-const hideKcSuggest = bindSuggest('kcFeature', 'kcSuggestList', () => featureRows('kc'));
+const hideKcSuggest = bindSuggest('kcFeature', 'kcSuggestList', () => featureRows('kc'), () => $('kcAdd').click());
 // Показ или скрытие блока КЦ при изменении флажка
 $('addKc').onchange = update;
 $('kcCurrent').onchange = renderKc;
