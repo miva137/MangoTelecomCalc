@@ -68,13 +68,16 @@ function parseValue(text) {
   return { num: parseFloat(m[1].replace(/\s/g, '').replace(',', '.')), unit };
 }
 
-// Возвращает текст разницы и класс: pos (плюс, зелёный), neg (минус, красный)
+// Число для сравнения: отсутствие или включение в тариф (—, +, ✓) считается как 0 с единицей другого значения
+function numericValue(v, other) {
+  if (v === '+' || v === '✓' || isUnavailable(v)) return { num: 0, unit: parseValue(other)?.unit ?? '' };
+  return parseValue(v);
+}
+
+// Возвращает текст разницы и класс: pos (рост суммы, красный), neg (снижение, зелёный)
 function compare(a, b) {
   if (a === b) return { text: 'без изменений', cls: '' };
-  if (isUnavailable(a) && !isUnavailable(b)) return { text: 'добавлено: ' + show(b), cls: 'pos' };
-  if (!isUnavailable(a) && isUnavailable(b)) return { text: 'убрано', cls: 'neg' };
-  const pa = a === '✓' ? { num: 0, unit: parseValue(b)?.unit ?? '' } : parseValue(a);
-  const pb = b === '✓' ? { num: 0, unit: parseValue(a)?.unit ?? '' } : parseValue(b);
+  const pa = numericValue(a, b), pb = numericValue(b, a);
   if (pa && pb && pa.unit === pb.unit) {
     const delta = pb.num - pa.num;
     if (delta === 0) return { text: 'без изменений', cls: '', delta: 0, unit: pb.unit };

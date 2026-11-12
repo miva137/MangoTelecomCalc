@@ -238,12 +238,12 @@ tfoot td {
   background: var(--orange-soft);
   text-align: left;
 }
-/* Плюс (рост суммы) - зелёный, минус (снижение суммы) - красный */
-.pos {
+/* Рост суммы - красный, снижение - зелёный; td, чтобы перебить tfoot td */
+td.pos {
   color: #c0392b;
   font-weight: 600;
 }
-.neg {
+td.neg {
   color: var(--green);
   font-weight: 600;
 }
