@@ -153,16 +153,6 @@ function numbersFor(tariff) {
   return { overFee: over * rule.overFee, exceeded: rule.overFee === 0 && over > 0, total, limit: rule.limit };
 }
 
-// Максимум номеров типа key с учётом лимита выбранных тарифов (строжайший из них) и уже добавленных номеров других типов
-function maxNumberQty(key) {
-  if (!NUMBER_TYPES.some(t => t.id === key)) return Infinity;
-  const tariffs = [$('current').value, isSingle() ? null : $('target').value].filter(Boolean);
-  const limits = tariffs.map(t => NUMBER_RULES[t]).filter(r => r && r.overFee === 0).map(r => r.limit);
-  if (!limits.length) return Infinity;
-  const others = NUMBER_TYPES.filter(t => t.id !== key).reduce((s, t) => s + numberQty(t), 0);
-  return Math.max(0, Math.min(...limits) - others);
-}
-
 // Название строки DATA, из которой берётся цена доп. профиля
 const PROFILE_PARAM = 'Дополнительный профиль сотрудника';
 
@@ -298,7 +288,7 @@ function render() {
     // Количество меняется прямо в строке; фокус возвращается в поле после перерисовки
     input.oninput = e => {
       e.target.value = e.target.value.replace(/\D/g, '');
-      qtys[key] = Math.min(Math.floor(Number(e.target.value) || 0), maxNumberQty(key));
+      qtys[key] = Math.floor(Number(e.target.value) || 0);
       update();
       const again = $('qty-' + key);
       again.focus();
