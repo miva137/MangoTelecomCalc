@@ -230,7 +230,7 @@ function render() {
     if (pt && pt.unit === 'руб./мес.') tgtSum += pt.num;
     const tr = document.createElement('tr');
     const first = document.createElement('td');
-    first.textContent = show(r.parameter);
+    first.textContent = show(isStorage(r) ? 'Облачное хранилище' : r.parameter);
     if (isStorage(r)) first.appendChild(storageSelect());
     if (r.parameter === PROFILE_PARAM) first.appendChild(profileQtyInput());
     tr.appendChild(first);
@@ -532,7 +532,7 @@ function rowValue(r, tariff) {
 function storageSelect() {
   const sel = document.createElement('select');
   sel.id = 'storage';
-  STORAGE_PLANS.forEach(p => sel.add(new Option(p.gb + ' ГБ: ' + fmt(p.price) + ' руб./мес.', p.gb)));
+  STORAGE_PLANS.forEach(p => sel.add(new Option(p.gb + ' ГБ', p.gb)));
   sel.value = storageState.gb;
   sel.onchange = () => { storageState.gb = Number(sel.value); update(); };
   return customSelect(sel);
