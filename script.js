@@ -634,6 +634,15 @@ function renderKc() {
   $('kcToggle').hidden = product !== 'vats';
   $('kcCard').hidden = !on;
   if (!on) return;
+  // Если КЦ был выключен, инициализируем при первом включении
+  if (kcState.selected.length === 0) {
+    DATA.kc.rows.forEach((r, i) => {
+      if (i > 0 && DEFAULT_KC_FEATURES.includes(r.parameter)) {
+        kcState.selected.push(i);
+        kcState.qty[i] = 1;
+      }
+    });
+  }
   const single = isSingle();
   $('kcTargetField').hidden = single;
   const cur = $('kcCurrent').value, tgt = single ? $('kcCurrent').value : $('kcTarget').value;
