@@ -444,9 +444,9 @@ function addFeature(inputId, prod, list, rerender) {
   if (idx < 0) return;
   if (!list.includes(idx)) {
     list.push(idx);
-    // Для КЦ при добавлении "Доп.лицензия" устанавливаем количество по умолчанию на 1
+    // Для КЦ устанавливаем количество по умолчанию на 1 для новых услуг
     if (prod === 'kc' && DATA[prod].rows[idx].parameter === 'Доп.лицензия') {
-      if (kcState.licenseQty === 0) kcState.licenseQty = 1;
+      kcState.qty[idx] = 1;
     }
     $(inputId).value = '';
   }
@@ -484,8 +484,8 @@ $('add').onclick = () => addFeature('feature', product, selected, update);
 
 // Итоги ВАТС без КЦ (текущий и новый тариф), нужны для блока ВАТС + КЦ
 let mainTotals = { cur: 0, tgt: 0 };
-// Выбранные функции КЦ
-const kcState = { selected: [], licenseQty: 0 };
+// Выбранные функции КЦ и количество каждой услуги
+const kcState = { selected: [], qty: {} };
 // Скидки в процентах по строкам: v+индекс (ВАТС), k+индекс (КЦ), x+ключ (номера и профили)
 const rowDiscount = {};
 // Возвращает процент скидки строки
@@ -615,9 +615,8 @@ function renderKcChips() {
   kcState.selected.forEach(idx => {
     const param = DATA.kc.rows[idx].parameter;
     ul.appendChild(makeChip(param, () => {
-      kcState.selected = kcState.selected.filter(x => x !== idx); 
-      // Сбрасываем количество лицензий при удалении
-      if (param === 'Доп.лицензия') kcState.licenseQty = 0;
+      kcState.selected = kcState.selected.filter(x => x !== idx);
+      delete kcState.qty[idx];
       renderKc();
     }));
   });
@@ -644,8 +643,8 @@ function renderKc() {
   [0, ...kcState.selected].forEach(idx => {
     const r = DATA.kc.rows[idx];
     const key = 'k' + idx;
-    const isLicense = r.parameter === 'Доп.лицензия'; // Проверяем по названию параметра
-    const qty = isLicense ? kcState.licenseQty : 1;
+    const isLicense = r.parameter === 'Доп.лицензия'; // Строка "Доп.лицензия"
+    const qty = isLicense ? (kcState.qty[idx] || 0) : 1;
     // Для лицензий нужно умножить цену на количество
     const getAdjustedValue = (value) => {
       if (!isLicense) return value;
@@ -668,15 +667,17 @@ function renderKc() {
       input.className = 'qty';
       input.type = 'text';
       input.inputMode = 'numeric';
-      input.id = 'kc-license-qty';
-      input.value = kcState.licenseQty;
+      input.id = 'kc-qty-' + idx;
+      input.value = kcState.qty[idx] || 0;
       input.oninput = e => {
         e.target.value = e.target.value.replace(/\D/g, '');
-        kcState.licenseQty = Math.floor(Number(e.target.value) || 0);
+        kcState.qty[idx] = Math.floor(Number(e.target.value) || 0);
         renderKc();
-        const again = $('kc-license-qty');
-        again.focus();
-        again.setSelectionRange(again.value.length, again.value.length);
+        const again = $('kc-qty-' + idx);
+        if (again) {
+          again.focus();
+          again.setSelectionRange(again.value.length, again.value.length);
+        }
       };
       first.append(r.parameter + ' × ', input);
     } else {
@@ -706,7 +707,7 @@ function kcInit() {
   $('kcTarget').replaceChildren(...DATA.kc.tariffs.map(k => new Option(TARIFF_LABELS[k], k)));
   $('kcTarget').selectedIndex = Math.min(1, DATA.kc.tariffs.length - 1);
   kcState.selected = [];
-  kcState.licenseQty = 0;
+  kcState.qty = {};
   $('kcFeature').value = '';
   hideKcSuggest();
   renderKc();
