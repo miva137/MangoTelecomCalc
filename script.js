@@ -428,6 +428,7 @@ function addFeature(inputId, prod, list, rerender) {
   const text = $(inputId).value.trim().toLowerCase();
   if (prod === 'vats' && text === PACKAGE_LABEL.toLowerCase()) {
     packageOn = true;
+    $(inputId).value = '';
     rerender();
     return;
   }
@@ -435,12 +436,20 @@ function addFeature(inputId, prod, list, rerender) {
   const extra = prod === 'vats' ? EXTRA_ITEMS.find(x => x.text.toLowerCase() === text) : null;
   if (extra) {
     if (!extras.includes(extra.key)) extras.push(extra.key);
+    $(inputId).value = '';
     rerender();
     return;
   }
   const idx = DATA[prod].rows.findIndex((r, i) => i > 0 && r.parameter.toLowerCase() === text);
   if (idx < 0) return;
-  if (!list.includes(idx)) list.push(idx);
+  if (!list.includes(idx)) {
+    list.push(idx);
+    // Для КЦ при добавлении "Доп.лицензия" устанавливаем количество по умолчанию на 1
+    if (prod === 'kc' && DATA[prod].rows[idx].parameter === 'Доп.лицензия') {
+      if (kcState.licenseQty === 0) kcState.licenseQty = 1;
+    }
+    $(inputId).value = '';
+  }
   rerender();
 }
 
@@ -476,7 +485,7 @@ $('add').onclick = () => addFeature('feature', product, selected, update);
 // Итоги ВАТС без КЦ (текущий и новый тариф), нужны для блока ВАТС + КЦ
 let mainTotals = { cur: 0, tgt: 0 };
 // Выбранные функции КЦ
-const kcState = { selected: [] };
+const kcState = { selected: [], licenseQty: 0 };
 // Скидки в процентах по строкам: v+индекс (ВАТС), k+индекс (КЦ), x+ключ (номера и профили)
 const rowDiscount = {};
 // Возвращает процент скидки строки
@@ -604,8 +613,12 @@ function renderKcChips() {
   const ul = $('kcChips');
   ul.replaceChildren();
   kcState.selected.forEach(idx => {
-    ul.appendChild(makeChip(DATA.kc.rows[idx].parameter, () => {
-      kcState.selected = kcState.selected.filter(x => x !== idx); renderKc();
+    const param = DATA.kc.rows[idx].parameter;
+    ul.appendChild(makeChip(param, () => {
+      kcState.selected = kcState.selected.filter(x => x !== idx); 
+      // Сбрасываем количество лицензий при удалении
+      if (param === 'Доп.лицензия') kcState.licenseQty = 0;
+      renderKc();
     }));
   });
 }
@@ -631,14 +644,44 @@ function renderKc() {
   [0, ...kcState.selected].forEach(idx => {
     const r = DATA.kc.rows[idx];
     const key = 'k' + idx;
-    const curT = discountText(r.values[cur], discPct(key + 'c')), tgtT = discountText(r.values[tgt], discPct(key + 't'));
+    const isLicense = r.parameter === 'Доп.лицензия'; // Проверяем по названию параметра
+    const qty = isLicense ? kcState.licenseQty : 1;
+    // Для лицензий нужно умножить цену на количество
+    const getAdjustedValue = (value) => {
+      if (!isLicense) return value;
+      const p = parseValue(value);
+      if (!p) return value;
+      return fmt(p.num * qty) + ' ' + p.unit;
+    };
+    const curVal = getAdjustedValue(r.values[cur]);
+    const tgtVal = getAdjustedValue(r.values[tgt]);
+    const curT = discountText(curVal, discPct(key + 'c')), tgtT = discountText(tgtVal, discPct(key + 't'));
     const c = compare(curT, tgtT);
     const pc = parseValue(curT), pt = parseValue(tgtT);
     if (pc && pc.unit === 'руб./мес.') curSum += pc.num;
     if (pt && pt.unit === 'руб./мес.') tgtSum += pt.num;
     const tr = document.createElement('tr');
     const first = document.createElement('td');
-    first.textContent = show(r.parameter);
+    // Для лицензий добавляем поле ввода количества (как для номеров)
+    if (isLicense) {
+      const input = document.createElement('input');
+      input.className = 'qty';
+      input.type = 'text';
+      input.inputMode = 'numeric';
+      input.id = 'kc-license-qty';
+      input.value = kcState.licenseQty;
+      input.oninput = e => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+        kcState.licenseQty = Math.floor(Number(e.target.value) || 0);
+        renderKc();
+        const again = $('kc-license-qty');
+        again.focus();
+        again.setSelectionRange(again.value.length, again.value.length);
+      };
+      first.append(r.parameter + ' × ', input);
+    } else {
+      first.textContent = show(r.parameter);
+    }
     tr.appendChild(first);
     tr.appendChild(discountCell(key + 'c', false));
     tr.appendChild(textCell(show(curT)));
@@ -663,6 +706,7 @@ function kcInit() {
   $('kcTarget').replaceChildren(...DATA.kc.tariffs.map(k => new Option(TARIFF_LABELS[k], k)));
   $('kcTarget').selectedIndex = Math.min(1, DATA.kc.tariffs.length - 1);
   kcState.selected = [];
+  kcState.licenseQty = 0;
   $('kcFeature').value = '';
   hideKcSuggest();
   renderKc();
