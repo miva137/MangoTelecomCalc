@@ -282,10 +282,9 @@ function render() {
     const t = NUMBER_TYPES.find(x => x.id === key);
     const isProfile = key === 'profiles';
     const isDialog = key === 'dialogs';
-    // Мобильные номера без скидки
-    const noDisc = key === 'nMobile';
-    const kC = 1 - (noDisc ? 0 : discPct('x' + key + 'c')) / 100;
-    const kT = 1 - (noDisc ? 0 : discPct('x' + key + 't')) / 100;
+    // Мобильные номера: скидка не применяется
+    const kC = (key === 'nMobile') ? 1 : (1 - discPct('x' + key + 'c') / 100);
+    const kT = (key === 'nMobile') ? 1 : (1 - discPct('x' + key + 't') / 100);
     const baseCur = isProfile ? qtys.profiles * profilePrice(cur) : isDialog ? dialogCost() : t.monthly * qtys[key];
     const baseTgt = isProfile ? qtys.profiles * profilePrice(tgt) : isDialog ? dialogCost() : t.monthly * qtys[key];
     // Надбавка за номера сверх лимита добавляется после скидки
@@ -323,9 +322,9 @@ function render() {
       first.append(document.createElement('br'), `сверх лимита ${fmt(t.monthly + fee)} руб./мес. за номер`);
     }
     tr.appendChild(first);
-    tr.appendChild(discountCell('x' + key + 'c', noDisc));
+    tr.appendChild(discountCell('x' + key + 'c', key === 'nMobile'));
     tr.appendChild(textCell(curText));
-    tr.appendChild(discountCell('x' + key + 't', noDisc));
+    tr.appendChild(discountCell('x' + key + 't', key === 'nMobile'));
     tr.appendChild(textCell(tgtText));
     const c = compare(curText, tgtText);
     const diff = document.createElement('td');
