@@ -449,7 +449,7 @@ function addFeature(inputId, prod, list, rerender) {
     list.push(idx);
     // Для КЦ при добавлении "Доп.лицензия" устанавливаем количество по умолчанию на 1
     if (prod === 'kc' && DATA[prod].rows[idx].parameter === 'Доп.лицензия') {
-      if (kcState.licenseQty === 0) kcState.licenseQty = 1;
+      kcState.qty[idx] = 1;
     }
     $(inputId).value = '';
   }
@@ -648,7 +648,7 @@ function renderKc() {
     const r = DATA.kc.rows[idx];
     const key = 'k' + idx;
     const isLicense = r.parameter === 'Доп.лицензия'; // Проверяем по названию параметра
-    const qty = isLicense ? kcState.licenseQty : 1;
+    const qty = isLicense ? (kcState.qty[idx] || 0) : 1;
     // Для лицензий нужно умножить цену на количество
     const getAdjustedValue = (value) => {
       if (!isLicense) return value;
@@ -711,13 +711,15 @@ function kcInit() {
   $('kcTarget').replaceChildren(...DATA.kc.tariffs.map(k => new Option(TARIFF_LABELS[k], k)));
   $('kcTarget').selectedIndex = Math.min(1, DATA.kc.tariffs.length - 1);
   kcState.selected = [];
-  kcState.licenseQty = 0;  // Выбор услуг по умолчанию по названиям из DEFAULT_KC_FEATURES
+  kcState.qty = {};
+  // Выбор услуг по умолчанию по названиям из DEFAULT_KC_FEATURES
   DATA.kc.rows.forEach((r, i) => {
     if (i > 0 && DEFAULT_KC_FEATURES.includes(r.parameter)) {
       kcState.selected.push(i);
       kcState.qty[i] = 1;
     }
-  });  $('kcFeature').value = '';
+  });
+  $('kcFeature').value = '';
   hideKcSuggest();
   renderKc();
 }
