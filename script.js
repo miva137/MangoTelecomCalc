@@ -618,8 +618,9 @@ function renderKcChips() {
   kcState.selected.forEach(idx => {
     const param = DATA.kc.rows[idx].parameter;
     ul.appendChild(makeChip(param, () => {
-      kcState.selected = kcState.selected.filter(x => x !== idx);
-      delete kcState.qty[idx];
+      kcState.selected = kcState.selected.filter(x => x !== idx); 
+      // Сбрасываем количество лицензий при удалении
+      if (param === 'Доп.лицензия') kcState.licenseQty = 0;
       renderKc();
     }));
   });
@@ -635,13 +636,15 @@ function renderKc() {
   if (!on) return;
   // Если КЦ был выключен, инициализируем при первом включении
   if (kcState.selected.length === 0) {
+    console.log('renderKc: инициализирую услуги КЦ');
     DATA.kc.rows.forEach((r, i) => {
       if (i > 0 && DEFAULT_KC_FEATURES.includes(r.parameter)) {
         kcState.selected.push(i);
         kcState.qty[i] = 1;
+        console.log(`renderKc: добавлена услуга ${i}`);
       }
     });
-    console.log('Инициализация КЦ при включении:', kcState.selected, kcState.qty);
+    console.log('renderKc: kcState после инициализации:', kcState);
   }
   const single = isSingle();
   $('kcTargetField').hidden = single;
@@ -653,13 +656,13 @@ function renderKc() {
   const body = $('kcBody');
   body.replaceChildren();
   let curSum = 0, tgtSum = 0;
-  console.log('Рендеринг таблицы КЦ. Выбрано услуг:', kcState.selected);
+  console.log('renderKc: начинаю отрисовку таблицы, kcState.selected:', kcState.selected);
   [0, ...kcState.selected].forEach(idx => {
     const r = DATA.kc.rows[idx];
     const key = 'k' + idx;
     const isLicense = r.parameter === 'Доп.лицензия'; // Проверяем по названию параметра
+    console.log(`Строка ${idx}: "${r.parameter}" - isLicense: ${isLicense}`);
     const qty = isLicense ? (kcState.qty[idx] || 0) : 1;
-    console.log(`Рендеринг строки ${idx}: "${r.parameter}", isLicense=${isLicense}, qty=${qty}`);
     // Для лицензий нужно умножить цену на количество
     const getAdjustedValue = (value) => {
       if (!isLicense) return value;
@@ -678,7 +681,7 @@ function renderKc() {
     const first = document.createElement('td');
     // Для лицензий добавляем поле ввода количества (как для номеров)
     if (isLicense) {
-      console.log(`Рендеринг поля для лицензии. idx=${idx}, qty=${qty}`);
+      console.log('Добавляю поле ввода для лицензий');
       const input = document.createElement('input');
       input.className = 'qty';
       input.type = 'text';
@@ -725,10 +728,13 @@ function kcInit() {
   kcState.selected = [];
   kcState.qty = {};
   // Выбор услуг по умолчанию по названиям из DEFAULT_KC_FEATURES
+  console.log('kcInit: ищу услуги из DEFAULT_KC_FEATURES:', DEFAULT_KC_FEATURES);
   DATA.kc.rows.forEach((r, i) => {
+    console.log(`kcInit: [${i}] "${r.parameter}" - совпадает? ${DEFAULT_KC_FEATURES.includes(r.parameter)}`);
     if (i > 0 && DEFAULT_KC_FEATURES.includes(r.parameter)) {
       kcState.selected.push(i);
       kcState.qty[i] = 1;
+      console.log(`kcInit: добавлена услуга ${i}, kcState.selected:`, kcState.selected);
     }
   });
   $('kcFeature').value = '';
