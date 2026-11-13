@@ -225,11 +225,16 @@ function render() {
   [0, ...selected].forEach(idx => {
     const r = d.rows[idx];
     const key = 'v' + idx;
+    const isKcLicense = product === 'kc' && r.parameter === 'Доп.лицензия';
+    const licenseValue = value => {
+      const parsed = isKcLicense && parseValue(value);
+      return parsed ? fmt(parsed.num * qtys.kcLicense) + ' ' + parsed.unit : value;
+    };
     // Битрикс24 / amoCRM: скидка текущего не применяется, если текущий тариф базовый (то же для нового)
     const isBitrix = /Битрикс24/.test(r.parameter);
     const noDiscC = isBitrix && cur === 'basic', noDiscT = isBitrix && tgt === 'basic';
     const pctC = noDiscC ? 0 : discPct(key + 'c'), pctT = noDiscT ? 0 : discPct(key + 't');
-    const curT = discountText(rowValue(r, cur), pctC), tgtT = discountText(rowValue(r, tgt), pctT);
+    const curT = discountText(licenseValue(rowValue(r, cur)), pctC), tgtT = discountText(licenseValue(rowValue(r, tgt)), pctT);
     const c = compare(curT, tgtT);
     const pc = parseValue(curT), pt = parseValue(tgtT);
     if (pc && pc.unit === 'руб./мес.') curSum += pc.num;
@@ -239,6 +244,24 @@ function render() {
     first.textContent = show(isStorage(r) ? 'Облачное хранилище' : r.parameter);
     if (isStorage(r)) first.appendChild(storageSelect());
     if (r.parameter === PROFILE_PARAM) first.appendChild(profileQtyInput());
+    if (isKcLicense) {
+      const input = document.createElement('input');
+      input.className = 'qty';
+      input.type = 'text';
+      input.inputMode = 'numeric';
+      input.id = 'qty-kc-license';
+      input.setAttribute('aria-label', 'Количество дополнительных лицензий');
+      input.value = qtys.kcLicense;
+      input.oninput = e => {
+        e.target.value = e.target.value.replace(/\D/g, '');
+        qtys.kcLicense = Math.floor(Number(e.target.value) || 0);
+        update();
+        const again = $('qty-kc-license');
+        again.focus();
+        again.setSelectionRange(again.value.length, again.value.length);
+      };
+      first.append(' × ', input);
+    }
     tr.appendChild(first);
     tr.appendChild(discountCell(key + 'c', noDiscC));
     tr.appendChild(textCell(show(curT)));
@@ -449,7 +472,8 @@ function addFeature(inputId, prod, list, rerender) {
     list.push(idx);
     // Для КЦ при добавлении "Доп.лицензия" устанавливаем количество по умолчанию на 1
     if (prod === 'kc' && DATA[prod].rows[idx].parameter === 'Доп.лицензия') {
-      kcState.qty[idx] = 1;
+      if (list === kcState.selected) kcState.qty[idx] = 1;
+      else qtys.kcLicense = 1;
     }
     $(inputId).value = '';
   }
@@ -470,7 +494,8 @@ function init() {
   $('feature').value = '';
   hideSuggestions();
   // Выбор функций по умолчанию по названиям из DEFAULT_FEATURES
-  selected = d.rows.map((r, i) => i).filter(i => i > 0 && DEFAULT_FEATURES.includes(d.rows[i].parameter));
+  selected = d.rows.map((r, i) => i).filter(i => i > 0 && (product === 'kc' ? DEFAULT_KC_FEATURES : DEFAULT_FEATURES).includes(d.rows[i].parameter));
+  qtys.kcLicense = 1;
   update();
 }
 
