@@ -16,6 +16,9 @@ const DEFAULT_FEATURES = [
   'Облачное хранилище'
 ];
 
+// Услуги, которые выбраны по умолчанию при открытии КЦ
+const DEFAULT_KC_FEATURES = ['Доп.лицензия'];
+
 // Текущий продукт и индексы выбранных строк ВАТС из DATA
 let product = 'vats';
 let selected = [];
@@ -444,9 +447,9 @@ function addFeature(inputId, prod, list, rerender) {
   if (idx < 0) return;
   if (!list.includes(idx)) {
     list.push(idx);
-    // Для КЦ устанавливаем количество по умолчанию на 1 для новых услуг
+    // Для КЦ при добавлении "Доп.лицензия" устанавливаем количество по умолчанию на 1
     if (prod === 'kc' && DATA[prod].rows[idx].parameter === 'Доп.лицензия') {
-      kcState.qty[idx] = 1;
+      if (kcState.licenseQty === 0) kcState.licenseQty = 1;
     }
     $(inputId).value = '';
   }
@@ -484,8 +487,8 @@ $('add').onclick = () => addFeature('feature', product, selected, update);
 
 // Итоги ВАТС без КЦ (текущий и новый тариф), нужны для блока ВАТС + КЦ
 let mainTotals = { cur: 0, tgt: 0 };
-// Выбранные функции КЦ и количество каждой услуги
-const kcState = { selected: [], qty: {} };
+// Выбранные функции КЦ
+const kcState = { selected: [], licenseQty: 0 };
 // Скидки в процентах по строкам: v+индекс (ВАТС), k+индекс (КЦ), x+ключ (номера и профили)
 const rowDiscount = {};
 // Возвращает процент скидки строки
@@ -615,8 +618,9 @@ function renderKcChips() {
   kcState.selected.forEach(idx => {
     const param = DATA.kc.rows[idx].parameter;
     ul.appendChild(makeChip(param, () => {
-      kcState.selected = kcState.selected.filter(x => x !== idx);
-      delete kcState.qty[idx];
+      kcState.selected = kcState.selected.filter(x => x !== idx); 
+      // Сбрасываем количество лицензий при удалении
+      if (param === 'Доп.лицензия') kcState.licenseQty = 0;
       renderKc();
     }));
   });
@@ -643,8 +647,8 @@ function renderKc() {
   [0, ...kcState.selected].forEach(idx => {
     const r = DATA.kc.rows[idx];
     const key = 'k' + idx;
-    const isLicense = r.parameter === 'Доп.лицензия'; // Строка "Доп.лицензия"
-    const qty = isLicense ? (kcState.qty[idx] || 0) : 1;
+    const isLicense = r.parameter === 'Доп.лицензия'; // Проверяем по названию параметра
+    const qty = isLicense ? kcState.licenseQty : 1;
     // Для лицензий нужно умножить цену на количество
     const getAdjustedValue = (value) => {
       if (!isLicense) return value;
@@ -707,8 +711,13 @@ function kcInit() {
   $('kcTarget').replaceChildren(...DATA.kc.tariffs.map(k => new Option(TARIFF_LABELS[k], k)));
   $('kcTarget').selectedIndex = Math.min(1, DATA.kc.tariffs.length - 1);
   kcState.selected = [];
-  kcState.qty = {};
-  $('kcFeature').value = '';
+  kcState.licenseQty = 0;  // Выбор услуг по умолчанию по названиям из DEFAULT_KC_FEATURES
+  DATA.kc.rows.forEach((r, i) => {
+    if (i > 0 && DEFAULT_KC_FEATURES.includes(r.parameter)) {
+      kcState.selected.push(i);
+      kcState.qty[i] = 1;
+    }
+  });  $('kcFeature').value = '';
   hideKcSuggest();
   renderKc();
 }
