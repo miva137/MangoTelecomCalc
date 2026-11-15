@@ -92,7 +92,10 @@ input.qty:focus {
   width: 100%;
   box-sizing: border-box;
   padding: 5px 28px 5px 8px;
-  font: 13px Roboto, Arial, sans-serif;
+  font:
+    13px Roboto,
+    Arial,
+    sans-serif;
   font-weight: 400;
   color: var(--text-dark);
   text-align: left;
@@ -249,12 +252,14 @@ td.neg {
   font-weight: 600;
 }
 /* Список выбранных функций в виде плашек */
-ul#chips, ul#kcChips {
+ul#chips,
+ul#kcChips {
   list-style: none;
   padding: 0;
   margin: 12px 0 0;
 }
-ul#chips li, ul#kcChips li {
+ul#chips li,
+ul#kcChips li {
   display: inline-block;
   background: var(--orange-soft);
   color: var(--text-dark);
@@ -263,7 +268,8 @@ ul#chips li, ul#kcChips li {
   padding: 4px 10px;
   margin: 4px 6px 4px 0;
 }
-ul#chips button, ul#kcChips button {
+ul#chips button,
+ul#kcChips button {
   background: none;
   border: none;
   color: var(--orange);
