@@ -15,6 +15,7 @@
 
 <!-- Выбор продукта, текущего и нового тарифа; флажок показа блока КЦ -->
 <div class="card">
+  <!-- Выпадающие списки -->
   <div class="row">
     <div class="field">
       <label for="mode">Режим</label>
@@ -38,9 +39,14 @@
       <label for="target">Новый тариф</label>
       <select id="target"></select>
     </div>
-    <!-- Флажок показа блока КЦ (виден только для ВАТС) -->
-    <div class="field" id="kcToggle" style="flex: 0 0 auto; align-self: flex-end;">
-      <label style="font-weight: 400; cursor: pointer;"><input type="checkbox" id="addKc"> Добавить КЦ</label>
+  </div>
+  <!-- Чекбоксы выровнены по левому краю -->
+  <div class="row">
+    <div class="field" id="kcToggle" style="flex: 0 0 auto;">
+      <label class="checkbox-chip"><input type="checkbox" id="addKc"> Добавить КЦ</label>
+    </div>
+    <div class="field" style="flex: 0 0 auto;">
+      <label class="checkbox-chip"><input type="checkbox" id="showDiscounts" checked> Показать скидки</label>
     </div>
   </div>
 </div>
