@@ -43,6 +43,7 @@ h1 {
   gap: 16px;
   flex-wrap: wrap;
   gap: 10px;
+  margin-bottom: 10px;
 }
 .field {
   flex: 1;
@@ -270,12 +271,49 @@ ul#chips button, ul#kcChips button {
   margin-left: 4px;
   padding: 0 4px;
 }
+/* Чекбоксы в стиле плашек (Добавить КЦ, Показать скидки) */
+label.checkbox-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--orange-soft);
+  color: var(--text-dark);
+  border: 1px solid var(--orange);
+  border-radius: 14px;
+  padding: 6px 12px;
+  margin: 4px 6px 4px 0;
+  cursor: pointer;
+  font-weight: 400;
+  transition: all 0.2s ease;
+}
+label.checkbox-chip:hover {
+  background: #fcd5c3;
+  border-color: #ef6e3a;
+}
+label.checkbox-chip input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--orange);
+  margin: 0;
+  flex-shrink: 0;
+}
+label.checkbox-chip input[type="checkbox"]:checked {
+  accent-color: var(--orange);
+}
 .total {
   font-family: Raleway, Arial, sans-serif;
   font-size: 18px;
   font-weight: 700;
   color: var(--text-dark);
   margin-top: 12px;
+}
+/* Скрытие столбцов скидок когда чекбокс "Показать скидки" не отмечен */
+body.hide-discounts th:nth-child(2),
+body.hide-discounts td:nth-child(2),
+body.hide-discounts th:nth-child(4),
+body.hide-discounts td:nth-child(4) {
+  display: none;
 }
 /* Режим стоимости: скрыть колонки нового тарифа и пояснение о сравнении */
 body.single th:nth-child(n + 4):not(.once-col),

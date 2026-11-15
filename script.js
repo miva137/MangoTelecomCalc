@@ -771,6 +771,10 @@ function kcInit() {
 const hideKcSuggest = bindSuggest('kcFeature', 'kcSuggestList', () => featureRows('kc'), () => $('kcAdd').click());
 // Показ или скрытие блока КЦ при изменении флажка
 $('addKc').onchange = update;
+// Показ или скрытие столбцов скидок при изменении чекбокса
+$('showDiscounts').onchange = e => {
+  document.body.classList.toggle('hide-discounts', !e.target.checked);
+};
 $('kcCurrent').onchange = renderKc;
 $('kcTarget').onchange = renderKc;
 // Кнопка добавления функции КЦ в сравнение
