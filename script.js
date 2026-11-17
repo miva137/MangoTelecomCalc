@@ -225,13 +225,45 @@ const DATA = {
         },
       },
       {
-        parameter:
-          "Дозвон на все контакты одновременно / по очереди / только SIP",
+        parameter: "Дозвон на основной контакт сотрудника",
+        values: {
+          basic: "✓",
+          extended: "✓",
+          maximum: "✓",
+          start: "+",
+          growth: "+",
+          perspective: "+",
+        },
+      },
+      {
+        parameter: "Дозвон на все контакты сотрудника по очереди",
         values: {
           basic: "—",
           extended: "✓",
           maximum: "✓",
-          start: "+ / — / —",
+          start: "+",
+          growth: "+",
+          perspective: "+",
+        },
+      },
+      {
+        parameter: "Дозвон на все контакты сотрудника одновременно",
+        values: {
+          basic: "—",
+          extended: "✓",
+          maximum: "✓",
+          start: "—",
+          growth: "+",
+          perspective: "+",
+        },
+      },
+      {
+        parameter: "Дозвон только на SIP-учетные записи сотрудника",
+        values: {
+          basic: "—",
+          extended: "✓",
+          maximum: "✓",
+          start: "—",
           growth: "+",
           perspective: "+",
         },
@@ -1421,17 +1453,6 @@ const DATA = {
           start: "",
           growth: "",
           perspective: "",
-        },
-      },
-      {
-        parameter: "Дозвон на основной контакт сотрудника",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
         },
       },
       {
