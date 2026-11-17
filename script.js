@@ -32,9 +32,9 @@ const DATA = {
           basic: "210 руб./мес.",
           extended: "200 руб./мес.",
           maximum: "190 руб./мес.",
-          start: "450 руб./мес.",
-          growth: "850 руб./мес.",
-          perspective: "1600 руб./мес.",
+          start: "370 руб./мес.",
+          growth: "690 руб./мес.",
+          perspective: "1350 руб./мес.",
         },
       },
       {
@@ -280,17 +280,6 @@ const DATA = {
         },
       },
       {
-        parameter: "Объединение в группы и удержание вызовов",
-        values: {
-          basic: "✓",
-          extended: "✓",
-          maximum: "✓",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Последовательный / Случайный алгоритм",
         values: {
           basic: "✓",
@@ -331,17 +320,6 @@ const DATA = {
           maximum: "✓",
           start: "—",
           growth: "—",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Запись всех разговоров и прослушивание онлайн",
-        values: {
-          basic: "✓",
-          extended: "✓",
-          maximum: "✓",
-          start: "+",
-          growth: "+",
           perspective: "+",
         },
       },
@@ -417,9 +395,9 @@ const DATA = {
           basic: "1,9 руб./мин",
           extended: "1,5 руб./мин",
           maximum: "1,25 руб./мин",
-          start: "1,9 руб./мин.",
-          growth: "1,5 руб./мин.",
-          perspective: "1,25 руб./мин.",
+          start: "1,20 руб./мин",
+          growth: "1 руб./мин",
+          perspective: "0,8 руб./мин",
         },
       },
       {
@@ -442,17 +420,6 @@ const DATA = {
           start: "—",
           growth: "—",
           perspective: "—",
-        },
-      },
-      {
-        parameter: "Голосовая почта (общая/персональная/групповая)",
-        values: {
-          basic: "✓",
-          extended: "✓",
-          maximum: "✓",
-          start: "+",
-          growth: "+",
-          perspective: "+",
         },
       },
       {
@@ -670,9 +637,9 @@ const DATA = {
           basic: "190 руб./мес.",
           extended: "190 руб./мес.",
           maximum: "190 руб./мес.",
-          start: "1 Гб",
-          growth: "10 Гб",
-          perspective: "30 Гб",
+          start: "включено 1 Гб; доп. ГБ — 400 руб./мес. за 5 Гб",
+          growth: "включено 1 Гб; доп. ГБ — 400 руб./мес. за 5 Гб",
+          perspective: "включено 1 Гб; доп. ГБ — 400 руб./мес. за 5 Гб",
         },
       },
       {
@@ -780,17 +747,6 @@ const DATA = {
           basic: "2 400 руб./мес.",
           extended: "2 400 руб./мес.",
           maximum: "2 400 руб./мес.",
-          start: "—",
-          growth: "—",
-          perspective: "—",
-        },
-      },
-      {
-        parameter: "Местные номера",
-        values: {
-          basic: "2 000 руб./мес.",
-          extended: "2 000 руб./мес.",
-          maximum: "2 000 руб./мес.",
           start: "—",
           growth: "—",
           perspective: "—",
@@ -962,29 +918,6 @@ const DATA = {
         },
       },
       {
-        parameter:
-          "FMC, SMS/e-mail о балансе, отображение номера, BLF, пин-код, АОН, Call-back",
-        values: {
-          basic: "✓",
-          extended: "✓",
-          maximum: "✓",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Голосовое сообщение при входящем",
-        values: {
-          basic: "50 руб./мес.",
-          extended: "✓",
-          maximum: "✓",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Красивый SIP-адрес",
         values: {
           basic: "290 руб./шт.",
@@ -1048,17 +981,6 @@ const DATA = {
           start: "550 руб./мес.",
           growth: "550 руб./мес.",
           perspective: "550 руб./мес.",
-        },
-      },
-      {
-        parameter: "VPN",
-        values: {
-          basic: "—",
-          extended: "5 000 руб./мес.",
-          maximum: "5 000 руб./мес.",
-          start: "—",
-          growth: "—",
-          perspective: "+",
         },
       },
       {
@@ -2635,7 +2557,8 @@ const show = (v) => (v === "✓" ? "0" : v);
 function parseValue(text) {
   const m = /^(\d[\d\s]*(?:[.,]\d+)?)(?:\s*(.*))?$/.exec(text.trim());
   if (!m) return null;
-  const unit = (m[2] || "").trim();
+  let unit = (m[2] || "").trim().replace(/\.$/, "");
+  if (unit === "руб./мес") unit = "руб./мес.";
   if (unit && !/^(руб|коп|ГБ|чел)/.test(unit)) return null;
   return { num: parseFloat(m[1].replace(/\s/g, "").replace(",", ".")), unit };
 }
@@ -2848,8 +2771,8 @@ function render() {
       noDiscT = isBitrix && tgt === "basic";
     const pctC = noDiscC ? 0 : discPct(key + "c"),
       pctT = noDiscT ? 0 : discPct(key + "t");
-    const curT = discountText(licenseValue(rowValue(r, cur)), pctC),
-      tgtT = discountText(licenseValue(rowValue(r, tgt)), pctT);
+    const curT = discountText(licenseValue(rowValue(r, cur, "cur")), pctC),
+      tgtT = discountText(licenseValue(rowValue(r, tgt, "tgt")), pctT);
     const c = compare(curT, tgtT);
     const pc = parseValue(curT),
       pt = parseValue(tgtT);
@@ -2857,8 +2780,7 @@ function render() {
     if (pt && pt.unit === "руб./мес.") tgtSum += pt.num;
     const tr = document.createElement("tr");
     const first = document.createElement("td");
-    first.textContent = show(isStorage(r) ? "Облачное хранилище" : r.parameter);
-    if (isStorage(r)) first.appendChild(storageSelect());
+    first.textContent = show(r.parameter);
     if (r.parameter === PROFILE_PARAM) first.appendChild(profileQtyInput());
     if (isKcLicense) {
       const input = document.createElement("input");
@@ -2880,9 +2802,13 @@ function render() {
     }
     tr.appendChild(first);
     tr.appendChild(discountCell(key + "c", noDiscC));
-    tr.appendChild(textCell(show(curT)));
+    const curCell = textCell(show(curT));
+    if (isStorage(r)) curCell.appendChild(storageSelect(cur, "Текущий"));
+    tr.appendChild(curCell);
     tr.appendChild(discountCell(key + "t", noDiscT));
-    tr.appendChild(textCell(show(tgtT)));
+    const tgtCell = textCell(show(tgtT));
+    if (isStorage(r)) tgtCell.appendChild(storageSelect(tgt, "Новый"));
+    tr.appendChild(tgtCell);
     const diff = document.createElement("td");
     diff.textContent = c.text;
     diff.className = c.cls;
@@ -3186,6 +3112,8 @@ function init() {
         ),
     );
   qtys.kcLicense = 1;
+  syncProfileForVatsTariffs();
+  if (profileAutoSelected && qtys.profiles === 0) qtys.profiles = 1;
   update();
 }
 
@@ -3194,8 +3122,34 @@ $("product").onchange = (e) => {
   product = e.target.value;
   init();
 };
-$("current").onchange = update;
-$("target").onchange = update;
+let profileAutoSelected = false;
+function syncProfileForVatsTariffs() {
+  if (product !== "vats") return;
+  const vatsGroup = ["start", "growth", "perspective"];
+  const shouldSelect = vatsGroup.includes($("current")?.value) || vatsGroup.includes($("target")?.value);
+  const profileIndex = DATA.vats.rows.findIndex((r) => r.parameter === PROFILE_PARAM);
+
+  if (shouldSelect && profileIndex >= 0 && !selected.includes(profileIndex)) {
+    selected.push(profileIndex);
+    qtys.profiles = 1;
+    profileAutoSelected = true;
+  } else if (shouldSelect && profileIndex >= 0 && profileAutoSelected && qtys.profiles === 0) {
+    qtys.profiles = 1;
+  } else if (!shouldSelect && profileAutoSelected && profileIndex >= 0) {
+    selected = selected.filter((idx) => idx !== profileIndex);
+    qtys.profiles = 0;
+    profileAutoSelected = false;
+  }
+}
+
+$("current").onchange = () => {
+  syncProfileForVatsTariffs();
+  update();
+};
+$("target").onchange = () => {
+  syncProfileForVatsTariffs();
+  update();
+};
 $("mode").onchange = update;
 // Количество номеров и профилей задаётся в строках таблицы
 // Подсказки для поля поиска функций ВАТС
@@ -3249,33 +3203,61 @@ function discountCell(key, disabled) {
   return td;
 }
 
-// Тарифы облачного хранилища по объёму: ГБ и цена в руб./мес. (дополняются по мере необходимости)
+// Базовые планы облачного хранилища для Базовой/Расширенной/Максимальной
 const STORAGE_PLANS = [
   { gb: 1, price: 190 },
   { gb: 5, price: 490 },
 ];
-// Выбранный объём облачного хранилища
-const storageState = { gb: 1 };
+// Дополнительное облачное хранилище для Старт/Рост/Перспектива: пакет 5 ГБ за 400 руб./мес.
+const STORAGE_EXTRA_MAX_GB = 100;
+const storageState = {
+  curGb: 1,
+  tgtGb: 1,
+  curExtraGb: 0,
+  tgtExtraGb: 0,
+};
 // Строка облачного хранилища, цена которой зависит от объёма
 const isStorage = (r) => r.parameter.startsWith("Облачное хранилище");
-// Значение строки для тарифа; для хранилища с ценой (руб.) - цена выбранного объёма
-function rowValue(r, tariff) {
+// Значение строки для тарифа; дополнительное хранилище тарифов Старт/Рост/Перспектива платное кратно 5 ГБ
+function rowValue(r, tariff, side) {
   if (r.parameter === PROFILE_PARAM && !isUnavailable(r.values[tariff]))
     return fmt(round2(profilePrice(tariff) * qtys.profiles)) + " руб./мес.";
-  if (!isStorage(r) || !/руб/.test(r.values[tariff])) return r.values[tariff];
-  const plan = STORAGE_PLANS.find((p) => p.gb === storageState.gb);
-  return fmt(plan.price) + " руб./мес.";
+  if (!isStorage(r)) return r.values[tariff];
+  if (["start", "growth", "perspective"].includes(tariff)) {
+    const extraGb = side === "cur" ? storageState.curExtraGb : storageState.tgtExtraGb;
+    const extraPrice = (extraGb / 5) * 400;
+    return fmt(extraPrice) + " руб./мес.";
+  }
+  const gb = side === "cur" ? storageState.curGb : storageState.tgtGb;
+  const plan = STORAGE_PLANS.find((p) => p.gb === gb);
+  return plan ? fmt(plan.price) + " руб./мес." : r.values[tariff];
 }
-// Выпадающий выбор объёма облачного хранилища в строке таблицы
-function storageSelect() {
+// Выпадающий выбор объёма облачного хранилища
+function storageSelect(tariff, label) {
   const sel = document.createElement("select");
-  sel.id = "storage";
-  STORAGE_PLANS.forEach((p) => sel.add(new Option(p.gb + " ГБ", p.gb)));
-  sel.value = storageState.gb;
-  sel.onchange = () => {
-    storageState.gb = Number(sel.value);
-    update();
-  };
+  sel.id = label === "Текущий" ? "storage-current" : "storage-target";
+
+  if (["basic", "extended", "maximum"].includes(tariff)) {
+    STORAGE_PLANS.forEach((p) => sel.add(new Option(p.gb + " ГБ", p.gb)));
+    sel.value = label === "Текущий" ? storageState.curGb : storageState.tgtGb;
+    sel.onchange = () => {
+      if (label === "Текущий") storageState.curGb = Number(sel.value);
+      else storageState.tgtGb = Number(sel.value);
+      update();
+    };
+  } else {
+    sel.add(new Option("Включено 1 ГБ", 0));
+    for (let gb = 5; gb <= STORAGE_EXTRA_MAX_GB; gb += 5) {
+      sel.add(new Option("Доп. " + gb + " ГБ", gb));
+    }
+    sel.value = label === "Текущий" ? storageState.curExtraGb : storageState.tgtExtraGb;
+    sel.onchange = () => {
+      if (label === "Текущий") storageState.curExtraGb = Number(sel.value);
+      else storageState.tgtExtraGb = Number(sel.value);
+      update();
+    };
+  }
+
   return customSelect(sel);
 }
 // Пакеты на связь с ежемесячной ценой
