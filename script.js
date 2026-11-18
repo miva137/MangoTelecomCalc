@@ -1579,6 +1579,29 @@ const DATA = {
           perspective: "+",
         },
       },
+      {
+        parameter: "Интеграция через API-конструктор",
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "—",
+          perspective: "+",
+        },
+      },
+      {
+        parameter:
+          "Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)",
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "+",
+          perspective: "+",
+        },
+      },
     ],
   },
   kc: {
