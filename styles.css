@@ -15,7 +15,7 @@ body {
     "Helvetica Neue",
     sans-serif;
   margin: 12px auto;
-  max-width: 1100px;
+  max-width: 1105px;
   padding: 0 24px;
   box-sizing: border-box;
   background: var(--bg);
@@ -191,41 +191,86 @@ th:first-child,
 td:first-child {
   text-align: left;
 }
-/* Ширины колонок в долях таблицы; скидки (2 и 4) узкие */
+/* Ширины колонок в долях таблицы */
 th:nth-child(1),
 td:nth-child(1) {
-  width: 60%;
+  width: 30%;
 }
 th:nth-child(2),
-th:nth-child(4),
 td:nth-child(2),
-td:nth-child(4) {
-  width: 10%;
+th:nth-child(5),
+td:nth-child(5) {
+  width: 15%;
 }
 th:nth-child(3),
 td:nth-child(3),
-th:nth-child(5),
-td:nth-child(5) {
-  width: 20%;
-}
 th:nth-child(6),
 td:nth-child(6) {
+  width: 8%;
+}
+th:nth-child(4),
+td:nth-child(4),
+th:nth-child(7),
+td:nth-child(7) {
+  width: 8%;
+}
+th:nth-child(8),
+td:nth-child(8) {
   width: 10%;
+}
+th:nth-child(9),
+td:nth-child(9) {
+  width: 7%;
 }
 td:nth-child(2) input.qty,
 td:nth-child(4) input.qty,
+td:nth-child(7) input.qty,
 td:first-child input.qty {
   width: 52px;
   padding: 3px 4px;
   text-align: center;
 }
+.include-radio {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--orange);
+  margin: 0 2px;
+  cursor: pointer;
+  vertical-align: middle;
+}
 td:first-child .csel {
   display: inline-block;
-  width: auto;
+  width: 140px;
+  max-width: 100%;
   margin: 0 8px;
+  vertical-align: middle;
 }
 td:first-child .csel-btn {
-  width: auto;
+  width: 140px;
+  max-width: 100%;
+}
+table td .csel {
+  display: inline-block;
+  width: 140px;
+  max-width: 100%;
+  vertical-align: middle;
+}
+table td .csel-btn {
+  width: 140px;
+  max-width: 100%;
+}
+table td .csel-list {
+  width: 140px;
+  max-width: 100%;
+}
+td:nth-child(2) .csel,
+td:nth-child(5) .csel,
+td:nth-child(2) .csel-btn,
+td:nth-child(5) .csel-btn,
+td:nth-child(2) .csel-list,
+td:nth-child(5) .csel-list {
+  width: 100%;
+  max-width: 100%;
 }
 /* Заголовки колонок таблицы */
 th {
@@ -315,16 +360,21 @@ label.checkbox-chip input[type="checkbox"]:checked {
   margin-top: 12px;
 }
 /* Скрытие столбцов скидок когда чекбокс "Показать скидки" не отмечен */
-body.hide-discounts th:nth-child(2),
-body.hide-discounts td:nth-child(2),
 body.hide-discounts th:nth-child(4),
-body.hide-discounts td:nth-child(4) {
+body.hide-discounts td:nth-child(4),
+body.hide-discounts th:nth-child(7),
+body.hide-discounts td:nth-child(7) {
   display: none;
 }
 /* Режим стоимости: скрыть колонки нового тарифа и пояснение о сравнении */
-body.single th:nth-child(n + 4):not(.once-col),
-body.single td:nth-child(n + 4):not(.once-col),
+body.single th:nth-child(n + 5):not(.once-col),
+body.single td:nth-child(n + 5):not(.once-col),
 body.single .cmp-only {
+  display: none;
+}
+/* В режиме расчёта столбец включения в сравнение не нужен */
+body.single th:nth-child(3),
+body.single td:nth-child(3) {
   display: none;
 }
 /* Колонка разового платежа видна только в режиме расчёта */
