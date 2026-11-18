@@ -32,9 +32,9 @@ const DATA = {
           basic: "210 руб./мес.",
           extended: "200 руб./мес.",
           maximum: "190 руб./мес.",
-          start: "450 руб./мес.",
-          growth: "850 руб./мес.",
-          perspective: "1600 руб./мес.",
+          start: "370 руб./мес.",
+          growth: "690 руб./мес.",
+          perspective: "1350 руб./мес.",
         },
       },
       {
@@ -704,9 +704,9 @@ const DATA = {
           basic: "5 200 руб./мес.",
           extended: "5 200 руб./мес.",
           maximum: "—",
-          start: "—",
-          growth: "—",
-          perspective: "—",
+          start: "5 200 руб./мес.",
+          growth: "5 200 руб./мес.",
+          perspective: "5 200 руб./мес.",
         },
       },
       {
@@ -715,8 +715,8 @@ const DATA = {
           basic: "8 100 руб./мес.",
           extended: "8 100 руб./мес.",
           maximum: "8 100 руб./мес.",
-          start: "—",
-          growth: "—",
+          start: "8 100 руб./мес.",
+          growth: "8 100 руб./мес.",
           perspective: "—",
         },
       },
@@ -837,7 +837,7 @@ const DATA = {
           extended: "2 100 руб./мес.",
           maximum: "2 100 руб./мес.",
           start: "—",
-          growth: "✓",
+          growth: "—",
           perspective: "✓",
         },
       },
@@ -2111,9 +2111,9 @@ let extras = [];
 
 // Типы номеров: название, разовая и ежемесячная цена
 const NUMBER_TYPES = [
-  { id: "n499", label: "Номер в коде 499", once: 1050, monthly: 250 },
-  { id: "n495", label: "Номер в коде 495", once: 2650, monthly: 350 },
-  { id: "nMobile", label: "Мобильный номер", once: 950, monthly: 200 },
+  { id: "n499", label: "Виртуальный городской номер 499", once: 1050, monthly: 250 },
+  { id: "n495", label: "Виртуальный городской номер в коде 495", once: 2650, monthly: 350 },
+  { id: "nMobile", label: "Виртуальный мобильный номер", once: 950, monthly: 200 },
 ];
 
 // Лимит номеров, номера без доплаты и плата за доп. номер (строки «Максимальное количество» и «сверх которого взимается плата» в vats.sql)
@@ -2130,18 +2130,18 @@ const NUMBER_RULES = {
 const EXTRA_ITEMS = [
   {
     key: "n499",
-    label: "Номер в коде 499",
-    text: "Номер в коде 499 (1 050 руб. разово, 250 руб./мес.)",
+    label: "Виртуальный городской номер 499",
+    text: "Виртуальный городской номер 499 (1 050 руб. разово, 250 руб./мес.)",
   },
   {
     key: "n495",
-    label: "Номер в коде 495",
-    text: "Номер в коде 495 (2 650 руб. разово, 350 руб./мес.)",
+    label: "Виртуальный городской номер в коде 495",
+    text: "Виртуальный городской номер в коде 495 (2 650 руб. разово, 350 руб./мес.)",
   },
   {
     key: "nMobile",
-    label: "Мобильные номера",
-    text: "Мобильные номера (950 руб. разово, 200 руб./мес.)",
+    label: "Виртуальный мобильный номер",
+    text: "Виртуальный мобильный номер (950 руб. разово, 200 руб./мес.)",
   },
   {
     key: "profiles",
@@ -2163,7 +2163,6 @@ const DIALOG_BASE = 1000,
 const VATS2_INTEGRATION_PARAMS = new Set([
   "Прямая интеграция с amoCRM",
   "Прямая интеграция с Битрикс24",
-  "Интеграция через вебхуки",
   "Расширенные возможности интеграции с amoCRM",
   "Расширенные возможности интеграции с Битрикс24",
   "Интеграция с 1С",
@@ -2174,6 +2173,20 @@ const VATS2_INTEGRATION_PARAMS = new Set([
 ]);
 const hasVats2Tariff = (cur, tgt) =>
   [cur, tgt].some((tariff) => ["start", "growth", "perspective"].includes(tariff));
+
+const DEFAULT_PROFILE_TARIFFS = new Set(["start", "growth", "perspective"]);
+
+// Подключает дополнительный профиль сотрудника по умолчанию для тарифов ВАТС2
+function applyDefaultProfile(cur, tgt) {
+  if (product !== "vats" || ![cur, tgt].some((tariff) => DEFAULT_PROFILE_TARIFFS.has(tariff))) {
+    return;
+  }
+  const profileIndex = DATA.vats.rows.findIndex((r) => r.parameter === PROFILE_PARAM);
+  if (profileIndex >= 0 && !selected.includes(profileIndex)) {
+    selected.push(profileIndex);
+  }
+  if (qtys.profiles === 0) qtys.profiles = 1;
+}
 
 const $ = (id) => document.getElementById(id);
 const fmt = (n) => n.toLocaleString("ru-RU", { maximumFractionDigits: 2 });
@@ -2413,15 +2426,18 @@ function render() {
       pctT = noDiscT ? 0 : discPct(key + "t");
     const curT = discountText(licenseValue(rowValue(r, cur)), pctC),
       tgtT = discountText(licenseValue(rowValue(r, tgt)), pctT);
-    const c = compare(curT, tgtT);
+    const includeC = includePct(key + "c"),
+      includeT = includePct(key + "t");
+    const c = includeC && includeT
+      ? compare(curT, tgtT)
+      : { text: "не учитывается", cls: "" };
     const pc = parseValue(curT),
       pt = parseValue(tgtT);
-    if (pc && pc.unit === "руб./мес.") curSum += pc.num;
-    if (pt && pt.unit === "руб./мес.") tgtSum += pt.num;
+    if (includeC && pc && pc.unit === "руб./мес.") curSum += pc.num;
+    if (includeT && pt && pt.unit === "руб./мес.") tgtSum += pt.num;
     const tr = document.createElement("tr");
     const first = document.createElement("td");
     first.textContent = show(isStorage(r) ? "Облачное хранилище" : r.parameter);
-    if (isStorage(r)) first.appendChild(storageSelect());
     if (r.parameter === PROFILE_PARAM) first.appendChild(profileQtyInput());
     if (isKcLicense) {
       const input = document.createElement("input");
@@ -2442,10 +2458,12 @@ function render() {
       first.append(" × ", input);
     }
     tr.appendChild(first);
+    tr.appendChild(storagePriceCell(isStorage(r) ? cur : "", curT));
+    tr.appendChild(includeCell(key + "c"));
     tr.appendChild(discountCell(key + "c", noDiscC));
-    tr.appendChild(textCell(show(curT)));
+    tr.appendChild(storagePriceCell(isStorage(r) ? tgt : "", tgtT));
+    tr.appendChild(includeCell(key + "t"));
     tr.appendChild(discountCell(key + "t", noDiscT));
-    tr.appendChild(textCell(show(tgtT)));
     const diff = document.createElement("td");
     diff.textContent = c.text;
     diff.className = c.cls;
@@ -2466,19 +2484,23 @@ function render() {
     first.textContent = PACKAGE_LABEL;
     first.appendChild(packageSelect());
     tr.appendChild(first);
-    tr.appendChild(discountCell("pkgc", false));
     tr.appendChild(textCell(curText));
-    tr.appendChild(discountCell("pkgt", false));
+    tr.appendChild(includeCell("pkgc"));
+    tr.appendChild(discountCell("pkgc", false));
     tr.appendChild(textCell(tgtText));
+    tr.appendChild(includeCell("pkgt"));
+    tr.appendChild(discountCell("pkgt", false));
     const diff = document.createElement("td");
-    const c = compare(curText, tgtText);
+    const c = includePct("pkgc") && includePct("pkgt")
+      ? compare(curText, tgtText)
+      : { text: "не учитывается", cls: "" };
     diff.textContent = c.text;
     diff.className = c.cls;
     tr.appendChild(diff);
     tr.appendChild(onceTd());
     body.appendChild(tr);
-    curSum += dCur;
-    tgtSum += dTgt;
+    if (includePct("pkgc")) curSum += dCur;
+    if (includePct("pkgt")) tgtSum += dTgt;
   }
 
   // Строки добавленных номеров и доп. профилей: количество задаётся прямо в строке
@@ -2491,7 +2513,7 @@ function render() {
       const t = NUMBER_TYPES.find((x) => x.id === key);
       const isProfile = key === "profiles";
       const isDialog = key === "dialogs";
-      // Мобильные номера: скидка не применяется
+      // Виртуальные мобильные номера: скидка не применяется
       const kC = key === "nMobile" ? 1 : 1 - discPct("x" + key + "c") / 100;
       const kT = key === "nMobile" ? 1 : 1 - discPct("x" + key + "t") / 100;
       const baseCur = isProfile
@@ -2515,10 +2537,11 @@ function render() {
           : feeQty(tgt, key) * (NUMBER_RULES[tgt]?.fee || 0);
       const dCur = round2(baseCur * kC) + surCur;
       const dTgt = round2(baseTgt * kT) + surTgt;
-      extraCur += dCur;
-      extraTgt += dTgt;
+      if (includePct("x" + key + "c")) extraCur += dCur;
+      if (includePct("x" + key + "t")) extraTgt += dTgt;
       const onceAmt = isProfile || isDialog ? 0 : t.once * qtys[key];
-      extraOnce += onceAmt;
+      if (includePct("x" + key + "c") || includePct("x" + key + "t"))
+        extraOnce += onceAmt;
       const once =
         isSingle() || isDialog ? "" : " + разово " + fmt(onceAmt) + " руб.";
       const curText = isProfile
@@ -2562,11 +2585,15 @@ function render() {
         );
       }
       tr.appendChild(first);
-      tr.appendChild(discountCell("x" + key + "c", key === "nMobile"));
       tr.appendChild(textCell(curText));
-      tr.appendChild(discountCell("x" + key + "t", key === "nMobile"));
+      tr.appendChild(includeCell("x" + key + "c"));
+      tr.appendChild(discountCell("x" + key + "c", key === "nMobile"));
       tr.appendChild(textCell(tgtText));
-      const c = compare(curText, tgtText);
+      tr.appendChild(includeCell("x" + key + "t"));
+      tr.appendChild(discountCell("x" + key + "t", key === "nMobile"));
+      const c = includePct("x" + key + "c") && includePct("x" + key + "t")
+        ? compare(curText, tgtText)
+        : { text: "не учитывается", cls: "" };
       const diff = document.createElement("td");
       diff.textContent = c.text;
       diff.className = c.cls;
@@ -2595,10 +2622,12 @@ function render() {
   const diffSum = tgtSum - curSum;
   const cells = [
     "Итого в месяц",
-    "",
     fmt(curSum) + " руб./мес.",
     "",
+    "",
     fmt(tgtSum) + " руб./мес.",
+    "",
+    "",
     (diffSum > 0 ? "+" : "") + fmt(diffSum) + " руб./мес.",
     fmt(extraOnce) + " руб.",
   ];
@@ -2606,8 +2635,8 @@ function render() {
   cells.forEach((text, i) => {
     const td = document.createElement("td");
     td.textContent = text;
-    if (i === 5 && diffSum !== 0) td.className = diffSum > 0 ? "pos" : "neg";
-    if (i === 6) td.className = "once-col";
+    if (i === 7 && diffSum !== 0) td.className = diffSum > 0 ? "pos" : "neg";
+    if (i === 8) td.className = "once-col";
     tr.appendChild(td);
   });
   mainTotals = { cur: curSum, tgt: tgtSum };
@@ -2741,6 +2770,9 @@ function init() {
   Object.keys(qtys).forEach((k) => {
     qtys[k] = 0;
   });
+  Object.keys(storageState).forEach((k) => {
+    delete storageState[k];
+  });
   $("feature").value = "";
   hideSuggestions();
   // Выбор функций по умолчанию по названиям из DEFAULT_FEATURES
@@ -2754,6 +2786,9 @@ function init() {
         ),
     );
   qtys.kcLicense = 1;
+  if (product === "vats") {
+    applyDefaultProfile($("current").value, $("target").value);
+  }
   update();
 }
 
@@ -2762,8 +2797,18 @@ $("product").onchange = (e) => {
   product = e.target.value;
   init();
 };
-$("current").onchange = update;
-$("target").onchange = update;
+$("current").onchange = () => {
+  if (product === "vats") {
+    applyDefaultProfile($("current").value, $("target").value);
+  }
+  update();
+};
+$("target").onchange = () => {
+  if (product === "vats") {
+    applyDefaultProfile($("current").value, $("target").value);
+  }
+  update();
+};
 $("mode").onchange = update;
 // Количество номеров и профилей задаётся в строках таблицы
 // Подсказки для поля поиска функций ВАТС
@@ -2782,6 +2827,9 @@ let mainTotals = { cur: 0, tgt: 0 };
 const kcState = { selected: [], licenseQty: 0 };
 // Скидки в процентах по строкам: v+индекс (ВАТС), k+индекс (КЦ), x+ключ (номера и профили)
 const rowDiscount = {};
+// Независимое включение строк в итог сравнения для текущего и нового тарифа
+const rowInclude = {};
+const includePct = (key) => rowInclude[key] !== false;
 // Возвращает процент скидки строки
 const discPct = (key) => rowDiscount[key] || 0;
 // Округляет до копеек
@@ -2817,31 +2865,83 @@ function discountCell(key, disabled) {
   return td;
 }
 
-// Тарифы облачного хранилища по объёму: ГБ и цена в руб./мес. (дополняются по мере необходимости)
+// Радио-кнопка включения одного тарифа в итог сравнения
+function includeCell(key) {
+  const td = document.createElement("td");
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.className = "include-radio";
+  input.checked = includePct(key);
+  input.setAttribute("aria-label", "Учитывать пункт в сравнении");
+  input.onchange = (e) => {
+    rowInclude[key] = e.target.checked;
+    update();
+  };
+  td.appendChild(input);
+  return td;
+}
+
+// Тарифы облачного хранилища по объёму и цене
 const STORAGE_PLANS = [
   { gb: 1, price: 190 },
   { gb: 5, price: 490 },
 ];
-// Выбранный объём облачного хранилища
-const storageState = { gb: 1 };
+const VATS2_STORAGE_INCLUDED = {
+  start: 1,
+  growth: 10,
+  perspective: 30,
+};
+// Выбранный объём для каждого тарифа
+const storageState = {};
 // Строка облачного хранилища, цена которой зависит от объёма
 const isStorage = (r) => r.parameter.startsWith("Облачное хранилище");
+function storageIncluded(tariff) {
+  return VATS2_STORAGE_INCLUDED[tariff] ?? 1;
+}
+function storageOptions(tariff) {
+  if (VATS2_STORAGE_INCLUDED[tariff]) {
+    const options = [0];
+    for (let gb = 5; gb <= 100; gb += 5) options.push(gb);
+    return options;
+  }
+  return STORAGE_PLANS.map((plan) => plan.gb);
+}
+function storageExtraCost(tariff, gb) {
+  const included = VATS2_STORAGE_INCLUDED[tariff];
+  if (!included) {
+    return STORAGE_PLANS.find((plan) => plan.gb === gb)?.price ?? 190;
+  }
+  const extraBlocks = gb / 5;
+  return extraBlocks * 400;
+}
 // Значение строки для тарифа; для хранилища с ценой (руб.) - цена выбранного объёма
 function rowValue(r, tariff) {
   if (r.parameter === PROFILE_PARAM && !isUnavailable(r.values[tariff]))
     return fmt(round2(profilePrice(tariff) * qtys.profiles)) + " руб./мес.";
-  if (!isStorage(r) || !/руб/.test(r.values[tariff])) return r.values[tariff];
-  const plan = STORAGE_PLANS.find((p) => p.gb === storageState.gb);
-  return fmt(plan.price) + " руб./мес.";
+  if (!isStorage(r)) return r.values[tariff];
+  if (!VATS2_STORAGE_INCLUDED[tariff] && !/руб/.test(r.values[tariff])) return r.values[tariff];
+  const gb = storageState[tariff] ?? (VATS2_STORAGE_INCLUDED[tariff] ? 0 : storageIncluded(tariff));
+  return fmt(storageExtraCost(tariff, gb)) + " руб./мес.";
 }
-// Выпадающий выбор объёма облачного хранилища в строке таблицы
-function storageSelect() {
+// Выпадающий выбор объёма облачного хранилища в названии функции
+function storageSelect(tariff) {
   const sel = document.createElement("select");
-  sel.id = "storage";
-  STORAGE_PLANS.forEach((p) => sel.add(new Option(p.gb + " ГБ", p.gb)));
-  sel.value = storageState.gb;
+  sel.id = tariff ? "storage-" + tariff : "storage";
+  storageOptions(tariff).forEach((gb) => {
+    if (VATS2_STORAGE_INCLUDED[tariff]) {
+      sel.add(new Option(
+        gb === 0
+          ? storageIncluded(tariff) + " ГБ включено"
+          : storageIncluded(tariff) + " ГБ включено, +" + gb + " ГБ дополнительно",
+        gb,
+      ));
+    } else {
+      sel.add(new Option(gb + " ГБ", gb));
+    }
+  });
+  sel.value = storageState[tariff] ?? (VATS2_STORAGE_INCLUDED[tariff] ? 0 : storageIncluded(tariff));
   sel.onchange = () => {
-    storageState.gb = Number(sel.value);
+    storageState[tariff] = Number(sel.value);
     update();
   };
   return customSelect(sel);
@@ -2889,6 +2989,17 @@ function profileQtyInput() {
   return input;
 }
 
+// Ячейка цены хранилища с выбором объёма
+function storagePriceCell(tariff, text) {
+  const td = document.createElement("td");
+  td.textContent = text;
+  if (tariff) {
+    td.appendChild(document.createTextNode(" "));
+    td.appendChild(storageSelect(tariff));
+  }
+  return td;
+}
+
 // Ячейка с текстом значения строки
 function textCell(text) {
   const td = document.createElement("td");
@@ -2902,15 +3013,17 @@ function kcTotalRow(label, cur, tgt) {
   const tr = document.createElement("tr");
   [
     label,
-    "",
     fmt(cur) + " руб./мес.",
     "",
+    "",
     fmt(tgt) + " руб./мес.",
+    "",
+    "",
     (diff > 0 ? "+" : "") + fmt(diff) + " руб./мес.",
   ].forEach((text, i) => {
     const td = document.createElement("td");
     td.textContent = text;
-    if (i === 5 && diff !== 0) td.className = diff > 0 ? "pos" : "neg";
+    if (i === 7 && diff !== 0) td.className = diff > 0 ? "pos" : "neg";
     tr.appendChild(td);
   });
   return tr;
@@ -2987,11 +3100,15 @@ function renderKc() {
     const tgtVal = getAdjustedValue(r.values[tgt]);
     const curT = discountText(curVal, discPct(key + "c")),
       tgtT = discountText(tgtVal, discPct(key + "t"));
-    const c = compare(curT, tgtT);
+    const includeC = includePct(key + "c"),
+      includeT = includePct(key + "t");
+    const c = includeC && includeT
+      ? compare(curT, tgtT)
+      : { text: "не учитывается", cls: "" };
     const pc = parseValue(curT),
       pt = parseValue(tgtT);
-    if (pc && pc.unit === "руб./мес.") curSum += pc.num;
-    if (pt && pt.unit === "руб./мес.") tgtSum += pt.num;
+    if (includeC && pc && pc.unit === "руб./мес.") curSum += pc.num;
+    if (includeT && pt && pt.unit === "руб./мес.") tgtSum += pt.num;
     const tr = document.createElement("tr");
     const first = document.createElement("td");
     // Для лицензий добавляем поле ввода количества (как для номеров)
@@ -3018,10 +3135,12 @@ function renderKc() {
       first.textContent = show(r.parameter);
     }
     tr.appendChild(first);
-    tr.appendChild(discountCell(key + "c", false));
     tr.appendChild(textCell(show(curT)));
-    tr.appendChild(discountCell(key + "t", false));
+    tr.appendChild(includeCell(key + "c"));
+    tr.appendChild(discountCell(key + "c", false));
     tr.appendChild(textCell(show(tgtT)));
+    tr.appendChild(includeCell(key + "t"));
+    tr.appendChild(discountCell(key + "t", false));
     const diff = document.createElement("td");
     diff.textContent = c.text;
     diff.className = c.cls;
