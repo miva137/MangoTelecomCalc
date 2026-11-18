@@ -1782,6 +1782,42 @@ const DATA = {
         },
       },
       {
+        parameter: "Манго Диалоги «Личные каналы» (Telegram)",
+        values: {
+          start: "3 500 руб./мес.",
+          optimum: "3 500 руб./мес.",
+          profi: "3 500 руб./мес.",
+          corporation: "3 500 руб./мес.",
+        },
+      },
+      {
+        parameter: "Манго Диалоги «Личные каналы» (What's Up)",
+        values: {
+          start: "3 500 руб./мес.",
+          optimum: "3 500 руб./мес.",
+          profi: "3 500 руб./мес.",
+          corporation: "3 500 руб./мес.",
+        },
+      },
+      {
+        parameter: "Манго Диалоги «Личные каналы» (Telegram-тест)",
+        values: {
+          start: "1 500 руб./мес.",
+          optimum: "1 500 руб./мес.",
+          profi: "1 500 руб./мес.",
+          corporation: "1 500 руб./мес.",
+        },
+      },
+      {
+        parameter: "Манго Диалоги «Личные каналы» (What's Up-тест)",
+        values: {
+          start: "1 500 руб./мес.",
+          optimum: "1 500 руб./мес.",
+          profi: "1 500 руб./мес.",
+          corporation: "1 500 руб./мес.",
+        },
+      },
+      {
         parameter: "Авито Работа",
         values: {
           start: "10 000 руб./мес.",
