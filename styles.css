@@ -15,7 +15,7 @@ body {
     "Helvetica Neue",
     sans-serif;
   margin: 12px auto;
-  max-width: 1105px;
+  width: 1250px;
   padding: 0 24px;
   box-sizing: border-box;
   background: var(--bg);
