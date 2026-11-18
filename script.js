@@ -32,9 +32,9 @@ const DATA = {
           basic: "210 руб./мес.",
           extended: "200 руб./мес.",
           maximum: "190 руб./мес.",
-          start: "370 руб./мес.",
-          growth: "690 руб./мес.",
-          perspective: "1350 руб./мес.",
+          start: "450 руб./мес.",
+          growth: "850 руб./мес.",
+          perspective: "1600 руб./мес.",
         },
       },
       {
@@ -225,45 +225,13 @@ const DATA = {
         },
       },
       {
-        parameter: "Дозвон на основной контакт сотрудника",
-        values: {
-          basic: "✓",
-          extended: "✓",
-          maximum: "✓",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Дозвон на все контакты сотрудника по очереди",
+        parameter:
+          "Дозвон на все контакты одновременно / по очереди / только SIP",
         values: {
           basic: "—",
           extended: "✓",
           maximum: "✓",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Дозвон на все контакты сотрудника одновременно",
-        values: {
-          basic: "—",
-          extended: "✓",
-          maximum: "✓",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Дозвон только на SIP-учетные записи сотрудника",
-        values: {
-          basic: "—",
-          extended: "✓",
-          maximum: "✓",
-          start: "—",
+          start: "+ / — / —",
           growth: "+",
           perspective: "+",
         },
@@ -277,6 +245,17 @@ const DATA = {
           start: "1",
           growth: "5",
           perspective: "без ограничений",
+        },
+      },
+      {
+        parameter: "Объединение в группы и удержание вызовов",
+        values: {
+          basic: "✓",
+          extended: "✓",
+          maximum: "✓",
+          start: "+",
+          growth: "+",
+          perspective: "+",
         },
       },
       {
@@ -395,9 +374,9 @@ const DATA = {
           basic: "1,9 руб./мин",
           extended: "1,5 руб./мин",
           maximum: "1,25 руб./мин",
-          start: "1,20 руб./мин",
-          growth: "1 руб./мин",
-          perspective: "0,8 руб./мин",
+          start: "1,9 руб./мин.",
+          growth: "1,5 руб./мин.",
+          perspective: "1,25 руб./мин.",
         },
       },
       {
@@ -420,6 +399,17 @@ const DATA = {
           start: "—",
           growth: "—",
           perspective: "—",
+        },
+      },
+      {
+        parameter: "Голосовая почта (общая/персональная/групповая)",
+        values: {
+          basic: "✓",
+          extended: "✓",
+          maximum: "✓",
+          start: "+",
+          growth: "+",
+          perspective: "+",
         },
       },
       {
@@ -637,9 +627,9 @@ const DATA = {
           basic: "190 руб./мес.",
           extended: "190 руб./мес.",
           maximum: "190 руб./мес.",
-          start: "включено 1 Гб; доп. ГБ — 400 руб./мес. за 5 Гб",
-          growth: "включено 1 Гб; доп. ГБ — 400 руб./мес. за 5 Гб",
-          perspective: "включено 1 Гб; доп. ГБ — 400 руб./мес. за 5 Гб",
+          start: "1 Гб",
+          growth: "10 Гб",
+          perspective: "30 Гб",
         },
       },
       {
@@ -687,9 +677,9 @@ const DATA = {
         },
       },
       {
-        parameter: "Группа отчётов «Продажи»",
+        parameter: "Группа отчётов «Продажи» (подключение 500 руб.)",
         values: {
-          basic: "— (подкл. 500 руб.)",
+          basic: "—",
           extended: "3 500 руб./мес.",
           maximum: "3 500 руб./мес.",
           start: "—",
@@ -698,9 +688,9 @@ const DATA = {
         },
       },
       {
-        parameter: "Группа отчётов «Обслуживание»",
+        parameter: "Группа отчётов «Обслуживание» (подключение 500 руб.)",
         values: {
-          basic: "— (подкл. 500 руб.)",
+          basic: "—",
           extended: "3 500 руб./мес.",
           maximum: "3 500 руб./мес.",
           start: "—",
@@ -753,7 +743,18 @@ const DATA = {
         },
       },
       {
-        parameter: "Интеграция Битрикс24 / amoCRM",
+        parameter: "Местные номера",
+        values: {
+          basic: "2 000 руб./мес.",
+          extended: "2 000 руб./мес.",
+          maximum: "2 000 руб./мес.",
+          start: "—",
+          growth: "—",
+          perspective: "—",
+        },
+      },
+      {
+        parameter: "Прямая интеграция Битрикс24 / amoCRM",
         values: {
           basic: "1 400 руб./мес.",
           extended: "4 200 руб./мес.",
@@ -819,15 +820,62 @@ const DATA = {
         },
       },
       {
+        parameter: "Интеграция через API-конструктор",
+        values: {
+          basic: "1 400 руб./мес.",
+          extended: "4 200 руб./мес.",
+          maximum: "7 700 руб./мес.",
+          start: "—",
+          growth: "—",
+          perspective: "+",
+        },
+      },
+      {
         parameter: "Интеграция через вебхуки",
         values: {
           basic: "2 100 руб./мес.",
           extended: "2 100 руб./мес.",
           maximum: "2 100 руб./мес.",
           start: "—",
-          growth: "—",
-          perspective: "+",
+          growth: "✓",
+          perspective: "✓",
         },
+      },
+      {
+        parameter: "Прямая интеграция с amoCRM",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Прямая интеграция с Битрикс24",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Расширенные возможности интеграции с amoCRM",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Расширенные возможности интеграции с Битрикс24",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Интеграция с 1С",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Сервис автоматического копирования записей разговоров на внешний ftp",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Интеграция с LDAP",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Интеграция адресной книгой G Suite (Google)",
+        values: { basic: "—", extended: "—", maximum: "—", start: "✓", growth: "✓", perspective: "✓" },
       },
       {
         parameter: "1С: Управление торговлей",
@@ -918,6 +966,29 @@ const DATA = {
         },
       },
       {
+        parameter:
+          "FMC, SMS/e-mail о балансе, отображение номера, BLF, пин-код, АОН, Call-back",
+        values: {
+          basic: "✓",
+          extended: "✓",
+          maximum: "✓",
+          start: "+",
+          growth: "+",
+          perspective: "+",
+        },
+      },
+      {
+        parameter: "Голосовое сообщение при входящем",
+        values: {
+          basic: "50 руб./мес.",
+          extended: "✓",
+          maximum: "✓",
+          start: "+",
+          growth: "+",
+          perspective: "+",
+        },
+      },
+      {
         parameter: "Красивый SIP-адрес",
         values: {
           basic: "290 руб./шт.",
@@ -995,17 +1066,6 @@ const DATA = {
         },
       },
       {
-        parameter: "Включено профилей сотрудников",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "—",
-          perspective: "—",
-        },
-      },
-      {
         parameter:
           "Возможность подключения дополнительных профилей сотрудников",
         values: {
@@ -1038,28 +1098,6 @@ const DATA = {
           start: "—",
           growth: "10 номеров",
           perspective: "без ограничений",
-        },
-      },
-      {
-        parameter: "Дополнительные номера сверх лимита",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Стоимость дополнительного номера — 150 руб./мес.",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
         },
       },
       {
@@ -1233,241 +1271,7 @@ const DATA = {
         },
       },
       {
-        parameter: "Стоимость услуги — 0,16 руб. / целевой звонок",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter: "Голосовое распознавание ФИО и должностей сотрудников",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Стоимость услуги — 0,16 руб. / целевой звонок",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter:
-          "Голосовое распознавание тематики обращений, интеллектуальная переадресация звонков",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Стоимость услуги — 0,16 руб. / целевой звонок",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter:
-          "Возможность совершать бесплатные внутренние звонки в Mango Talker",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Возможность совершать внутренние звонки",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Настройка короткого номера для каждого абонента",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Настройка действий при недоступности абонента",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Возможность настроить время ожидания ответа",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Возможность задать расписание использования контактов",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Абонентская плата — 2,90 руб./ день",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter: "Настройка короткого номера для каждой группы",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Перевод вызова на группу (вручную)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Удержание вызовов в очереди",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Не направлять звонки на не ответившего оператора",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Подключение телефонных номеров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: '"Кто меньше ответил"',
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "—",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Наименьшее время разговора",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "—",
-          perspective: "+",
-        },
-      },
-      {
-        parameter:
-          "Распределение входящих звонков в зависимости от региона звонящего",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Бесплатная безлимитная запись звонков в Mango Talker",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Прослушивание записей онлайн в Личном кабинете",
         values: {
           basic: "—",
           extended: "—",
@@ -1699,53 +1503,6 @@ const DATA = {
         },
       },
       {
-        parameter:
-          "Бесплатная круглосуточная техническая поддержка онлайн через систему обработки заявок",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter:
-          "Бесплатная круглосуточная техническая поддержка онлайн через систему чата в реальном времени",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter:
-          "Бесплатная круглосуточная техническая поддержка по телефону",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Персональный менеджер",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Отчет о полученных звонках",
         values: {
           basic: "детализация до сотрудников",
@@ -1765,6 +1522,17 @@ const DATA = {
           start: "детализация до сотрудников",
           growth: "детализация до групп",
           perspective: "детализация до и внутри групп",
+        },
+      },
+      {
+        parameter: "Подключение телефонных номеров",
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "+",
+          growth: "+",
+          perspective: "+",
         },
       },
       {
@@ -2392,6 +2160,21 @@ const DIALOG_BASE = 1000,
   DIALOG_CHANNEL = 1000;
 
 // Короткие помощники: поиск элемента по id, формат чисел, проверка и вывод значений
+const VATS2_INTEGRATION_PARAMS = new Set([
+  "Прямая интеграция с amoCRM",
+  "Прямая интеграция с Битрикс24",
+  "Интеграция через вебхуки",
+  "Расширенные возможности интеграции с amoCRM",
+  "Расширенные возможности интеграции с Битрикс24",
+  "Интеграция с 1С",
+  "Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)",
+  "Сервис автоматического копирования записей разговоров на внешний ftp",
+  "Интеграция с LDAP",
+  "Интеграция адресной книгой G Suite (Google)",
+]);
+const hasVats2Tariff = (cur, tgt) =>
+  [cur, tgt].some((tariff) => ["start", "growth", "perspective"].includes(tariff));
+
 const $ = (id) => document.getElementById(id);
 const fmt = (n) => n.toLocaleString("ru-RU", { maximumFractionDigits: 2 });
 const isUnavailable = (v) =>
@@ -2402,8 +2185,7 @@ const show = (v) => (v === "✓" ? "0" : v);
 function parseValue(text) {
   const m = /^(\d[\d\s]*(?:[.,]\d+)?)(?:\s*(.*))?$/.exec(text.trim());
   if (!m) return null;
-  let unit = (m[2] || "").trim().replace(/\.$/, "");
-  if (unit === "руб./мес") unit = "руб./мес.";
+  const unit = (m[2] || "").trim();
   if (unit && !/^(руб|коп|ГБ|чел)/.test(unit)) return null;
   return { num: parseFloat(m[1].replace(/\s/g, "").replace(",", ".")), unit };
 }
@@ -2484,9 +2266,17 @@ function renderChips() {
       }),
     );
   });
+  const cur = $("current").value;
+  const tgt = isSingle() ? cur : $("target").value;
   selected.forEach((idx) => {
+    const parameter = DATA[product].rows[idx].parameter;
+    if (
+      product === "vats" &&
+      VATS2_INTEGRATION_PARAMS.has(parameter) &&
+      !hasVats2Tariff(cur, tgt)
+    ) return;
     ul.appendChild(
-      makeChip(DATA[product].rows[idx].parameter, () => {
+      makeChip(parameter, () => {
         selected = selected.filter((x) => x !== idx);
         update();
       }),
@@ -2539,7 +2329,7 @@ function feeQty(tariff, key) {
   return Math.max(
     0,
     Math.min(before + numberQty(NUMBER_TYPES[idx]), cap) -
-      Math.max(before, rule.included),
+    Math.max(before, rule.included),
   );
 }
 
@@ -2602,6 +2392,11 @@ function render() {
   // Строки функций: суммируем руб./мес. для текущего и нового тарифа
   [0, ...selected].forEach((idx) => {
     const r = d.rows[idx];
+    if (
+      product === "vats" &&
+      VATS2_INTEGRATION_PARAMS.has(r.parameter) &&
+      !hasVats2Tariff(cur, tgt)
+    ) return;
     const key = "v" + idx;
     const isKcLicense = product === "kc" && r.parameter === "Доп.лицензия";
     const licenseValue = (value) => {
@@ -2616,8 +2411,8 @@ function render() {
       noDiscT = isBitrix && tgt === "basic";
     const pctC = noDiscC ? 0 : discPct(key + "c"),
       pctT = noDiscT ? 0 : discPct(key + "t");
-    const curT = discountText(licenseValue(rowValue(r, cur, "cur")), pctC),
-      tgtT = discountText(licenseValue(rowValue(r, tgt, "tgt")), pctT);
+    const curT = discountText(licenseValue(rowValue(r, cur)), pctC),
+      tgtT = discountText(licenseValue(rowValue(r, tgt)), pctT);
     const c = compare(curT, tgtT);
     const pc = parseValue(curT),
       pt = parseValue(tgtT);
@@ -2625,7 +2420,8 @@ function render() {
     if (pt && pt.unit === "руб./мес.") tgtSum += pt.num;
     const tr = document.createElement("tr");
     const first = document.createElement("td");
-    first.textContent = show(r.parameter);
+    first.textContent = show(isStorage(r) ? "Облачное хранилище" : r.parameter);
+    if (isStorage(r)) first.appendChild(storageSelect());
     if (r.parameter === PROFILE_PARAM) first.appendChild(profileQtyInput());
     if (isKcLicense) {
       const input = document.createElement("input");
@@ -2647,13 +2443,9 @@ function render() {
     }
     tr.appendChild(first);
     tr.appendChild(discountCell(key + "c", noDiscC));
-    const curCell = textCell(show(curT));
-    if (isStorage(r)) curCell.appendChild(storageSelect(cur, "Текущий"));
-    tr.appendChild(curCell);
+    tr.appendChild(textCell(show(curT)));
     tr.appendChild(discountCell(key + "t", noDiscT));
-    const tgtCell = textCell(show(tgtT));
-    if (isStorage(r)) tgtCell.appendChild(storageSelect(tgt, "Новый"));
-    tr.appendChild(tgtCell);
+    tr.appendChild(textCell(show(tgtT)));
     const diff = document.createElement("td");
     diff.textContent = c.text;
     diff.className = c.cls;
@@ -2882,12 +2674,17 @@ function bindSuggest(inputId, listId, rowsFn, onEnter) {
 function featureRows(prod) {
   const rows = DATA[prod].rows
     .map((r, idx) => ({ text: r.parameter, idx }))
+    .filter((row) =>
+      prod !== "vats" ||
+      !VATS2_INTEGRATION_PARAMS.has(row.text) ||
+      hasVats2Tariff($("current").value, isSingle() ? $("current").value : $("target").value)
+    )
     .slice(1);
   return prod === "vats"
     ? rows.concat(
-        [{ text: PACKAGE_LABEL, extra: "package" }],
-        EXTRA_ITEMS.map((x) => ({ text: x.text, extra: x.key })),
-      )
+      [{ text: PACKAGE_LABEL, extra: "package" }],
+      EXTRA_ITEMS.map((x) => ({ text: x.text, extra: x.key })),
+    )
     : rows;
 }
 
@@ -2957,8 +2754,6 @@ function init() {
         ),
     );
   qtys.kcLicense = 1;
-  syncProfileForVatsTariffs();
-  if (profileAutoSelected && qtys.profiles === 0) qtys.profiles = 1;
   update();
 }
 
@@ -2967,34 +2762,8 @@ $("product").onchange = (e) => {
   product = e.target.value;
   init();
 };
-let profileAutoSelected = false;
-function syncProfileForVatsTariffs() {
-  if (product !== "vats") return;
-  const vatsGroup = ["start", "growth", "perspective"];
-  const shouldSelect = vatsGroup.includes($("current")?.value) || vatsGroup.includes($("target")?.value);
-  const profileIndex = DATA.vats.rows.findIndex((r) => r.parameter === PROFILE_PARAM);
-
-  if (shouldSelect && profileIndex >= 0 && !selected.includes(profileIndex)) {
-    selected.push(profileIndex);
-    qtys.profiles = 1;
-    profileAutoSelected = true;
-  } else if (shouldSelect && profileIndex >= 0 && profileAutoSelected && qtys.profiles === 0) {
-    qtys.profiles = 1;
-  } else if (!shouldSelect && profileAutoSelected && profileIndex >= 0) {
-    selected = selected.filter((idx) => idx !== profileIndex);
-    qtys.profiles = 0;
-    profileAutoSelected = false;
-  }
-}
-
-$("current").onchange = () => {
-  syncProfileForVatsTariffs();
-  update();
-};
-$("target").onchange = () => {
-  syncProfileForVatsTariffs();
-  update();
-};
+$("current").onchange = update;
+$("target").onchange = update;
 $("mode").onchange = update;
 // Количество номеров и профилей задаётся в строках таблицы
 // Подсказки для поля поиска функций ВАТС
@@ -3048,61 +2817,33 @@ function discountCell(key, disabled) {
   return td;
 }
 
-// Базовые планы облачного хранилища для Базовой/Расширенной/Максимальной
+// Тарифы облачного хранилища по объёму: ГБ и цена в руб./мес. (дополняются по мере необходимости)
 const STORAGE_PLANS = [
   { gb: 1, price: 190 },
   { gb: 5, price: 490 },
 ];
-// Дополнительное облачное хранилище для Старт/Рост/Перспектива: пакет 5 ГБ за 400 руб./мес.
-const STORAGE_EXTRA_MAX_GB = 100;
-const storageState = {
-  curGb: 1,
-  tgtGb: 1,
-  curExtraGb: 0,
-  tgtExtraGb: 0,
-};
+// Выбранный объём облачного хранилища
+const storageState = { gb: 1 };
 // Строка облачного хранилища, цена которой зависит от объёма
 const isStorage = (r) => r.parameter.startsWith("Облачное хранилище");
-// Значение строки для тарифа; дополнительное хранилище тарифов Старт/Рост/Перспектива платное кратно 5 ГБ
-function rowValue(r, tariff, side) {
+// Значение строки для тарифа; для хранилища с ценой (руб.) - цена выбранного объёма
+function rowValue(r, tariff) {
   if (r.parameter === PROFILE_PARAM && !isUnavailable(r.values[tariff]))
     return fmt(round2(profilePrice(tariff) * qtys.profiles)) + " руб./мес.";
-  if (!isStorage(r)) return r.values[tariff];
-  if (["start", "growth", "perspective"].includes(tariff)) {
-    const extraGb = side === "cur" ? storageState.curExtraGb : storageState.tgtExtraGb;
-    const extraPrice = (extraGb / 5) * 400;
-    return fmt(extraPrice) + " руб./мес.";
-  }
-  const gb = side === "cur" ? storageState.curGb : storageState.tgtGb;
-  const plan = STORAGE_PLANS.find((p) => p.gb === gb);
-  return plan ? fmt(plan.price) + " руб./мес." : r.values[tariff];
+  if (!isStorage(r) || !/руб/.test(r.values[tariff])) return r.values[tariff];
+  const plan = STORAGE_PLANS.find((p) => p.gb === storageState.gb);
+  return fmt(plan.price) + " руб./мес.";
 }
-// Выпадающий выбор объёма облачного хранилища
-function storageSelect(tariff, label) {
+// Выпадающий выбор объёма облачного хранилища в строке таблицы
+function storageSelect() {
   const sel = document.createElement("select");
-  sel.id = label === "Текущий" ? "storage-current" : "storage-target";
-
-  if (["basic", "extended", "maximum"].includes(tariff)) {
-    STORAGE_PLANS.forEach((p) => sel.add(new Option(p.gb + " ГБ", p.gb)));
-    sel.value = label === "Текущий" ? storageState.curGb : storageState.tgtGb;
-    sel.onchange = () => {
-      if (label === "Текущий") storageState.curGb = Number(sel.value);
-      else storageState.tgtGb = Number(sel.value);
-      update();
-    };
-  } else {
-    sel.add(new Option("Включено 1 ГБ", 0));
-    for (let gb = 5; gb <= STORAGE_EXTRA_MAX_GB; gb += 5) {
-      sel.add(new Option("Доп. " + gb + " ГБ", gb));
-    }
-    sel.value = label === "Текущий" ? storageState.curExtraGb : storageState.tgtExtraGb;
-    sel.onchange = () => {
-      if (label === "Текущий") storageState.curExtraGb = Number(sel.value);
-      else storageState.tgtExtraGb = Number(sel.value);
-      update();
-    };
-  }
-
+  sel.id = "storage";
+  STORAGE_PLANS.forEach((p) => sel.add(new Option(p.gb + " ГБ", p.gb)));
+  sel.value = storageState.gb;
+  sel.onchange = () => {
+    storageState.gb = Number(sel.value);
+    update();
+  };
   return customSelect(sel);
 }
 // Пакеты на связь с ежемесячной ценой
