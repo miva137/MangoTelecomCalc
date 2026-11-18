@@ -303,17 +303,6 @@ const DATA = {
         },
       },
       {
-        parameter: "Запись всех разговоров и прослушивание онлайн",
-        values: {
-          basic: "✓",
-          extended: "✓",
-          maximum: "✓",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Выборочная запись по правилам",
         values: {
           basic: "—",
@@ -688,9 +677,9 @@ const DATA = {
         },
       },
       {
-        parameter: "Группа отчётов «Продажи»",
+        parameter: "Группа отчётов «Продажи» (подключение 500 руб.)",
         values: {
-          basic: "— (подкл. 500 руб.)",
+          basic: "—",
           extended: "3 500 руб./мес.",
           maximum: "3 500 руб./мес.",
           start: "—",
@@ -699,9 +688,9 @@ const DATA = {
         },
       },
       {
-        parameter: "Группа отчётов «Обслуживание»",
+        parameter: "Группа отчётов «Обслуживание» (подключение 500 руб.)",
         values: {
-          basic: "— (подкл. 500 руб.)",
+          basic: "—",
           extended: "3 500 руб./мес.",
           maximum: "3 500 руб./мес.",
           start: "—",
@@ -765,7 +754,7 @@ const DATA = {
         },
       },
       {
-        parameter: "Интеграция Битрикс24 / amoCRM",
+        parameter: "Прямая интеграция Битрикс24 / amoCRM",
         values: {
           basic: "1 400 руб./мес.",
           extended: "4 200 руб./мес.",
@@ -831,15 +820,62 @@ const DATA = {
         },
       },
       {
+        parameter: "Интеграция через API-конструктор",
+        values: {
+          basic: "1 400 руб./мес.",
+          extended: "4 200 руб./мес.",
+          maximum: "7 700 руб./мес.",
+          start: "—",
+          growth: "—",
+          perspective: "+",
+        },
+      },
+      {
         parameter: "Интеграция через вебхуки",
         values: {
           basic: "2 100 руб./мес.",
           extended: "2 100 руб./мес.",
           maximum: "2 100 руб./мес.",
           start: "—",
-          growth: "—",
-          perspective: "+",
+          growth: "✓",
+          perspective: "✓",
         },
+      },
+      {
+        parameter: "Прямая интеграция с amoCRM",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Прямая интеграция с Битрикс24",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Расширенные возможности интеграции с amoCRM",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Расширенные возможности интеграции с Битрикс24",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Интеграция с 1С",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Сервис автоматического копирования записей разговоров на внешний ftp",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Интеграция с LDAP",
+        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+      },
+      {
+        parameter: "Интеграция адресной книгой G Suite (Google)",
+        values: { basic: "—", extended: "—", maximum: "—", start: "✓", growth: "✓", perspective: "✓" },
       },
       {
         parameter: "1С: Управление торговлей",
@@ -1019,28 +1055,6 @@ const DATA = {
         },
       },
       {
-        parameter: "VPN",
-        values: {
-          basic: "—",
-          extended: "5 000 руб./мес.",
-          maximum: "5 000 руб./мес.",
-          start: "—",
-          growth: "—",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Контакт-центр MANGO OFFICE",
-        values: {
-          basic: "Обсуждается индивидуально",
-          extended: "Обсуждается индивидуально",
-          maximum: "Обсуждается индивидуально",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Абонентская плата за Виртуальную АТС",
         values: {
           basic: "—",
@@ -1049,17 +1063,6 @@ const DATA = {
           start: "0 руб./мес.",
           growth: "0 руб./мес.",
           perspective: "0 руб./мес.",
-        },
-      },
-      {
-        parameter: "Включено профилей сотрудников",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "—",
-          perspective: "—",
         },
       },
       {
@@ -1095,28 +1098,6 @@ const DATA = {
           start: "—",
           growth: "10 номеров",
           perspective: "без ограничений",
-        },
-      },
-      {
-        parameter: "Дополнительные номера сверх лимита",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Стоимость дополнительного номера — 150 руб./мес.",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
         },
       },
       {
@@ -1290,252 +1271,7 @@ const DATA = {
         },
       },
       {
-        parameter: "Стоимость услуги — 0,16 руб. / целевой звонок",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter: "Голосовое распознавание ФИО и должностей сотрудников",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Стоимость услуги — 0,16 руб. / целевой звонок",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter:
-          "Голосовое распознавание тематики обращений, интеллектуальная переадресация звонков",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Стоимость услуги — 0,16 руб. / целевой звонок",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter:
-          "Возможность совершать бесплатные внутренние звонки в Mango Talker",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Возможность совершать внутренние звонки",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Настройка короткого номера для каждого абонента",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Настройка действий при недоступности абонента",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Возможность настроить время ожидания ответа",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Возможность задать расписание использования контактов",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Абонентская плата — 2,90 руб./ день",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter: "Дозвон на основной контакт сотрудника",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Настройка короткого номера для каждой группы",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Перевод вызова на группу (вручную)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Удержание вызовов в очереди",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Не направлять звонки на не ответившего оператора",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Подключение телефонных номеров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: '"Кто меньше ответил"',
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "—",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Наименьшее время разговора",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "—",
-          perspective: "+",
-        },
-      },
-      {
-        parameter:
-          "Распределение входящих звонков в зависимости от региона звонящего",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Бесплатная безлимитная запись звонков в Mango Talker",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Прослушивание записей онлайн в Личном кабинете",
         values: {
           basic: "—",
           extended: "—",
@@ -1767,58 +1503,11 @@ const DATA = {
         },
       },
       {
-        parameter:
-          "Бесплатная круглосуточная техническая поддержка онлайн через систему обработки заявок",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter:
-          "Бесплатная круглосуточная техническая поддержка онлайн через систему чата в реальном времени",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter:
-          "Бесплатная круглосуточная техническая поддержка по телефону",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Персональный менеджер",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Отчет о полученных звонках",
         values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
+          basic: "детализация до сотрудников",
+          extended: "детализация до групп",
+          maximum: "детализация до и внутри групп",
           start: "детализация до сотрудников",
           growth: "детализация до групп",
           perspective: "детализация до и внутри групп",
@@ -1827,172 +1516,16 @@ const DATA = {
       {
         parameter: "Отчет о пропущенных звонках",
         values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
+          basic: "детализация до сотрудников",
+          extended: "детализация до групп",
+          maximum: "детализация до и внутри групп",
           start: "детализация до сотрудников",
           growth: "детализация до групп",
           perspective: "детализация до и внутри групп",
         },
       },
       {
-        parameter: "Интеграция через API-конструктор",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "—",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Подключение телефонных номеров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter:
-          "Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Подключение телефонных номеров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Стоимость услуги – 6000 руб./мес",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter: "Звонки через номер доступа",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Звонки с помощью Call-back («Заказ звонка»)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Бухгалтерские выписки и документы",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Возможность использовать ЭДО (электронный документооборот)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Детализация расходов по продуктам",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Детализация расходов на связь",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Звонок с сайта по внешней sip-линии",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "950 руб./мес.",
-          growth: "950 руб./мес.",
-          perspective: "950 руб./мес.",
-        },
-      },
-      {
-        parameter: "Подключение услуги",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Расшифровки распознанных разговоров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter:
-          "Возможность подключения Коллтрекинга по действующей тарифной сетке",
         values: {
           basic: "—",
           extended: "—",
@@ -2604,6 +2137,21 @@ const DIALOG_BASE = 1000,
   DIALOG_CHANNEL = 1000;
 
 // Короткие помощники: поиск элемента по id, формат чисел, проверка и вывод значений
+const VATS2_INTEGRATION_PARAMS = new Set([
+  "Прямая интеграция с amoCRM",
+  "Прямая интеграция с Битрикс24",
+  "Интеграция через вебхуки",
+  "Расширенные возможности интеграции с amoCRM",
+  "Расширенные возможности интеграции с Битрикс24",
+  "Интеграция с 1С",
+  "Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)",
+  "Сервис автоматического копирования записей разговоров на внешний ftp",
+  "Интеграция с LDAP",
+  "Интеграция адресной книгой G Suite (Google)",
+]);
+const hasVats2Tariff = (cur, tgt) =>
+  [cur, tgt].some((tariff) => ["start", "growth", "perspective"].includes(tariff));
+
 const $ = (id) => document.getElementById(id);
 const fmt = (n) => n.toLocaleString("ru-RU", { maximumFractionDigits: 2 });
 const isUnavailable = (v) =>
@@ -2695,9 +2243,17 @@ function renderChips() {
       }),
     );
   });
+  const cur = $("current").value;
+  const tgt = isSingle() ? cur : $("target").value;
   selected.forEach((idx) => {
+    const parameter = DATA[product].rows[idx].parameter;
+    if (
+      product === "vats" &&
+      VATS2_INTEGRATION_PARAMS.has(parameter) &&
+      !hasVats2Tariff(cur, tgt)
+    ) return;
     ul.appendChild(
-      makeChip(DATA[product].rows[idx].parameter, () => {
+      makeChip(parameter, () => {
         selected = selected.filter((x) => x !== idx);
         update();
       }),
@@ -2750,7 +2306,7 @@ function feeQty(tariff, key) {
   return Math.max(
     0,
     Math.min(before + numberQty(NUMBER_TYPES[idx]), cap) -
-      Math.max(before, rule.included),
+    Math.max(before, rule.included),
   );
 }
 
@@ -2813,6 +2369,11 @@ function render() {
   // Строки функций: суммируем руб./мес. для текущего и нового тарифа
   [0, ...selected].forEach((idx) => {
     const r = d.rows[idx];
+    if (
+      product === "vats" &&
+      VATS2_INTEGRATION_PARAMS.has(r.parameter) &&
+      !hasVats2Tariff(cur, tgt)
+    ) return;
     const key = "v" + idx;
     const isKcLicense = product === "kc" && r.parameter === "Доп.лицензия";
     const licenseValue = (value) => {
@@ -3090,12 +2651,17 @@ function bindSuggest(inputId, listId, rowsFn, onEnter) {
 function featureRows(prod) {
   const rows = DATA[prod].rows
     .map((r, idx) => ({ text: r.parameter, idx }))
+    .filter((row) =>
+      prod !== "vats" ||
+      !VATS2_INTEGRATION_PARAMS.has(row.text) ||
+      hasVats2Tariff($("current").value, isSingle() ? $("current").value : $("target").value)
+    )
     .slice(1);
   return prod === "vats"
     ? rows.concat(
-        [{ text: PACKAGE_LABEL, extra: "package" }],
-        EXTRA_ITEMS.map((x) => ({ text: x.text, extra: x.key })),
-      )
+      [{ text: PACKAGE_LABEL, extra: "package" }],
+      EXTRA_ITEMS.map((x) => ({ text: x.text, extra: x.key })),
+    )
     : rows;
 }
 
