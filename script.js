@@ -666,7 +666,7 @@ const DATA = {
         },
       },
       {
-        parameter: "Роли сотрудников",
+        parameter: "Дополнительные роли сотрудников",
         values: {
           basic: "750 руб./мес.",
           extended: "750 руб./мес.",
@@ -1531,6 +1531,29 @@ const DATA = {
           extended: "—",
           maximum: "—",
           start: "+",
+          growth: "+",
+          perspective: "+",
+        },
+      },
+      {
+        parameter: "Интеграция через API-конструктор",
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "—",
+          perspective: "+",
+        },
+      },
+      {
+        parameter:
+          "Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)",
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
           growth: "+",
           perspective: "+",
         },
