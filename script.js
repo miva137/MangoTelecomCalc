@@ -676,7 +676,7 @@ const DATA = {
         },
       },
       {
-        parameter: "Роли сотрудников",
+        parameter: "Дополнительные роли сотрудников",
         values: {
           basic: "750 руб./мес.",
           extended: "750 руб./мес.",
@@ -981,17 +981,6 @@ const DATA = {
           start: "550 руб./мес.",
           growth: "550 руб./мес.",
           perspective: "550 руб./мес.",
-        },
-      },
-      {
-        parameter: "Контакт-центр MANGO OFFICE",
-        values: {
-          basic: "Обсуждается индивидуально",
-          extended: "Обсуждается индивидуально",
-          maximum: "Обсуждается индивидуально",
-          start: "+",
-          growth: "+",
-          perspective: "+",
         },
       },
       {
@@ -1759,9 +1748,9 @@ const DATA = {
       {
         parameter: "Отчет о полученных звонках",
         values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
+          basic: "детализация до сотрудников",
+          extended: "детализация до групп",
+          maximum: "детализация до и внутри групп",
           start: "детализация до сотрудников",
           growth: "детализация до групп",
           perspective: "детализация до и внутри групп",
@@ -1770,9 +1759,9 @@ const DATA = {
       {
         parameter: "Отчет о пропущенных звонках",
         values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
+          basic: "детализация до сотрудников",
+          extended: "детализация до групп",
+          maximum: "детализация до и внутри групп",
           start: "детализация до сотрудников",
           growth: "детализация до групп",
           perspective: "детализация до и внутри групп",
@@ -1790,17 +1779,6 @@ const DATA = {
         },
       },
       {
-        parameter: "Подключение телефонных номеров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter:
           "Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)",
         values: {
@@ -1808,139 +1786,6 @@ const DATA = {
           extended: "—",
           maximum: "—",
           start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Подключение телефонных номеров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Стоимость услуги – 6000 руб./мес",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter: "Звонки через номер доступа",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Звонки с помощью Call-back («Заказ звонка»)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Бухгалтерские выписки и документы",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Возможность использовать ЭДО (электронный документооборот)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Детализация расходов по продуктам",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Детализация расходов на связь",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Звонок с сайта по внешней sip-линии",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "950 руб./мес.",
-          growth: "950 руб./мес.",
-          perspective: "950 руб./мес.",
-        },
-      },
-      {
-        parameter: "Подключение услуги",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Расшифровки распознанных разговоров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter:
-          "Возможность подключения Коллтрекинга по действующей тарифной сетке",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
           growth: "+",
           perspective: "+",
         },
