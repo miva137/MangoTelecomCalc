@@ -406,6 +406,19 @@ body.single td.once-col {
   line-height: 16px;
   text-align: center;
 }
+.release-details {
+  display: inline-block;
+  max-width: 900px;
+}
+.release-details summary {
+  cursor: pointer;
+}
+.release-description {
+  margin-top: 8px;
+  color: #929292;
+  line-height: 17px;
+  text-align: left;
+}
 /* Контейнер поля поиска, относительно которого открывается список подсказок */
 .suggest {
   position: relative;
