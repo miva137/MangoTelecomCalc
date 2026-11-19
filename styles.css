@@ -398,6 +398,14 @@ body.single td.once-col {
   color: #c0392b;
   font-weight: 600;
 }
+/* Неброская служебная информация о выпуске и владельце */
+.page-footer {
+  margin: 14px 0 4px;
+  color: #a3a3a3;
+  font-size: 11px;
+  line-height: 16px;
+  text-align: center;
+}
 /* Контейнер поля поиска, относительно которого открывается список подсказок */
 .suggest {
   position: relative;
