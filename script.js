@@ -1803,7 +1803,7 @@ const DATA = {
       },
       {
         parameter: "Перебор номеров",
-        values: { start: "—", optimum: "✓ При условии подключения услуги Исходящий обзвон PRO", profi: "✓", corporation: "✓" },
+        values: { start: "—", optimum: "✓ (При условии подключения услуги Исходящий обзвон PRO)", profi: "✓", corporation: "✓" },
       },
       {
         parameter: "Загрузка базы с несколькими номерами одного клиента",
