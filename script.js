@@ -955,6 +955,50 @@ const DATA = {
         },
       },
       {
+        parameter: "Манго Диалоги «Личные каналы» (Telegram)",
+        values: {
+          basic: "3 500 руб./мес.",
+          extended: "3 500 руб./мес.",
+          maximum: "3 500 руб./мес.",
+          start: "3 500 руб./мес.",
+          growth: "3 500 руб./мес.",
+          perspective: "3 500 руб./мес.",
+        },
+      },
+      {
+        parameter: "Манго Диалоги «Личные каналы» (What's Up)",
+        values: {
+          basic: "3 500 руб./мес.",
+          extended: "3 500 руб./мес.",
+          maximum: "3 500 руб./мес.",
+          start: "3 500 руб./мес.",
+          growth: "3 500 руб./мес.",
+          perspective: "3 500 руб./мес.",
+        },
+      },
+      {
+        parameter: "Манго Диалоги «Личные каналы» (Telegram-тест)",
+        values: {
+          basic: "1 500 руб./мес.",
+          extended: "1 500 руб./мес.",
+          maximum: "1 500 руб./мес.",
+          start: "1 500 руб./мес.",
+          growth: "1 500 руб./мес.",
+          perspective: "1 500 руб./мес.",
+        },
+      },
+      {
+        parameter: "Манго Диалоги «Личные каналы» (What's Up-тест)",
+        values: {
+          basic: "1 500 руб./мес.",
+          extended: "1 500 руб./мес.",
+          maximum: "1 500 руб./мес.",
+          start: "1 500 руб./мес.",
+          growth: "1 500 руб./мес.",
+          perspective: "1 500 руб./мес.",
+        },
+      },
+      {
         parameter: "Адресная книга G Suite (Google)",
         values: {
           basic: "695 руб./мес.",
