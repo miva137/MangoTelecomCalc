@@ -1803,7 +1803,7 @@ const DATA = {
       },
       {
         parameter: "Перебор номеров",
-        values: { start: "—", optimum: "✓", profi: "✓", corporation: "✓" },
+        values: { start: "—", optimum: "✓ При условии подключения услуги Исходящий обзвон PRO", profi: "✓", corporation: "✓" },
       },
       {
         parameter: "Загрузка базы с несколькими номерами одного клиента",
@@ -3212,13 +3212,13 @@ function renderKc() {
       };
       first.append(r.parameter + " × ", input);
     } else {
-      first.textContent = show(r.parameter);
+      first.textContent = r.parameter;
     }
     tr.appendChild(first);
-    tr.appendChild(textCell(show(curT)));
+    tr.appendChild(textCell(curT));
     tr.appendChild(includeCell(key + "c"));
     tr.appendChild(discountCell(key + "c", false));
-    tr.appendChild(textCell(show(tgtT)));
+    tr.appendChild(textCell(tgtT));
     tr.appendChild(includeCell(key + "t"));
     tr.appendChild(discountCell(key + "t", false));
     const diff = document.createElement("td");
