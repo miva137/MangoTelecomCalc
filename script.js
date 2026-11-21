@@ -126,17 +126,6 @@ const DATA = {
         },
       },
       {
-        parameter: "Голосовое управление",
-        values: {
-          basic: "0,50 руб./обращение",
-          extended: "0,50 руб./обращение",
-          maximum: "0,50 руб./обращение",
-          start: "—",
-          growth: "—",
-          perspective: "—",
-        },
-      },
-      {
         parameter: "Переадресация на «знакомого» сотрудника",
         values: {
           basic: "500 руб./мес.",
@@ -192,17 +181,6 @@ const DATA = {
         },
       },
       {
-        parameter: "Защита внутренних номеров паролем",
-        values: {
-          basic: "—",
-          extended: "✓",
-          maximum: "✓",
-          start: "—",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Чёрный/белый список",
         values: {
           basic: "90 руб./мес.",
@@ -214,7 +192,7 @@ const DATA = {
         },
       },
       {
-        parameter: "Автосекретарь при недоступности",
+        parameter: "Автосекретарь",
         values: {
           basic: "2,90 руб./день",
           extended: "2,90 руб./день",
@@ -245,17 +223,6 @@ const DATA = {
           start: "1",
           growth: "5",
           perspective: "без ограничений",
-        },
-      },
-      {
-        parameter: "Объединение в группы и удержание вызовов",
-        values: {
-          basic: "✓",
-          extended: "✓",
-          maximum: "✓",
-          start: "+",
-          growth: "+",
-          perspective: "+",
         },
       },
       {
@@ -358,7 +325,7 @@ const DATA = {
         },
       },
       {
-        parameter: "Речевая аналитика: абонплата",
+        parameter: "Речевая аналитика: абонентская плата",
         values: {
           basic: "1 100 руб./мес.",
           extended: "1 100 руб./мес.",
@@ -419,17 +386,6 @@ const DATA = {
           extended: "✓",
           maximum: "✓",
           start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Сообщения длительнее 1 мин",
-        values: {
-          basic: "—",
-          extended: "✓",
-          maximum: "✓",
-          start: "—",
           growth: "+",
           perspective: "+",
         },
@@ -630,17 +586,6 @@ const DATA = {
           start: "—",
           growth: "—",
           perspective: "—",
-        },
-      },
-      {
-        parameter: "Запрет международных звонков и белый список регионов",
-        values: {
-          basic: "✓",
-          extended: "✓",
-          maximum: "✓",
-          start: "+",
-          growth: "+",
-          perspective: "+",
         },
       },
       {
@@ -999,18 +944,6 @@ const DATA = {
         },
       },
       {
-        parameter:
-          "FMC, SMS/e-mail о балансе, отображение номера, BLF, пин-код, АОН, Call-back",
-        values: {
-          basic: "✓",
-          extended: "✓",
-          maximum: "✓",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Голосовое сообщение при входящем",
         values: {
           basic: "50 руб./мес.",
@@ -1099,18 +1032,6 @@ const DATA = {
         },
       },
       {
-        parameter:
-          "Возможность подключения дополнительных профилей сотрудников",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Максимальное количество подключаемых номеров MANGO OFFICE",
         values: {
           basic: "—",
@@ -1168,17 +1089,6 @@ const DATA = {
         },
       },
       {
-        parameter: "Переадресация звонка на голосовую почту",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Переадресация звонка на сотрудника",
         values: {
           basic: "—",
@@ -1202,17 +1112,6 @@ const DATA = {
       },
       {
         parameter: "Переадресация звонка на внешний номер",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Подключение телефонных номеров",
         values: {
           basic: "—",
           extended: "—",
@@ -1304,78 +1203,12 @@ const DATA = {
         },
       },
       {
-        parameter: "Подключение телефонных номеров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Стоимость услуги — 0,16 руб. / сообщение",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "",
-          growth: "",
-          perspective: "",
-        },
-      },
-      {
-        parameter: "Прием факса (вручную)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Отправка факса (вручную, через веб-интерфейс)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Прием факса (автоматический, с распознаванием)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Автоматическая отправка файла на e-mail",
         values: {
           basic: "—",
           extended: "—",
           maximum: "—",
           start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Факс-рассылки (на любое число номеров)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
           growth: "+",
           perspective: "+",
         },
@@ -1393,29 +1226,7 @@ const DATA = {
         },
       },
       {
-        parameter: "Подключение телефонных номеров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Телефонная книга компании",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Запись и прослушивание звонков",
         values: {
           basic: "—",
           extended: "—",
@@ -1448,17 +1259,6 @@ const DATA = {
         },
       },
       {
-        parameter: "Возможность собирать конференции",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
         parameter: "Максимальное число участников во всех конференциях",
         values: {
           basic: "—",
@@ -1478,28 +1278,6 @@ const DATA = {
           start: "8 человек",
           growth: "8 человек",
           perspective: "32 человека",
-        },
-      },
-      {
-        parameter: "Подключение телефонных номеров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "—",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Возможность собирать конференции",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "+",
-          perspective: "+",
         },
       },
       {
@@ -1525,17 +1303,6 @@ const DATA = {
         },
       },
       {
-        parameter: "(включено бесплатно / платное увеличение размера)",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "490 Руб./мес. за 5 Гб",
-          growth: "490 Руб./мес. за 5 Гб",
-          perspective: "490 Руб./мес. за 5 Гб",
-        },
-      },
-      {
         parameter: "Отчет о полученных звонках",
         values: {
           basic: "детализация до сотрудников",
@@ -1555,28 +1322,6 @@ const DATA = {
           start: "детализация до сотрудников",
           growth: "детализация до групп",
           perspective: "детализация до и внутри групп",
-        },
-      },
-      {
-        parameter: "Подключение телефонных номеров",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "+",
-          growth: "+",
-          perspective: "+",
-        },
-      },
-      {
-        parameter: "Интеграция через API-конструктор",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "—",
-          perspective: "+",
         },
       },
       {
@@ -2154,7 +1899,7 @@ const DATA = {
           optimum: "то же",
           profi: "то же",
           corporation: "то же",
-        }, // Данные тарифов ВАТС2 (Старт, Рост, Перспектива)DATA.vats2 = {"tariffs":["start","growth","perspective"],"rows":[{"parameter":"Абонентская плата за Виртуальную АТС","values":{"start":"0 руб./мес.","growth":"0 руб./мес.","perspective":"0 руб./мес."}},{"parameter":"Включено профилей сотрудников","values":{"start":"—","growth":"—","perspective":"—"}},{"parameter":"Возможность подключения дополнительных профилей сотрудников","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Стоимость одного профиля сотрудника (стоимость одной лицензии)","values":{"start":"450 руб./мес.","growth":"850 руб./мес.","perspective":"1600 руб./мес."}},{"parameter":"Количество каналов на номерах MANGO OFFICE","values":{"start":"10 каналов","growth":"50 каналов","perspective":"100 каналов"}},{"parameter":"Максимальное количество подключаемых номеров MANGO OFFICE","values":{"start":"5 номеров","growth":"30 номеров","perspective":"без ограничений"}},{"parameter":"Количество подключаемых номеров, сверх которого взимается дополнительная плата","values":{"start":"—","growth":"10 номеров","perspective":"без ограничений"}},{"parameter":"Дополнительные номера сверх лимита","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Возможность подключения номеров других операторов по sip","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автоподстановка номера региона при исходящих звонках","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Бесплатный прием входящих звонков в Mango Talker","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Определение номера звонящего, даже если он скрыт (СуперАОН)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация звонка на голосовую почту","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация звонка на сотрудника","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация звонка на группу","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация звонка на внешний номер","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовое приветствие и настройка схемы обработки звонка","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Подключение телефонных номеров","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Одноуровневое голосовое меню (IVR)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Многоуровневое голосовое меню (IVR)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность создавать неограниченное количество схем обработки вызовов","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Ограничение на количество созданных схем обработки вызовов","values":{"start":"без ограничений","growth":"без ограничений","perspective":"без ограничений"}},{"parameter":"Мелодия вместо гудков (40 мелодий на выбор)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность загружать неограниченное количество собственных мелодий и голосовых сообщений","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Ограничение на количество загруженных собственных мелодий и голосовых сообщений","values":{"start":"без ограничений","growth":"без ограничений","perspective":"без ограничений"}},{"parameter":"Возможность донабора номера сотрудника из IVR","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация звонков на «знакомого» сотрудника","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Автоматический перезвон по звонкам, пропущенным группой","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автоматический перезвон по звонкам, пропущенным в IVR","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация по номеру звонящего","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Автоинформатор о времени до ответа оператора","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Автоинформатор о номере в очереди","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Защита внутренних номеров паролем","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Черный/белый список","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовое распознавание цифр (пункты голосового меню и внутренние номера сотрудников)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовое распознавание ФИО и должностей сотрудников","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовое распознавание тематики обращений, интеллектуальная переадресация звонков","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность совершать бесплатные внутренние звонки в Mango Talker","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность совершать внутренние звонки","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Настройка короткого номера для каждого абонента","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Настройка действий при недоступности абонента","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность настроить время ожидания ответа","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность задать расписание использования контактов","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автосекретарь при недоступности сотрудника","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Дозвон на основной контакт сотрудника","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Дозвон на все контакты сотрудника по очереди","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Дозвон на все контакты сотрудника одновременно","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Дозвон только на SIP-учетные записи сотрудника","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Возможность объединять сотрудников в группы обзвона","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Ограничение на количество групп","values":{"start":"1","growth":"5","perspective":"без ограничений"}},{"parameter":"Настройка короткого номера для каждой группы","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Перевод вызова на группу (вручную)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Удержание вызовов в очереди","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Не направлять звонки на не ответившего оператора","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Подключение телефонных номеров","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Случайный выбор","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Одновременно всем свободным","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Равномерный (наиболее свободному)","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Параллельный по приоритету (по квалификации)","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"\"Кто меньше ответил\"","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Наименьшее время разговора","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Распределение входящих звонков в зависимости от региона звонящего","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Бесплатная безлимитная запись звонков в Mango Talker","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Записывать все разговоры подряд","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Записывать разговоры выборочно, по правилам","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Прослушивание записей онлайн в Личном кабинете","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автоматическая отправка файла на e-mail","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Тарификация поминутная","values":{"start":"—","growth":"—","perspective":"—"}},{"parameter":"Тарификация безлимитная","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовая почта: общая","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовая почта: персональная","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовая почта: групповая","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Прослушивание записей онлайн в Личном кабинете","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автоматическая отправка файла на e-mail","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность записи сообщений длительностью больше 1 минуты","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Распознавание сообщений голосовой почты и отправка их в виде текста на e-mail","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Прием факса (вручную)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Отправка факса (вручную, через веб-интерфейс)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Прием факса (автоматический, с распознаванием)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автоматическая отправка файла на e-mail","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Факс-рассылки (на любое число номеров)","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Бесплатный прием звонков от клиентов на компьютере или смартфоне","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Подключение телефонных номеров","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Телефонная книга компании","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Запись и прослушивание звонков","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Групповые и индивидуальные чаты, передача файлов","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Видеозвонки и видеоконференции","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность собирать конференции","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Максимальное число участников во всех конференциях","values":{"start":"20 человек","growth":"50 человек","perspective":"100 человек"}},{"parameter":"Максимальное число участников в одной конференции","values":{"start":"8 человек","growth":"8 человек","perspective":"32 человека"}},{"parameter":"3 комнаты на 5 человек","values":{"start":"+","growth":"—","perspective":"—"}},{"parameter":"10 комнат на 15 человек","values":{"start":"—","growth":"+","perspective":"—"}},{"parameter":"Подключение телефонных номеров","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Возможность проводить видеозвонки 1 на 1","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность собирать конференции","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Максимальное число участников во всех видеоконференциях","values":{"start":"—","growth":"50","perspective":"100"}},{"parameter":"Возможность записи видеоконференций","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"(включено бесплатно / платное увеличение размера)","values":{"start":"490 Руб./мес. за 5 Гб","growth":"490 Руб./мес. за 5 Гб","perspective":"490 Руб./мес. за 5 Гб"}},{"parameter":"Возможность запрета международных звонков","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"«Белый» список направлений (регионов) для звонков","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"«Белый» список IP-адресов для авторизации по SIP","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"3 базовые роли (Сотрудник, Администратор, Бухгалтер)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"4 дополнительных роли, редактирование и возможность создания новых ролей","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Возможность настройки ролей","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Бесплатная круглосуточная техническая поддержка онлайн через систему обработки заявок","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Отчет о полученных звонках","values":{"start":"детализация до сотрудников","growth":"детализация до групп","perspective":"детализация до и внутри групп"}},{"parameter":"Отчет о пропущенных звонках","values":{"start":"детализация до сотрудников","growth":"детализация до групп","perspective":"детализация до и внутри групп"}},{"parameter":"Пакет «Мониторинг» (включает отчеты: «Эффективность","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Бизнеса-аналитика. Группа отчетов «Продажи»","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Бизнеса-аналитика. Группа отчетов «Обслуживание»","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Интеграция через API-конструктор","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Интеграция через вебхуки","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Прямая интеграция с amoCRM","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Расширенные возможности интеграции с amoCRM","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Прямая интеграция с Битрикс24","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Расширенные возможности интеграции с Битрикс24","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Подключение телефонных номеров","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Расширенные возможности интеграции с retailCRM","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Интеграция с 1С","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Сервис автоматического копирования записей разговоров на внешний ftp","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Интеграция с LDAP","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Интеграция адресной книгой G Suite (Google)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Интеграция с Creatio","values":{"start":"—","growth":"770 руб./год","perspective":"770 руб./год"}},{"parameter":"API-модуль интеграции, тариф «Транзакции»","values":{"start":"Подключений 5","growth":"Подключений 5","perspective":"Подключений 5 Транзакций 5000"}},{"parameter":"API-модуль интеграции, тариф «Номера»","values":{"start":"Подключений не","growth":"Подключений не","perspective":"Подключений не ограничено"}},{"parameter":"Интеграция с мобильной связью (FMC)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"SMS, e-mail оповещения о критическом остатке на счете","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Настройка отображения номера звонящего","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовое сообщение при входящем звонке","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Подключение телефонных номеров","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Отраслевое имя отправителя в SMS","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Индивидуальное имя отправителя в SMS","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Авторизация сотрудников по пин-коду","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Авторизация сотрудников по АОН","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Звонки через номер доступа","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Звонки с помощью Call-back («Заказ звонка»)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"VPN","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Возможность подключения Контакт-центра MANGO OFFICE","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Бухгалтерские выписки и документы","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность использовать ЭДО (электронный документооборот)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Детализация расходов по продуктам","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Детализация расходов на связь","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Подключение внешний sip-линии","values":{"start":"200 руб./мес.","growth":"200 руб./мес.","perspective":"200 руб./мес."}},{"parameter":"Подключение номера другого оператора по внешней sip-линии (пассивный режим, только для приема звонков)","values":{"start":"200 руб./мес.","growth":"200 руб./мес.","perspective":"200 руб./мес."}},{"parameter":"Подключение номера другого оператора по внешней sip-линии (активный режим, для приема и совершения звонков)","values":{"start":"480 руб./мес.","growth":"480 руб./мес.","perspective":"480 руб./мес."}},{"parameter":"SIP-trunk","values":{"start":"550 руб./мес.","growth":"550 руб./мес.","perspective":"550 руб./мес."}},{"parameter":"Звонок с сайта по внешней sip-линии","values":{"start":"950 руб./мес.","growth":"950 руб./мес.","perspective":"950 руб./мес."}},{"parameter":"Подключение услуги","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Стоимость распознавания","values":{"start":"1,9 руб./мин.","growth":"1,5 руб./мин.","perspective":"1,25 руб./мин."}},{"parameter":"Расшифровки распознанных разговоров","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Возможность подключения Коллтрекинга по действующей тарифной сетке","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"В рамках тарифа “Расширенные аналитика и возможности”","values":{"start":"","growth":"","perspective":"+"}}]};
+        }, // Данные тарифов ВАТС2 (Старт, Рост, Перспектива)DATA.vats2 = {"tariffs":["start","growth","perspective"],"rows":[{"parameter":"Абонентская плата за Виртуальную АТС","values":{"start":"0 руб./мес.","growth":"0 руб./мес.","perspective":"0 руб./мес."}},{"parameter":"Включено профилей сотрудников","values":{"start":"—","growth":"—","perspective":"—"}},{"parameter":"Возможность подключения дополнительных профилей сотрудников","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Стоимость одного профиля сотрудника (стоимость одной лицензии)","values":{"start":"450 руб./мес.","growth":"850 руб./мес.","perspective":"1600 руб./мес."}},{"parameter":"Количество каналов на номерах MANGO OFFICE","values":{"start":"10 каналов","growth":"50 каналов","perspective":"100 каналов"}},{"parameter":"Максимальное количество подключаемых номеров MANGO OFFICE","values":{"start":"5 номеров","growth":"30 номеров","perspective":"без ограничений"}},{"parameter":"Количество подключаемых номеров, сверх которого взимается дополнительная плата","values":{"start":"—","growth":"10 номеров","perspective":"без ограничений"}},{"parameter":"Дополнительные номера сверх лимита","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Возможность подключения номеров других операторов по sip","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автоподстановка номера региона при исходящих звонках","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Бесплатный прием входящих звонков в Mango Talker","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Определение номера звонящего, даже если он скрыт (СуперАОН)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация звонка на голосовую почту","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация звонка на сотрудника","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация звонка на группу","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация звонка на внешний номер","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовое приветствие и настройка схемы обработки звонка","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Одноуровневое голосовое меню (IVR)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Многоуровневое голосовое меню (IVR)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность создавать неограниченное количество схем обработки вызовов","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Ограничение на количество созданных схем обработки вызовов","values":{"start":"без ограничений","growth":"без ограничений","perspective":"без ограничений"}},{"parameter":"Мелодия вместо гудков (40 мелодий на выбор)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность загружать неограниченное количество собственных мелодий и голосовых сообщений","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Ограничение на количество загруженных собственных мелодий и голосовых сообщений","values":{"start":"без ограничений","growth":"без ограничений","perspective":"без ограничений"}},{"parameter":"Возможность донабора номера сотрудника из IVR","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация звонков на «знакомого» сотрудника","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Автоматический перезвон по звонкам, пропущенным группой","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автоматический перезвон по звонкам, пропущенным в IVR","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Переадресация по номеру звонящего","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Автоинформатор о времени до ответа оператора","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Автоинформатор о номере в очереди","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Черный/белый список","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовое распознавание цифр (пункты голосового меню и внутренние номера сотрудников)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовое распознавание ФИО и должностей сотрудников","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовое распознавание тематики обращений, интеллектуальная переадресация звонков","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность совершать бесплатные внутренние звонки в Mango Talker","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность совершать внутренние звонки","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Настройка короткого номера для каждого абонента","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Настройка действий при недоступности абонента","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность настроить время ожидания ответа","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность задать расписание использования контактов","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автосекретарь при недоступности сотрудника","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Дозвон на основной контакт сотрудника","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Дозвон на все контакты сотрудника по очереди","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Дозвон на все контакты сотрудника одновременно","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Дозвон только на SIP-учетные записи сотрудника","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Возможность объединять сотрудников в группы обзвона","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Ограничение на количество групп","values":{"start":"1","growth":"5","perspective":"без ограничений"}},{"parameter":"Настройка короткого номера для каждой группы","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Перевод вызова на группу (вручную)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Удержание вызовов в очереди","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Не направлять звонки на не ответившего оператора","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Случайный выбор","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Одновременно всем свободным","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Равномерный (наиболее свободному)","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Параллельный по приоритету (по квалификации)","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"\"Кто меньше ответил\"","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Наименьшее время разговора","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Распределение входящих звонков в зависимости от региона звонящего","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Бесплатная безлимитная запись звонков в Mango Talker","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Записывать все разговоры подряд","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Записывать разговоры выборочно, по правилам","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Прослушивание записей онлайн в Личном кабинете","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автоматическая отправка файла на e-mail","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Тарификация поминутная","values":{"start":"—","growth":"—","perspective":"—"}},{"parameter":"Тарификация безлимитная","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовая почта: общая","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовая почта: персональная","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовая почта: групповая","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Прослушивание записей онлайн в Личном кабинете","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автоматическая отправка файла на e-mail","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность записи сообщений длительностью больше 1 минуты","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Распознавание сообщений голосовой почты и отправка их в виде текста на e-mail","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Автоматическая отправка файла на e-mail","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Бесплатный прием звонков от клиентов на компьютере или смартфоне","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Телефонная книга компании","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Групповые и индивидуальные чаты, передача файлов","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Видеозвонки и видеоконференции","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Максимальное число участников в одной конференции","values":{"start":"8 человек","growth":"8 человек","perspective":"32 человека"}},{"parameter":"3 комнаты на 5 человек","values":{"start":"+","growth":"—","perspective":"—"}},{"parameter":"10 комнат на 15 человек","values":{"start":"—","growth":"+","perspective":"—"}},{"parameter":"Возможность проводить видеозвонки 1 на 1","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Максимальное число участников во всех видеоконференциях","values":{"start":"—","growth":"50","perspective":"100"}},{"parameter":"Возможность записи видеоконференций","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность запрета международных звонков","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"«Белый» список направлений (регионов) для звонков","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"«Белый» список IP-адресов для авторизации по SIP","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"3 базовые роли (Сотрудник, Администратор, Бухгалтер)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"4 дополнительных роли, редактирование и возможность создания новых ролей","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Возможность настройки ролей","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Бесплатная круглосуточная техническая поддержка онлайн через систему обработки заявок","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Отчет о полученных звонках","values":{"start":"детализация до сотрудников","growth":"детализация до групп","perspective":"детализация до и внутри групп"}},{"parameter":"Отчет о пропущенных звонках","values":{"start":"детализация до сотрудников","growth":"детализация до групп","perspective":"детализация до и внутри групп"}},{"parameter":"Пакет «Мониторинг» (включает отчеты: «Эффективность","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Бизнеса-аналитика. Группа отчетов «Продажи»","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Бизнеса-аналитика. Группа отчетов «Обслуживание»","values":{"start":"—","growth":"—","perspective":"+"},{"parameter":"Интеграция через вебхуки","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Прямая интеграция с amoCRM","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Расширенные возможности интеграции с amoCRM","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Прямая интеграция с Битрикс24","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Расширенные возможности интеграции с Битрикс24","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Расширенные возможности интеграции с retailCRM","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Интеграция с 1С","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Сервис автоматического копирования записей разговоров на внешний ftp","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Интеграция с LDAP","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Интеграция адресной книгой G Suite (Google)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Интеграция с Creatio","values":{"start":"—","growth":"770 руб./год","perspective":"770 руб./год"}},{"parameter":"API-модуль интеграции, тариф «Транзакции»","values":{"start":"Подключений 5","growth":"Подключений 5","perspective":"Подключений 5 Транзакций 5000"}},{"parameter":"API-модуль интеграции, тариф «Номера»","values":{"start":"Подключений не","growth":"Подключений не","perspective":"Подключений не ограничено"}},{"parameter":"Интеграция с мобильной связью (FMC)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"SMS, e-mail оповещения о критическом остатке на счете","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Настройка отображения номера звонящего","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Голосовое сообщение при входящем звонке","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Отраслевое имя отправителя в SMS","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Индивидуальное имя отправителя в SMS","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Авторизация сотрудников по пин-коду","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Авторизация сотрудников по АОН","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Звонки через номер доступа","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Звонки с помощью Call-back («Заказ звонка»)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"VPN","values":{"start":"—","growth":"—","perspective":"+"}},{"parameter":"Возможность подключения Контакт-центра MANGO OFFICE","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Бухгалтерские выписки и документы","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Возможность использовать ЭДО (электронный документооборот)","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Детализация расходов по продуктам","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Детализация расходов на связь","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Подключение внешний sip-линии","values":{"start":"200 руб./мес.","growth":"200 руб./мес.","perspective":"200 руб./мес."}},{"parameter":"Подключение номера другого оператора по внешней sip-линии (пассивный режим, только для приема звонков)","values":{"start":"200 руб./мес.","growth":"200 руб./мес.","perspective":"200 руб./мес."}},{"parameter":"Подключение номера другого оператора по внешней sip-линии (активный режим, для приема и совершения звонков)","values":{"start":"480 руб./мес.","growth":"480 руб./мес.","perspective":"480 руб./мес."}},{"parameter":"SIP-trunk","values":{"start":"550 руб./мес.","growth":"550 руб./мес.","perspective":"550 руб./мес."}},{"parameter":"Звонок с сайта по внешней sip-линии","values":{"start":"950 руб./мес.","growth":"950 руб./мес.","perspective":"950 руб./мес."}},{"parameter":"Подключение услуги","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"Стоимость распознавания","values":{"start":"1,9 руб./мин.","growth":"1,5 руб./мин.","perspective":"1,25 руб./мин."}},{"parameter":"Расшифровки распознанных разговоров","values":{"start":"—","growth":"+","perspective":"+"}},{"parameter":"Возможность подключения Коллтрекинга по действующей тарифной сетке","values":{"start":"+","growth":"+","perspective":"+"}},{"parameter":"В рамках тарифа “Расширенные аналитика и возможности”","values":{"start":"","growth":"","perspective":"+"}}]};
       },
     ],
   },
