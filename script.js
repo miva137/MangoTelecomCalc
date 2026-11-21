@@ -777,39 +777,104 @@ const DATA = {
       },
       {
         parameter: "Прямая интеграция с amoCRM",
-        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "✓",
+          perspective: "✓",
+        },
       },
       {
         parameter: "Прямая интеграция с Битрикс24",
-        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "✓",
+          perspective: "✓",
+        },
       },
       {
         parameter: "Расширенные возможности интеграции с amoCRM",
-        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "✓",
+          perspective: "✓",
+        },
       },
       {
         parameter: "Расширенные возможности интеграции с Битрикс24",
-        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "✓",
+          perspective: "✓",
+        },
       },
       {
         parameter: "Интеграция с 1С",
-        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "✓",
+          perspective: "✓",
+        },
       },
       {
-        parameter: "Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)",
-        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+        parameter:
+          "Интеграция через партнера с более чем 35 системами (1С, MS Excel и другие)",
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "✓",
+          perspective: "✓",
+        },
       },
       {
-        parameter: "Сервис автоматического копирования записей разговоров на внешний ftp",
-        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+        parameter:
+          "Сервис автоматического копирования записей разговоров на внешний ftp",
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "✓",
+          perspective: "✓",
+        },
       },
       {
         parameter: "Интеграция с LDAP",
-        values: { basic: "—", extended: "—", maximum: "—", start: "—", growth: "✓", perspective: "✓" },
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "—",
+          growth: "✓",
+          perspective: "✓",
+        },
       },
       {
         parameter: "Интеграция адресной книгой G Suite (Google)",
-        values: { basic: "—", extended: "—", maximum: "—", start: "✓", growth: "✓", perspective: "✓" },
+        values: {
+          basic: "—",
+          extended: "—",
+          maximum: "—",
+          start: "✓",
+          growth: "✓",
+          perspective: "✓",
+        },
       },
       {
         parameter: "1С: Управление торговлей",
@@ -1537,7 +1602,12 @@ const DATA = {
       },
       {
         parameter: "Перебор номеров",
-        values: { start: "—", optimum: "✓ (При условии подключения услуги Исходящий обзвон PRO)", profi: "✓", corporation: "✓" },
+        values: {
+          start: "—",
+          optimum: "✓ (При условии подключения услуги Исходящий обзвон PRO)",
+          profi: "✓",
+          corporation: "✓",
+        },
       },
       {
         parameter: "Загрузка базы с несколькими номерами одного клиента",
@@ -1925,9 +1995,24 @@ let extras = [];
 
 // Типы номеров: название, разовая и ежемесячная цена
 const NUMBER_TYPES = [
-  { id: "n499", label: "Виртуальный городской номер 499", once: 1050, monthly: 250 },
-  { id: "n495", label: "Виртуальный городской номер в коде 495", once: 2650, monthly: 350 },
-  { id: "nMobile", label: "Виртуальный мобильный номер", once: 950, monthly: 200 },
+  {
+    id: "n499",
+    label: "Виртуальный городской номер 499",
+    once: 1050,
+    monthly: 250,
+  },
+  {
+    id: "n495",
+    label: "Виртуальный городской номер в коде 495",
+    once: 2650,
+    monthly: 350,
+  },
+  {
+    id: "nMobile",
+    label: "Виртуальный мобильный номер",
+    once: 950,
+    monthly: 200,
+  },
 ];
 
 // Лимит номеров, номера без доплаты и плата за доп. номер (строки «Максимальное количество» и «сверх которого взимается плата» в vats.sql)
@@ -1986,16 +2071,23 @@ const VATS2_INTEGRATION_PARAMS = new Set([
   "Интеграция адресной книгой G Suite (Google)",
 ]);
 const hasVats2Tariff = (cur, tgt) =>
-  [cur, tgt].some((tariff) => ["start", "growth", "perspective"].includes(tariff));
+  [cur, tgt].some((tariff) =>
+    ["start", "growth", "perspective"].includes(tariff),
+  );
 
 const DEFAULT_PROFILE_TARIFFS = new Set(["start", "growth", "perspective"]);
 
 // Подключает дополнительный профиль сотрудника по умолчанию для тарифов ВАТС2
 function applyDefaultProfile(cur, tgt) {
-  if (product !== "vats" || ![cur, tgt].some((tariff) => DEFAULT_PROFILE_TARIFFS.has(tariff))) {
+  if (
+    product !== "vats" ||
+    ![cur, tgt].some((tariff) => DEFAULT_PROFILE_TARIFFS.has(tariff))
+  ) {
     return;
   }
-  const profileIndex = DATA.vats.rows.findIndex((r) => r.parameter === PROFILE_PARAM);
+  const profileIndex = DATA.vats.rows.findIndex(
+    (r) => r.parameter === PROFILE_PARAM,
+  );
   if (profileIndex >= 0 && !selected.includes(profileIndex)) {
     selected.push(profileIndex);
   }
@@ -2101,7 +2193,8 @@ function renderChips() {
       product === "vats" &&
       VATS2_INTEGRATION_PARAMS.has(parameter) &&
       !hasVats2Tariff(cur, tgt)
-    ) return;
+    )
+      return;
     ul.appendChild(
       makeChip(parameter, () => {
         selected = selected.filter((x) => x !== idx);
@@ -2156,7 +2249,7 @@ function feeQty(tariff, key) {
   return Math.max(
     0,
     Math.min(before + numberQty(NUMBER_TYPES[idx]), cap) -
-    Math.max(before, rule.included),
+      Math.max(before, rule.included),
   );
 }
 
@@ -2223,7 +2316,8 @@ function render() {
       product === "vats" &&
       VATS2_INTEGRATION_PARAMS.has(r.parameter) &&
       !hasVats2Tariff(cur, tgt)
-    ) return;
+    )
+      return;
     const key = "v" + idx;
     const isKcLicense = product === "kc" && r.parameter === "Доп.лицензия";
     const licenseValue = (value) => {
@@ -2242,9 +2336,10 @@ function render() {
       tgtT = discountText(licenseValue(rowValue(r, tgt)), pctT);
     const includeC = includePct(key + "c"),
       includeT = includePct(key + "t");
-    const c = includeC && includeT
-      ? compare(curT, tgtT)
-      : { text: "не учитывается", cls: "" };
+    const c =
+      includeC && includeT
+        ? compare(curT, tgtT)
+        : { text: "не учитывается", cls: "" };
     const pc = parseValue(curT),
       pt = parseValue(tgtT);
     if (includeC && pc && pc.unit === "руб./мес.") curSum += pc.num;
@@ -2258,7 +2353,9 @@ function render() {
       first.appendChild(label);
       first.appendChild(profileQtyInput());
     } else {
-      first.textContent = show(isStorage(r) ? "Облачное хранилище" : r.parameter);
+      first.textContent = show(
+        isStorage(r) ? "Облачное хранилище" : r.parameter,
+      );
     }
     if (isKcLicense) {
       const input = document.createElement("input");
@@ -2312,9 +2409,10 @@ function render() {
     tr.appendChild(includeCell("pkgt"));
     tr.appendChild(discountCell("pkgt", false));
     const diff = document.createElement("td");
-    const c = includePct("pkgc") && includePct("pkgt")
-      ? compare(curText, tgtText)
-      : { text: "не учитывается", cls: "" };
+    const c =
+      includePct("pkgc") && includePct("pkgt")
+        ? compare(curText, tgtText)
+        : { text: "не учитывается", cls: "" };
     diff.textContent = c.text;
     diff.className = c.cls;
     tr.appendChild(diff);
@@ -2412,9 +2510,10 @@ function render() {
       tr.appendChild(textCell(tgtText));
       tr.appendChild(includeCell("x" + key + "t"));
       tr.appendChild(discountCell("x" + key + "t", key === "nMobile"));
-      const c = includePct("x" + key + "c") && includePct("x" + key + "t")
-        ? compare(curText, tgtText)
-        : { text: "не учитывается", cls: "" };
+      const c =
+        includePct("x" + key + "c") && includePct("x" + key + "t")
+          ? compare(curText, tgtText)
+          : { text: "не учитывается", cls: "" };
       const diff = document.createElement("td");
       diff.textContent = c.text;
       diff.className = c.cls;
@@ -2524,17 +2623,21 @@ function bindSuggest(inputId, listId, rowsFn, onEnter) {
 function featureRows(prod) {
   const rows = DATA[prod].rows
     .map((r, idx) => ({ text: r.parameter, idx }))
-    .filter((row) =>
-      prod !== "vats" ||
-      !VATS2_INTEGRATION_PARAMS.has(row.text) ||
-      hasVats2Tariff($("current").value, isSingle() ? $("current").value : $("target").value)
+    .filter(
+      (row) =>
+        prod !== "vats" ||
+        !VATS2_INTEGRATION_PARAMS.has(row.text) ||
+        hasVats2Tariff(
+          $("current").value,
+          isSingle() ? $("current").value : $("target").value,
+        ),
     )
     .slice(1);
   return prod === "vats"
     ? rows.concat(
-      [{ text: PACKAGE_LABEL, extra: "package" }],
-      EXTRA_ITEMS.map((x) => ({ text: x.text, extra: x.key })),
-    )
+        [{ text: PACKAGE_LABEL, extra: "package" }],
+        EXTRA_ITEMS.map((x) => ({ text: x.text, extra: x.key })),
+      )
     : rows;
 }
 
@@ -2759,8 +2862,11 @@ function rowValue(r, tariff) {
   if (r.parameter === PROFILE_PARAM && !isUnavailable(r.values[tariff]))
     return fmt(round2(profilePrice(tariff) * qtys.profiles)) + " руб./мес.";
   if (!isStorage(r)) return r.values[tariff];
-  if (!VATS2_STORAGE_INCLUDED[tariff] && !/руб/.test(r.values[tariff])) return r.values[tariff];
-  const gb = storageState[tariff] ?? (VATS2_STORAGE_INCLUDED[tariff] ? 0 : storageIncluded(tariff));
+  if (!VATS2_STORAGE_INCLUDED[tariff] && !/руб/.test(r.values[tariff]))
+    return r.values[tariff];
+  const gb =
+    storageState[tariff] ??
+    (VATS2_STORAGE_INCLUDED[tariff] ? 0 : storageIncluded(tariff));
   return fmt(storageExtraCost(tariff, gb)) + " руб./мес.";
 }
 // Выпадающий выбор объёма облачного хранилища в названии функции
@@ -2769,17 +2875,24 @@ function storageSelect(tariff) {
   sel.id = tariff ? "storage-" + tariff : "storage";
   storageOptions(tariff).forEach((gb) => {
     if (VATS2_STORAGE_INCLUDED[tariff]) {
-      sel.add(new Option(
-        gb === 0
-          ? storageIncluded(tariff) + " ГБ включено"
-          : storageIncluded(tariff) + " ГБ включено, +" + gb + " ГБ дополнительно",
-        gb,
-      ));
+      sel.add(
+        new Option(
+          gb === 0
+            ? storageIncluded(tariff) + " ГБ включено"
+            : storageIncluded(tariff) +
+                " ГБ включено, +" +
+                gb +
+                " ГБ дополнительно",
+          gb,
+        ),
+      );
     } else {
       sel.add(new Option(gb + " ГБ", gb));
     }
   });
-  sel.value = storageState[tariff] ?? (VATS2_STORAGE_INCLUDED[tariff] ? 0 : storageIncluded(tariff));
+  sel.value =
+    storageState[tariff] ??
+    (VATS2_STORAGE_INCLUDED[tariff] ? 0 : storageIncluded(tariff));
   sel.onchange = () => {
     storageState[tariff] = Number(sel.value);
     update();
@@ -2793,6 +2906,9 @@ const PACKAGE_PLANS = [
   { label: "2 500 руб./мес.", price: 2500 },
   { label: "10 000 руб./мес. (посекундный)", price: 10000 },
   { label: "17 000 руб./мес. (посекундный)", price: 17000 },
+  { label: "35 000 руб./мес. (посекундный)", price: 35000 },
+  { label: "50 000 руб./мес. (посекундный)", price: 50000 },
+  { label: "100 000 руб./мес. (посекундный)", price: 100000 },
 ];
 const packageState = { idx: 0 };
 // Пакет на связь включён по умолчанию; удаляется кнопкой в строке таблицы
@@ -2943,9 +3059,10 @@ function renderKc() {
       tgtT = discountText(tgtVal, discPct(key + "t"));
     const includeC = includePct(key + "c"),
       includeT = includePct(key + "t");
-    const c = includeC && includeT
-      ? compare(curT, tgtT)
-      : { text: "не учитывается", cls: "" };
+    const c =
+      includeC && includeT
+        ? compare(curT, tgtT)
+        : { text: "не учитывается", cls: "" };
     const pc = parseValue(curT),
       pt = parseValue(tgtT);
     if (includeC && pc && pc.unit === "руб./мес.") curSum += pc.num;
