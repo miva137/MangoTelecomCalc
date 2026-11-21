@@ -148,6 +148,25 @@ input.qty:focus {
 .csel-list li.selected {
   font-weight: 600;
 }
+/* Цена и компактный выбор объёма в ячейке облачного хранилища */
+.storage-price {
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+body.single .storage-price-cell .csel {
+  width: min(110px, 100%);
+  margin: 3px auto 0;
+}
+body.single .storage-price-cell .csel-btn {
+  text-align: center;
+}
+body:not(.single) .storage-price-cell .csel {
+  width: min(110px, 100%);
+  margin: 3px auto 0;
+}
+body:not(.single) .storage-price-cell .csel-btn {
+  text-align: center;
+}
 /* Оранжевые кнопки в стиле Манго Телеком */
 button {
   padding: 5px 14px;
@@ -230,6 +249,10 @@ td:first-child input.qty {
   padding: 3px 4px;
   text-align: center;
 }
+.profile-param-label {
+  display: inline-block;
+  margin-right: 2px;
+}
 .include-radio {
   width: 14px;
   height: 14px;
@@ -269,6 +292,12 @@ td:nth-child(2) .csel-btn,
 td:nth-child(5) .csel-btn,
 td:nth-child(2) .csel-list,
 td:nth-child(5) .csel-list {
+  width: 100%;
+  max-width: 100%;
+}
+.storage-price-cell .csel:has(#storage-start),
+.storage-price-cell .csel:has(#storage-growth),
+.storage-price-cell .csel:has(#storage-perspective) {
   width: 100%;
   max-width: 100%;
 }

@@ -2251,8 +2251,15 @@ function render() {
     if (includeT && pt && pt.unit === "руб./мес.") tgtSum += pt.num;
     const tr = document.createElement("tr");
     const first = document.createElement("td");
-    first.textContent = show(isStorage(r) ? "Облачное хранилище" : r.parameter);
-    if (r.parameter === PROFILE_PARAM) first.appendChild(profileQtyInput());
+    if (r.parameter === PROFILE_PARAM) {
+      const label = document.createElement("span");
+      label.className = "profile-param-label";
+      label.textContent = r.parameter;
+      first.appendChild(label);
+      first.appendChild(profileQtyInput());
+    } else {
+      first.textContent = show(isStorage(r) ? "Облачное хранилище" : r.parameter);
+    }
     if (isKcLicense) {
       const input = document.createElement("input");
       input.className = "qty";
@@ -2825,11 +2832,12 @@ function profileQtyInput() {
 // Ячейка цены хранилища с выбором объёма
 function storagePriceCell(tariff, text) {
   const td = document.createElement("td");
-  td.textContent = text;
-  if (tariff) {
-    td.appendChild(document.createTextNode(" "));
-    td.appendChild(storageSelect(tariff));
-  }
+  td.classList.add("storage-price-cell");
+  const price = document.createElement("div");
+  price.className = "storage-price";
+  price.textContent = text;
+  td.appendChild(price);
+  if (tariff) td.appendChild(storageSelect(tariff));
   return td;
 }
 
