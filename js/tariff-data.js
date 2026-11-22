@@ -866,31 +866,7 @@ const DATA = {
         },
       },
       {
-        parameter: "Прямая интеграция с Битрикс24",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "✓",
-          perspective: "✓",
-          virtual_number: "500 руб./мес",
-        },
-      },
-      {
         parameter: "Расширенные возможности интеграции с amoCRM",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "✓",
-          perspective: "✓",
-          virtual_number: "500 руб./мес",
-        },
-      },
-      {
-        parameter: "Расширенные возможности интеграции с Битрикс24",
         values: {
           basic: "—",
           extended: "—",
