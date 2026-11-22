@@ -241,6 +241,20 @@ th:nth-child(9),
 td:nth-child(9) {
   width: 7%;
 }
+#kcCard.kc-current-unavailable th:nth-child(2),
+#kcCard.kc-current-unavailable td:nth-child(2),
+#kcCard.kc-current-unavailable th:nth-child(3),
+#kcCard.kc-current-unavailable td:nth-child(3),
+#kcCard.kc-current-unavailable th:nth-child(4),
+#kcCard.kc-current-unavailable td:nth-child(4),
+#kcCard.kc-target-unavailable th:nth-child(5),
+#kcCard.kc-target-unavailable td:nth-child(5),
+#kcCard.kc-target-unavailable th:nth-child(6),
+#kcCard.kc-target-unavailable td:nth-child(6),
+#kcCard.kc-target-unavailable th:nth-child(7),
+#kcCard.kc-target-unavailable td:nth-child(7) {
+  display: none;
+}
 td:nth-child(2) input.qty,
 td:nth-child(4) input.qty,
 td:nth-child(7) input.qty,
