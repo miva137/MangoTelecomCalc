@@ -854,30 +854,6 @@ const DATA = {
         },
       },
       {
-        parameter: "Прямая интеграция с amoCRM",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "✓",
-          perspective: "✓",
-          virtual_number: "500 руб./мес",
-        },
-      },
-      {
-        parameter: "Расширенные возможности интеграции с amoCRM",
-        values: {
-          basic: "—",
-          extended: "—",
-          maximum: "—",
-          start: "—",
-          growth: "✓",
-          perspective: "✓",
-          virtual_number: "500 руб./мес",
-        },
-      },
-      {
         parameter: "Интеграция с 1С",
         values: {
           basic: "—",
