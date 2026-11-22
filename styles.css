@@ -167,6 +167,15 @@ body:not(.single) .storage-price-cell .csel {
 body:not(.single) .storage-price-cell .csel-btn {
   text-align: center;
 }
+body.single .wide-select-cell .csel,
+body:not(.single) .wide-select-cell .csel {
+  width: min(180px, 100%);
+}
+.profile-price-cell input.qty {
+  width: min(80px, 100%);
+  margin: 3px auto 0;
+  text-align: center;
+}
 /* Оранжевые кнопки в стиле Манго Телеком */
 button {
   padding: 5px 14px;

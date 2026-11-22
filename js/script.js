@@ -100,6 +100,9 @@ const hasVats2Tariff = (cur, tgt) =>
   );
 
 const DEFAULT_PROFILE_TARIFFS = new Set(["start", "growth", "perspective"]);
+const INTEGRATION_PARAM = "Интеграция Битрикс24 / amoCRM";
+const integrationVersions = {};
+const profileQtys = { current: 0, target: 0 };
 
 // Подключает дополнительный профиль сотрудника по умолчанию для тарифов ВАТС2
 function applyDefaultProfile(cur, tgt) {
@@ -115,6 +118,8 @@ function applyDefaultProfile(cur, tgt) {
   if (profileIndex >= 0 && !selected.includes(profileIndex)) {
     selected.push(profileIndex);
   }
+  if (profileQtys.current === 0) profileQtys.current = 1;
+  if (profileQtys.target === 0) profileQtys.target = 1;
   if (qtys.profiles === 0) qtys.profiles = 1;
 }
 
@@ -221,8 +226,8 @@ function render() {
       noDiscT = isBitrix && tgt === "basic";
     const pctC = noDiscC ? 0 : discPct(key + "c"),
       pctT = noDiscT ? 0 : discPct(key + "t");
-    const curT = discountText(licenseValue(rowValue(r, cur)), pctC),
-      tgtT = discountText(licenseValue(rowValue(r, tgt)), pctT);
+    const curT = discountText(licenseValue(rowValue(r, cur, "current")), pctC),
+      tgtT = discountText(licenseValue(rowValue(r, tgt, "target")), pctT);
     const includeC = includePct(key + "c"),
       includeT = includePct(key + "t");
     const c =
@@ -235,17 +240,9 @@ function render() {
     if (includeT && pt && pt.unit === "руб./мес.") tgtSum += pt.num;
     const tr = document.createElement("tr");
     const first = document.createElement("td");
-    if (r.parameter === PROFILE_PARAM) {
-      const label = document.createElement("span");
-      label.className = "profile-param-label";
-      label.textContent = r.parameter;
-      first.appendChild(label);
-      first.appendChild(profileQtyInput());
-    } else {
-      first.textContent = show(
-        isStorage(r) ? "Облачное хранилище" : r.parameter,
-      );
-    }
+    first.textContent = show(
+      isStorage(r) ? "Облачное хранилище" : r.parameter,
+    );
     if (isKcLicense) {
       const input = document.createElement("input");
       input.className = "qty";
@@ -265,10 +262,22 @@ function render() {
       first.append(" × ", input);
     }
     tr.appendChild(first);
-    tr.appendChild(storagePriceCell(isStorage(r) ? cur : "", curT));
+    tr.appendChild(
+      r.parameter === INTEGRATION_PARAM
+        ? integrationPriceCell(cur, "current", curT)
+        : r.parameter === PROFILE_PARAM
+          ? profilePriceCell("current", curT)
+          : storagePriceCell(isStorage(r) ? cur : "", curT),
+    );
     tr.appendChild(includeCell(key + "c"));
     tr.appendChild(discountCell(key + "c", noDiscC));
-    tr.appendChild(storagePriceCell(isStorage(r) ? tgt : "", tgtT));
+    tr.appendChild(
+      r.parameter === INTEGRATION_PARAM
+        ? integrationPriceCell(tgt, "target", tgtT)
+        : r.parameter === PROFILE_PARAM
+          ? profilePriceCell("target", tgtT)
+          : storagePriceCell(isStorage(r) ? tgt : "", tgtT),
+    );
     tr.appendChild(includeCell(key + "t"));
     tr.appendChild(discountCell(key + "t", noDiscT));
     const diff = document.createElement("td");
@@ -286,26 +295,26 @@ function render() {
     packageOn &&
     (packageAvailable(cur) || packageAvailable(tgt))
   ) {
-    const pkg = PACKAGE_PLANS[packageState.idx];
+    const curPkg = PACKAGE_PLANS[packageState.current];
+    const tgtPkg = PACKAGE_PLANS[packageState.target];
     const curAvailable = packageAvailable(cur);
     const tgtAvailable = packageAvailable(tgt);
     const dCur = curAvailable
-      ? round2(pkg.price * (1 - discPct("pkgc") / 100))
+      ? round2(curPkg.price * (1 - discPct("pkgc") / 100))
       : 0;
     const dTgt = tgtAvailable
-      ? round2(pkg.price * (1 - discPct("pkgt") / 100))
+      ? round2(tgtPkg.price * (1 - discPct("pkgt") / 100))
       : 0;
     const curText = curAvailable ? fmt(dCur) + " руб./мес." : "—";
     const tgtText = tgtAvailable ? fmt(dTgt) + " руб./мес." : "—";
     const tr = document.createElement("tr");
     const first = document.createElement("td");
     first.textContent = PACKAGE_LABEL;
-    first.appendChild(packageSelect());
     tr.appendChild(first);
-    tr.appendChild(textCell(curText));
+    tr.appendChild(packagePriceCell("current", curText, curAvailable));
     tr.appendChild(includeCell("pkgc"));
     tr.appendChild(discountCell("pkgc", false));
-    tr.appendChild(textCell(tgtText));
+    tr.appendChild(packagePriceCell("target", tgtText, tgtAvailable));
     tr.appendChild(includeCell("pkgt"));
     tr.appendChild(discountCell("pkgt", false));
     const diff = document.createElement("td");
@@ -577,10 +586,10 @@ function addFeature(inputId, prod, list, rerender) {
   if (idx < 0) return;
   if (!list.includes(idx)) {
     list.push(idx);
-    // Для КЦ при добавлении "Доп.лицензия" устанавливаем количество по умолчанию на 1
+    // Для КЦ при добавлении "Доп.лицензия" устанавливаем количество по умолчанию на 0
     if (prod === "kc" && DATA[prod].rows[idx].parameter === "Доп.лицензия") {
-      if (list === kcState.selected) kcState.qty[idx] = 1;
-      else qtys.kcLicense = 1;
+      if (list === kcState.selected) kcState.qty[idx] = 0;
+      else qtys.kcLicense = 0;
     }
     $(inputId).value = "";
   }
@@ -607,6 +616,11 @@ function init() {
   Object.keys(storageState).forEach((k) => {
     delete storageState[k];
   });
+  Object.keys(integrationVersions).forEach((k) => {
+    delete integrationVersions[k];
+  });
+  profileQtys.current = 0;
+  profileQtys.target = 0;
   $("feature").value = "";
   hideSuggestions();
   // Выбор функций по умолчанию по названиям из DEFAULT_FEATURES
@@ -619,7 +633,7 @@ function init() {
           d.rows[i].parameter,
         ),
     );
-  qtys.kcLicense = 1;
+  qtys.kcLicense = 0;
   if (product === "vats") {
     applyDefaultProfile($("current").value, $("target").value);
   }
@@ -717,6 +731,7 @@ function includeCell(key) {
 
 // Тарифы облачного хранилища по объёму и цене
 const STORAGE_PLANS = [
+  { gb: 0.05, price: 0 },
   { gb: 1, price: 190 },
   { gb: 5, price: 490 },
   { gb: 10, price: 980 },
@@ -749,7 +764,7 @@ const storageState = {};
 // Строка облачного хранилища, цена которой зависит от объёма
 const isStorage = (r) => r.parameter.startsWith("Облачное хранилище");
 function storageIncluded(tariff) {
-  return VATS2_STORAGE_INCLUDED[tariff] ?? 1;
+  return VATS2_STORAGE_INCLUDED[tariff] ?? 0.05;
 }
 function storageOptions(tariff) {
   if (VATS2_STORAGE_INCLUDED[tariff]) {
@@ -768,9 +783,15 @@ function storageExtraCost(tariff, gb) {
   return extraBlocks * 400;
 }
 // Значение строки для тарифа; для хранилища с ценой (руб.) - цена выбранного объёма
-function rowValue(r, tariff) {
+function rowValue(r, tariff, column = "current") {
   if (r.parameter === PROFILE_PARAM && !isUnavailable(r.values[tariff]))
-    return fmt(round2(profilePrice(tariff) * qtys.profiles)) + " руб./мес.";
+    return (
+      fmt(round2(profilePrice(tariff) * profileQtys[column])) + " руб./мес."
+    );
+  if (r.parameter === INTEGRATION_PARAM)
+    return integrationVersions[column] === "extended"
+      ? r.extendedValues[tariff]
+      : r.values[tariff];
   if (!isStorage(r)) return r.values[tariff];
   if (!VATS2_STORAGE_INCLUDED[tariff] && !/руб/.test(r.values[tariff]))
     return r.values[tariff];
@@ -797,7 +818,8 @@ function storageSelect(tariff) {
         ),
       );
     } else {
-      sel.add(new Option(gb + " ГБ", gb));
+      const label = gb === 0.05 ? "50 МБ" : gb + " ГБ";
+      sel.add(new Option(label, gb));
     }
   });
   sel.value =
@@ -808,6 +830,18 @@ function storageSelect(tariff) {
     update();
   };
   return customSelect(sel);
+}
+function integrationVersionSelect(column) {
+  const select = document.createElement("select");
+  select.id = "integration-version-" + column;
+  select.add(new Option("Базовая", "basic"));
+  select.add(new Option("Расширенная", "extended"));
+  select.value = integrationVersions[column] ?? "basic";
+  select.onchange = () => {
+    integrationVersions[column] = select.value;
+    update();
+  };
+  return customSelect(select);
 }
 // Пакеты на связь с ежемесячной ценой
 const PACKAGE_PLANS = [
@@ -820,39 +854,59 @@ const PACKAGE_PLANS = [
   { label: "50 000 руб./мес. (посекундный)", price: 50000 },
   { label: "100 000 руб./мес. (посекундный)", price: 100000 },
 ];
-const packageState = { idx: 0 };
+const packageState = { current: 0, target: 0 };
 // Пакет на связь включён по умолчанию; удаляется кнопкой в строке таблицы
 let packageOn = true;
 const PACKAGE_LABEL = "Пакет на связь";
-// Выпадающий выбор пакета на связь в строке таблицы ВАТС
-function packageSelect() {
+function packageSelect(column) {
   const sel = document.createElement("select");
-  sel.id = "package";
+  sel.id = "package-" + column;
   PACKAGE_PLANS.forEach((p, i) => sel.add(new Option(p.label, i)));
-  sel.value = packageState.idx;
+  sel.value = packageState[column];
   sel.onchange = () => {
-    packageState.idx = Number(sel.value);
+    packageState[column] = Number(sel.value);
     update();
   };
   return customSelect(sel);
 }
+function packagePriceCell(column, text, available) {
+  const td = document.createElement("td");
+  td.classList.add("storage-price-cell", "wide-select-cell");
+  const price = document.createElement("div");
+  price.className = "storage-price";
+  price.textContent = text;
+  td.appendChild(price);
+  if (available) td.appendChild(packageSelect(column));
+  return td;
+}
 // Поле количества доп. профилей в строке стоимости профиля; делит значение с блоком доп. профилей
-function profileQtyInput() {
+function profileQtyInput(column) {
   const input = document.createElement("input");
   input.className = "qty";
   input.type = "text";
   input.inputMode = "numeric";
-  input.id = "qty-profile-row";
-  input.value = qtys.profiles;
+  input.id = "qty-profile-row-" + column;
+  input.setAttribute("aria-label", "Количество дополнительных профилей");
+  input.value = profileQtys[column];
   input.oninput = (e) => {
     e.target.value = e.target.value.replace(/\D/g, "");
-    qtys.profiles = Math.floor(Number(e.target.value) || 0);
+    profileQtys[column] = Math.floor(Number(e.target.value) || 0);
     update();
-    const again = $("qty-profile-row");
+    const again = $("qty-profile-row-" + column);
     again.focus();
     again.setSelectionRange(again.value.length, again.value.length);
   };
   return input;
+}
+function profilePriceCell(column, text) {
+  const td = document.createElement("td");
+  td.classList.add("storage-price-cell", "profile-price-cell");
+  const price = document.createElement("div");
+  price.className = "storage-price";
+  price.textContent = text;
+  td.appendChild(price);
+  td.appendChild(profileQtyInput(column));
+  return td;
 }
 
 // Ячейка цены хранилища с выбором объёма
@@ -864,6 +918,18 @@ function storagePriceCell(tariff, text) {
   price.textContent = text;
   td.appendChild(price);
   if (tariff) td.appendChild(storageSelect(tariff));
+  return td;
+}
+function integrationPriceCell(tariff, column, text) {
+  const td = document.createElement("td");
+  const hasVersionSelector = !VATS2_STORAGE_INCLUDED[tariff];
+  if (hasVersionSelector)
+    td.classList.add("storage-price-cell", "wide-select-cell");
+  const price = document.createElement("div");
+  price.className = "storage-price";
+  price.textContent = text;
+  td.appendChild(price);
+  if (hasVersionSelector) td.appendChild(integrationVersionSelect(column));
   return td;
 }
 
@@ -920,7 +986,7 @@ function renderKc() {
     DATA.kc.rows.forEach((r, i) => {
       if (i > 0 && DEFAULT_KC_FEATURES.includes(r.parameter)) {
         kcState.selected.push(i);
-        kcState.qty[i] = 1;
+        kcState.qty[i] = 0;
         console.log(`renderKc: добавлена услуга ${i}`);
       }
     });
@@ -1056,7 +1122,7 @@ function kcInit() {
     );
     if (i > 0 && DEFAULT_KC_FEATURES.includes(r.parameter)) {
       kcState.selected.push(i);
-      kcState.qty[i] = 1;
+      kcState.qty[i] = 0;
       console.log(
         `kcInit: добавлена услуга ${i}, kcState.selected:`,
         kcState.selected,
