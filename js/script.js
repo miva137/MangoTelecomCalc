@@ -780,7 +780,7 @@ function storageExtraCost(tariff, gb) {
     return STORAGE_PLANS.find((plan) => plan.gb === gb)?.price ?? 190;
   }
   const extraBlocks = gb / 5;
-  return extraBlocks * 400;
+  return extraBlocks * 490;
 }
 // Значение строки для тарифа; для хранилища с ценой (руб.) - цена выбранного объёма
 function rowValue(r, tariff, column = "current") {
@@ -1253,39 +1253,73 @@ function xmlValue(value) {
 }
 
 function createExcelXml(rows) {
+  const styles = `<Styles><Style ss:ID="Default" ss:Name="Normal"><Font ss:FontName="Times New Roman" ss:Size="11"/><Alignment ss:Vertical="Center" ss:WrapText="1"/></Style><Style ss:ID="Header"><Font ss:FontName="Times New Roman" ss:Size="11" ss:Bold="1"/><Interior ss:Color="#F4B183" ss:Pattern="Solid"/><Alignment ss:Vertical="Center" ss:WrapText="1"/></Style><Style ss:ID="Total"><Font ss:FontName="Times New Roman" ss:Size="11" ss:Bold="1"/><Interior ss:Color="#FCE4D6" ss:Pattern="Solid"/><Alignment ss:Vertical="Center" ss:WrapText="1"/></Style></Styles>`;
+  const columnWidths = Array.from(
+    { length: Math.max(...rows.map((row) => row.length)) },
+    (_, columnIndex) => {
+      const longest = Math.max(
+        ...rows.map((row) => String(row[columnIndex] ?? "").length),
+      );
+      const maxWidth = columnIndex === 0 ? 300 : 180;
+      return Math.min(maxWidth, Math.max(70, longest * 7 + 14));
+    },
+  );
+  const columns = columnWidths
+    .map((width) => `<Column ss:AutoFitWidth="0" ss:Width="${width}"/>`)
+    .join("");
   const dataRows = rows
-    .map(
-      (row) =>
-        "<Row>" +
+    .map((row, rowIndex) => {
+      const style =
+        rowIndex === 0 ? "Header" : rowIndex === rows.length - 1 ? "Total" : "";
+      return (
+        '<Row ss:AutoFitHeight="1">' +
         row
           .map(
             (value) =>
-              `<Cell><Data ss:Type="String">${xmlValue(value)}</Data></Cell>`,
+              `<Cell${style ? ` ss:StyleID="${style}"` : ""}><Data ss:Type="String">${xmlValue(value)}</Data></Cell>`,
           )
           .join("") +
-        "</Row>",
-    )
+        "</Row>"
+      );
+    })
     .join("");
-  return `<?xml version="1.0"?>\n<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"><Worksheet ss:Name="Итоги"><Table>${dataRows}</Table></Worksheet></Workbook>`;
+  return `<?xml version="1.0"?>\n<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">${styles}<Worksheet ss:Name="Итоги"><Table>${columns}${dataRows}</Table></Worksheet></Workbook>`;
 }
 
 $("exportResults").onclick = () => {
   const format = $("exportFormat").value;
   const rows = buildExportData();
-  const modeLabel = isSingle() ? "raschet-tarifa" : "sravnenie-tarifov";
+  const kcOn = !$("kcCard").hidden;
+  const sectionName = $("mode").selectedOptions[0].textContent.trim();
+  const productName = product === "kc" ? "КЦ" : kcOn ? "ВАТС + КЦ" : "ВАТС";
+  const fileName = `${sectionName} ${productName}.${format}`;
   const content = format === "xls" ? createExcelXml(rows) : createCsv(rows);
   const mime =
     format === "xls"
       ? "application/vnd.ms-excel;charset=utf-8"
       : "text/csv;charset=utf-8";
   const url = URL.createObjectURL(new Blob([content], { type: mime }));
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `${modeLabel}.${format}`;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
+  const exportWindow = window.open("", "_blank");
+  const startDownload = () => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    link.click();
+  };
+  if (exportWindow) {
+    exportWindow.opener = null;
+    const document = exportWindow.document;
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    downloadLink.download = fileName;
+    downloadLink.textContent = `Скачать ${fileName}`;
+    document.title = fileName;
+    document.body.replaceChildren(downloadLink);
+    downloadLink.click();
+  } else {
+    startDownload();
+  }
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 };
 
 // Первичная инициализация блоков ВАТС и КЦ при загрузке страницы
