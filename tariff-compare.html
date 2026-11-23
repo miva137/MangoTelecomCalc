@@ -96,6 +96,16 @@
     <div class="note cmp-only">Сумма учитывает только значения в руб./мес. Зелёным отмечена разница между тарифами.
     </div>
     <div class="note warn" id="numbersWarn"></div>
+    <div id="mainExportHost">
+      <div class="export-controls" id="exportControls">
+        <label for="exportFormat">Формат файла</label>
+        <select id="exportFormat">
+          <option value="csv">CSV</option>
+          <option value="xls">Excel (.xls)</option>
+        </select>
+        <button id="exportResults" type="button">Скачать файл</button>
+      </div>
+    </div>
   </div>
 
   <!-- Блок КЦ: скрыт по умолчанию, открывается флажком «Добавить КЦ» -->
@@ -143,6 +153,7 @@
       <tbody id="kcBody"></tbody>
       <tfoot id="kcFoot"></tfoot>
     </table>
+    <div id="kcExportHost"></div>
   </div>
 
   <footer class="page-footer">

@@ -967,6 +967,9 @@ function renderKc() {
   const on = product === "vats" && !kcUnavailable && $("addKc").checked;
   $("kcToggle").hidden = product !== "vats" || kcUnavailable;
   $("kcCard").hidden = !on;
+  $(on ? "kcExportHost" : "mainExportHost").appendChild(
+    $("exportControls"),
+  );
   $("kcCard").classList.toggle(
     "kc-current-unavailable",
     on && $("current").value === "virtual_number",
@@ -1152,6 +1155,138 @@ $("kcTarget").onchange = renderKc;
 // Кнопка добавления функции КЦ в сравнение
 $("kcAdd").onclick = () =>
   addFeature("kcFeature", "kc", kcState.selected, renderKc);
+
+function exportCellText(td) {
+  const price = td.querySelector(".storage-price");
+  if (price) return price.textContent.trim();
+  return td.textContent.trim();
+}
+
+function exportServiceText(td) {
+  const clone = td.cloneNode(true);
+  clone.querySelectorAll("select, button, ul").forEach((node) => node.remove());
+  clone.querySelectorAll("input").forEach((input) => {
+    input.replaceWith(document.createTextNode(input.value || "0"));
+  });
+  return clone.textContent.replace(/\s+/g, " ").trim();
+}
+
+function collectExportRows(body, prefix = "") {
+  return [...body.rows]
+    .filter((row) => {
+      const current = row.cells[2].querySelector("input")?.checked ?? true;
+      const target = row.cells[5].querySelector("input")?.checked ?? true;
+      return isSingle() ? current : current || target;
+    })
+    .map((row) => ({
+      service: prefix + exportServiceText(row.cells[0]),
+      current: exportCellText(row.cells[1]),
+      currentDiscount: row.cells[3].querySelector("input")?.value || "0",
+      target: exportCellText(row.cells[4]),
+      targetDiscount: row.cells[6].querySelector("input")?.value || "0",
+      difference: exportCellText(row.cells[7]),
+    }));
+}
+
+function buildExportData() {
+  const single = isSingle();
+  const header = single
+    ? ["Услуга", "Текущий тариф", "Скидка, %", "Итоговая сумма"]
+    : [
+        "Услуга",
+        "Текущий тариф",
+        "Скидка, %",
+        "Новый тариф",
+        "Скидка, %",
+        "Разница тарифов",
+      ];
+  const rows = collectExportRows($("body"));
+  const kcOn = !$("kcCard").hidden;
+  if (kcOn) rows.push(...collectExportRows($("kcBody"), "КЦ: "));
+
+  const data = rows.map((row) =>
+    single
+      ? [row.service, row.current, row.currentDiscount, row.current]
+      : [
+          row.service,
+          row.current,
+          row.currentDiscount,
+          row.target,
+          row.targetDiscount,
+          row.difference,
+        ],
+  );
+
+  if (single) {
+    const total = kcOn
+      ? exportCellText($("kcFoot").rows[1].cells[1])
+      : exportCellText($("foot").rows[0].cells[1]);
+    data.push(["Итоговая сумма", "", "", total]);
+  } else {
+    const totalRow = kcOn ? $("kcFoot").rows[1] : $("foot").rows[0];
+    data.push([
+      exportCellText(totalRow.cells[0]),
+      exportCellText(totalRow.cells[1]),
+      "",
+      exportCellText(totalRow.cells[4]),
+      "",
+      exportCellText(totalRow.cells[7]),
+    ]);
+  }
+  return [header, ...data];
+}
+
+function csvValue(value) {
+  return '"' + String(value ?? "").replace(/"/g, '""') + '"';
+}
+
+function createCsv(rows) {
+  return "\ufeff" + rows.map((row) => row.map(csvValue).join(";")).join("\r\n");
+}
+
+function xmlValue(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function createExcelXml(rows) {
+  const dataRows = rows
+    .map(
+      (row) =>
+        "<Row>" +
+        row
+          .map(
+            (value) =>
+              `<Cell><Data ss:Type="String">${xmlValue(value)}</Data></Cell>`,
+          )
+          .join("") +
+        "</Row>",
+    )
+    .join("");
+  return `<?xml version="1.0"?>\n<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"><Worksheet ss:Name="Итоги"><Table>${dataRows}</Table></Worksheet></Workbook>`;
+}
+
+$("exportResults").onclick = () => {
+  const format = $("exportFormat").value;
+  const rows = buildExportData();
+  const modeLabel = isSingle() ? "raschet-tarifa" : "sravnenie-tarifov";
+  const content = format === "xls" ? createExcelXml(rows) : createCsv(rows);
+  const mime =
+    format === "xls"
+      ? "application/vnd.ms-excel;charset=utf-8"
+      : "text/csv;charset=utf-8";
+  const url = URL.createObjectURL(new Blob([content], { type: mime }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${modeLabel}.${format}`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+};
 
 // Первичная инициализация блоков ВАТС и КЦ при загрузке страницы
 init();
