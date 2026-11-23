@@ -11,9 +11,9 @@ const DEFAULT_KC_FEATURES = ["Доп.лицензия"];
 // Текущий продукт и индексы выбранных строк ВАТС из DATA
 let product = "vats";
 let selected = [];
-// Количество номеров, доп. профилей и доп. каналов Манго Диалоги по ключам
+// Количества дополнительных услуг ВАТС по ключам; количества КЦ хранятся отдельно
 const qtys = { n499: 0, n495: 0, nMobile: 0, profiles: 0, dialogs: 0 };
-// Добавленные в сравнение пункты номеров и профилей, в порядке добавления
+// Добавленные пункты номеров, профилей и диалогов в порядке выбора
 let extras = [];
 
 // Типы номеров: название, разовая и ежемесячная цена
@@ -49,7 +49,7 @@ const NUMBER_RULES = {
   virtual_number: { limit: 1, included: 1, fee: 0 },
 };
 
-// Пункты номеров и доп. профилей для поиска функций ВАТС (ключ совпадает с qtys)
+// Дополнительные услуги для поиска ВАТС; ключ определяет поле количества в qtys
 const EXTRA_ITEMS = [
   {
     key: "n499",
@@ -671,9 +671,9 @@ $("add").onclick = () => addFeature("feature", product, selected, update);
 
 // Итоги ВАТС без КЦ (текущий и новый тариф), нужны для блока ВАТС + КЦ
 let mainTotals = { cur: 0, tgt: 0 };
-// Выбранные функции КЦ
-const kcState = { selected: [], licenseQty: 0 };
-// Скидки в процентах по строкам: v+индекс (ВАТС), k+индекс (КЦ), x+ключ (номера и профили)
+// Выбранные функции КЦ и количества строк с настраиваемым числом единиц
+const kcState = { selected: [], qty: {} };
+// Скидки по строкам: v+индекс (ВАТС), k+индекс (КЦ), x+ключ (дополнительные услуги)
 const rowDiscount = {};
 // Независимое включение строк в итог сравнения для текущего и нового тарифа
 const rowInclude = {};
@@ -949,8 +949,8 @@ function renderKcChips() {
     ul.appendChild(
       makeChip(param, () => {
         kcState.selected = kcState.selected.filter((x) => x !== idx);
-        // Сбрасываем количество лицензий при удалении
-        if (param === "Доп.лицензия") kcState.licenseQty = 0;
+        // Количество удалённой строки больше не участвует в расчёте КЦ
+        delete kcState.qty[idx];
         renderKc();
       }),
     );
@@ -1019,7 +1019,7 @@ function renderKc() {
   [0, ...kcState.selected].forEach((idx) => {
     const r = DATA.kc.rows[idx];
     const key = "k" + idx;
-    const isLicense = r.parameter === "Доп.лицензия"; // Проверяем по названию параметра
+    const isLicense = r.parameter === "Доп.лицензия";
     console.log(`Строка ${idx}: "${r.parameter}" - isLicense: ${isLicense}`);
     const qty = isLicense ? kcState.qty[idx] || 0 : 1;
     // Для лицензий нужно умножить цену на количество
