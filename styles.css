@@ -148,6 +148,34 @@ input.qty:focus {
 .csel-list li.selected {
   font-weight: 600;
 }
+/* Цена и компактный выбор объёма в ячейке облачного хранилища */
+.storage-price {
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+body.single .storage-price-cell .csel {
+  width: min(110px, 100%);
+  margin: 3px auto 0;
+}
+body.single .storage-price-cell .csel-btn {
+  text-align: center;
+}
+body:not(.single) .storage-price-cell .csel {
+  width: min(110px, 100%);
+  margin: 3px auto 0;
+}
+body:not(.single) .storage-price-cell .csel-btn {
+  text-align: center;
+}
+body.single .wide-select-cell .csel,
+body:not(.single) .wide-select-cell .csel {
+  width: min(180px, 100%);
+}
+.profile-price-cell input.qty {
+  width: min(80px, 100%);
+  margin: 3px auto 0;
+  text-align: center;
+}
 /* Оранжевые кнопки в стиле Манго Телеком */
 button {
   padding: 5px 14px;
@@ -222,6 +250,20 @@ th:nth-child(9),
 td:nth-child(9) {
   width: 7%;
 }
+#kcCard.kc-current-unavailable th:nth-child(2),
+#kcCard.kc-current-unavailable td:nth-child(2),
+#kcCard.kc-current-unavailable th:nth-child(3),
+#kcCard.kc-current-unavailable td:nth-child(3),
+#kcCard.kc-current-unavailable th:nth-child(4),
+#kcCard.kc-current-unavailable td:nth-child(4),
+#kcCard.kc-target-unavailable th:nth-child(5),
+#kcCard.kc-target-unavailable td:nth-child(5),
+#kcCard.kc-target-unavailable th:nth-child(6),
+#kcCard.kc-target-unavailable td:nth-child(6),
+#kcCard.kc-target-unavailable th:nth-child(7),
+#kcCard.kc-target-unavailable td:nth-child(7) {
+  display: none;
+}
 td:nth-child(2) input.qty,
 td:nth-child(4) input.qty,
 td:nth-child(7) input.qty,
@@ -229,6 +271,10 @@ td:first-child input.qty {
   width: 52px;
   padding: 3px 4px;
   text-align: center;
+}
+.profile-param-label {
+  display: inline-block;
+  margin-right: 2px;
 }
 .include-radio {
   width: 14px;
@@ -269,6 +315,12 @@ td:nth-child(2) .csel-btn,
 td:nth-child(5) .csel-btn,
 td:nth-child(2) .csel-list,
 td:nth-child(5) .csel-list {
+  width: 100%;
+  max-width: 100%;
+}
+.storage-price-cell .csel:has(#storage-start),
+.storage-price-cell .csel:has(#storage-growth),
+.storage-price-cell .csel:has(#storage-perspective) {
   width: 100%;
   max-width: 100%;
 }
@@ -387,6 +439,21 @@ body.single td.once-col {
   width: 12%;
   white-space: nowrap;
 }
+/* Элементы экспорта расположены непосредственно под итогами таблицы */
+.export-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+.export-controls label {
+  margin-bottom: 0;
+}
+.export-controls .csel {
+  width: 180px;
+}
+
 /* Мелкие пояснения под таблицами и полями */
 .note {
   color: #757575;
@@ -405,6 +472,14 @@ body.single td.once-col {
   font-size: 11px;
   line-height: 16px;
   text-align: center;
+}
+.page-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+.page-footer a:hover {
+  color: var(--text-body);
+  text-decoration: underline;
 }
 /* Контейнер поля поиска, относительно которого открывается список подсказок */
 .suggest {
