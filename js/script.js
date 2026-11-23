@@ -1190,18 +1190,34 @@ function collectExportRows(body, prefix = "") {
 
 function buildExportData() {
   const single = isSingle();
+  const kcOn = !$("kcCard").hidden;
+  const mainCurrent = TARIFF_LABELS[$("current").value];
+  const mainTarget = TARIFF_LABELS[$("target").value];
+  const kcCurrent = TARIFF_LABELS[$("kcCurrent").value];
+  const kcTarget = TARIFF_LABELS[$("kcTarget").value];
+  const currentTariff =
+    product === "kc"
+      ? `КЦ: ${mainCurrent}`
+      : kcOn
+        ? `ВАТС: ${mainCurrent} / КЦ: ${kcCurrent}`
+        : mainCurrent;
+  const targetTariff =
+    product === "kc"
+      ? `КЦ: ${mainTarget}`
+      : kcOn
+        ? `ВАТС: ${mainTarget} / КЦ: ${kcTarget}`
+        : mainTarget;
   const header = single
-    ? ["Услуга", "Текущий тариф", "Скидка, %", "Итоговая сумма"]
+    ? ["Услуга", currentTariff, "Скидка, %", "Итоговая сумма"]
     : [
         "Услуга",
-        "Текущий тариф",
+        currentTariff,
         "Скидка, %",
-        "Новый тариф",
+        targetTariff,
         "Скидка, %",
         "Разница тарифов",
       ];
   const rows = collectExportRows($("body"));
-  const kcOn = !$("kcCard").hidden;
   if (kcOn) rows.push(...collectExportRows($("kcBody"), "КЦ: "));
 
   const data = rows.map((row) =>
