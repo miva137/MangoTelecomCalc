@@ -1268,38 +1268,160 @@ function xmlValue(value) {
     .replace(/"/g, "&quot;");
 }
 
-function createExcelXml(rows) {
-  const styles = `<Styles><Style ss:ID="Default" ss:Name="Normal"><Font ss:FontName="Times New Roman" ss:Size="11"/><Alignment ss:Vertical="Center" ss:WrapText="1"/></Style><Style ss:ID="Header"><Font ss:FontName="Times New Roman" ss:Size="11" ss:Bold="1"/><Interior ss:Color="#F4B183" ss:Pattern="Solid"/><Alignment ss:Vertical="Center" ss:WrapText="1"/></Style><Style ss:ID="Total"><Font ss:FontName="Times New Roman" ss:Size="11" ss:Bold="1"/><Interior ss:Color="#FCE4D6" ss:Pattern="Solid"/><Alignment ss:Vertical="Center" ss:WrapText="1"/></Style></Styles>`;
+function excelColumnName(columnIndex) {
+  let name = "";
+  let value = columnIndex + 1;
+  while (value > 0) {
+    value -= 1;
+    name = String.fromCharCode(65 + (value % 26)) + name;
+    value = Math.floor(value / 26);
+  }
+  return name;
+}
+
+function writeUint16(view, offset, value) {
+  view.setUint16(offset, value, true);
+}
+
+function writeUint32(view, offset, value) {
+  view.setUint32(offset, value, true);
+}
+
+function crc32(bytes) {
+  let crc = 0xffffffff;
+  for (const byte of bytes) {
+    crc ^= byte;
+    for (let bit = 0; bit < 8; bit += 1) {
+      crc = (crc >>> 1) ^ (0xedb88320 & -(crc & 1));
+    }
+  }
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function createStoredZip(entries) {
+  const encoder = new TextEncoder();
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+
+  entries.forEach(([name, content]) => {
+    const nameBytes = encoder.encode(name);
+    const contentBytes = encoder.encode(content);
+    const checksum = crc32(contentBytes);
+    const localHeader = new ArrayBuffer(30);
+    const localView = new DataView(localHeader);
+    writeUint32(localView, 0, 0x04034b50);
+    writeUint16(localView, 4, 20);
+    writeUint16(localView, 6, 0);
+    writeUint16(localView, 8, 0);
+    writeUint16(localView, 10, 0);
+    writeUint16(localView, 12, 0);
+    writeUint32(localView, 14, checksum);
+    writeUint32(localView, 18, contentBytes.length);
+    writeUint32(localView, 22, contentBytes.length);
+    writeUint16(localView, 26, nameBytes.length);
+    writeUint16(localView, 28, 0);
+    localParts.push(new Uint8Array(localHeader), nameBytes, contentBytes);
+
+    const centralHeader = new ArrayBuffer(46);
+    const centralView = new DataView(centralHeader);
+    writeUint32(centralView, 0, 0x02014b50);
+    writeUint16(centralView, 4, 20);
+    writeUint16(centralView, 6, 20);
+    writeUint16(centralView, 8, 0);
+    writeUint16(centralView, 10, 0);
+    writeUint16(centralView, 12, 0);
+    writeUint16(centralView, 14, 0);
+    writeUint32(centralView, 16, checksum);
+    writeUint32(centralView, 20, contentBytes.length);
+    writeUint32(centralView, 24, contentBytes.length);
+    writeUint16(centralView, 28, nameBytes.length);
+    writeUint16(centralView, 30, 0);
+    writeUint16(centralView, 32, 0);
+    writeUint16(centralView, 34, 0);
+    writeUint16(centralView, 36, 0);
+    writeUint32(centralView, 38, 0);
+    writeUint32(centralView, 42, offset);
+    centralParts.push(new Uint8Array(centralHeader), nameBytes);
+    offset += localHeader.byteLength + nameBytes.length + contentBytes.length;
+  });
+
+  const centralSize = centralParts.reduce((sum, part) => sum + part.length, 0);
+  const endRecord = new ArrayBuffer(22);
+  const endView = new DataView(endRecord);
+  writeUint32(endView, 0, 0x06054b50);
+  writeUint16(endView, 4, 0);
+  writeUint16(endView, 6, 0);
+  writeUint16(endView, 8, entries.length);
+  writeUint16(endView, 10, entries.length);
+  writeUint32(endView, 12, centralSize);
+  writeUint32(endView, 16, offset);
+  writeUint16(endView, 20, 0);
+
+  const parts = [...localParts, ...centralParts, new Uint8Array(endRecord)];
+  const output = new Uint8Array(parts.reduce((sum, part) => sum + part.length, 0));
+  let outputOffset = 0;
+  for (const part of parts) {
+    output.set(part, outputOffset);
+    outputOffset += part.length;
+  }
+  return output;
+}
+
+function createXlsx(rows) {
+  const xmlHeader = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
   const columnWidths = Array.from(
     { length: Math.max(...rows.map((row) => row.length)) },
     (_, columnIndex) => {
       const longest = Math.max(
         ...rows.map((row) => String(row[columnIndex] ?? "").length),
       );
-      const maxWidth = columnIndex === 0 ? 300 : 180;
-      return Math.min(maxWidth, Math.max(70, longest * 7 + 14));
+      const maxPixels = columnIndex === 0 ? 300 : 180;
+      const pixels = Math.min(maxPixels, Math.max(70, longest * 7 + 14));
+      return Math.max(10, Math.round((pixels - 5) / 7));
     },
   );
   const columns = columnWidths
-    .map((width) => `<Column ss:AutoFitWidth="0" ss:Width="${width}"/>`)
+    .map(
+      (width, index) =>
+        `<col min="${index + 1}" max="${index + 1}" width="${width}" customWidth="1"/>`,
+    )
     .join("");
   const dataRows = rows
     .map((row, rowIndex) => {
-      const style =
-        rowIndex === 0 ? "Header" : rowIndex === rows.length - 1 ? "Total" : "";
-      return (
-        '<Row ss:AutoFitHeight="1">' +
-        row
-          .map(
-            (value) =>
-              `<Cell${style ? ` ss:StyleID="${style}"` : ""}><Data ss:Type="String">${xmlValue(value)}</Data></Cell>`,
-          )
-          .join("") +
-        "</Row>"
-      );
+      const style = rowIndex === 0 ? 1 : rowIndex === rows.length - 1 ? 2 : 0;
+      const cells = row
+        .map((value, columnIndex) => {
+          const reference = `${excelColumnName(columnIndex)}${rowIndex + 1}`;
+          return `<c r="${reference}" t="inlineStr" s="${style}"><is><t xml:space="preserve">${xmlValue(value)}</t></is></c>`;
+        })
+        .join("");
+      return `<row r="${rowIndex + 1}">${cells}</row>`;
     })
     .join("");
-  return `<?xml version="1.0"?>\n<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">${styles}<Worksheet ss:Name="Итоги"><Table>${columns}${dataRows}</Table></Worksheet></Workbook>`;
+  const worksheet = `${xmlHeader}<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>${columns}</cols><sheetData>${dataRows}</sheetData></worksheet>`;
+  const styles = `${xmlHeader}<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Times New Roman"/></font><font><b/><sz val="11"/><name val="Times New Roman"/></font></fonts><fills count="4"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFF4B183"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFCE4D6"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"><alignment vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="1" fillId="3" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment vertical="center" wrapText="1"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
+
+  return createStoredZip([
+    [
+      "[Content_Types].xml",
+      `${xmlHeader}<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>`,
+    ],
+    [
+      "_rels/.rels",
+      `${xmlHeader}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`,
+    ],
+    [
+      "xl/workbook.xml",
+      `${xmlHeader}<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Итоги" sheetId="1" r:id="rId1"/></sheets></workbook>`,
+    ],
+    [
+      "xl/_rels/workbook.xml.rels",
+      `${xmlHeader}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`,
+    ],
+    ["xl/styles.xml", styles],
+    ["xl/worksheets/sheet1.xml", worksheet],
+  ]);
 }
 
 $("exportResults").onclick = () => {
@@ -1309,10 +1431,10 @@ $("exportResults").onclick = () => {
   const sectionName = $("mode").selectedOptions[0].textContent.trim();
   const productName = product === "kc" ? "КЦ" : kcOn ? "ВАТС + КЦ" : "ВАТС";
   const fileName = `${sectionName} ${productName}.${format}`;
-  const content = format === "xls" ? createExcelXml(rows) : createCsv(rows);
+  const content = format === "xlsx" ? createXlsx(rows) : createCsv(rows);
   const mime =
-    format === "xls"
-      ? "application/vnd.ms-excel;charset=utf-8"
+    format === "xlsx"
+      ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       : "text/csv;charset=utf-8";
   const url = URL.createObjectURL(new Blob([content], { type: mime }));
   const exportWindow = window.open("", "_blank");
