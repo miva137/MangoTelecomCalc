@@ -159,6 +159,13 @@ input.qty:focus {
 .csel-list li.tariff-group-heading:hover {
   background: transparent;
 }
+input.number-qty {
+  display: block;
+  width: 54px;
+  margin: 4px auto 0;
+  padding: 4px 6px;
+  text-align: center;
+}
 /* Цена и компактный выбор объёма в ячейке облачного хранилища */
 .storage-price {
   margin-bottom: 4px;
@@ -349,6 +356,11 @@ tfoot td {
   color: var(--text-dark);
   background: var(--orange-soft);
   text-align: left;
+}
+tfoot td:nth-child(2),
+tfoot td:nth-child(5),
+tfoot td:nth-child(8) {
+  text-align: center;
 }
 /* Рост суммы - красный, снижение - зелёный; td, чтобы перебить tfoot td */
 td.pos {

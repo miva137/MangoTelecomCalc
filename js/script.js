@@ -11,8 +11,10 @@ const DEFAULT_KC_FEATURES = ["Доп.лицензия"];
 // Текущий продукт и индексы выбранных строк ВАТС из DATA
 let product = "vats";
 let selected = [];
-// Количества дополнительных услуг ВАТС по ключам; количества КЦ хранятся отдельно
+// Количества дополнительных услуг текущего тарифа; количества КЦ хранятся отдельно
 const qtys = { n499: 0, n495: 0, nMobile: 0, profiles: 0, dialogs: 0 };
+// Количества номеров отдельно для нового тарифа
+const targetNumberQtys = { n499: 0, n495: 0, nMobile: 0 };
 // Добавленные пункты номеров, профилей и диалогов в порядке выбора
 let extras = [];
 
@@ -156,6 +158,7 @@ function renderChips() {
       makeChip(EXTRA_ITEMS.find((x) => x.key === key).label, () => {
         extras = extras.filter((x) => x !== key);
         qtys[key] = 0;
+        if (key in targetNumberQtys) targetNumberQtys[key] = 0;
         update();
       }),
     );
@@ -329,7 +332,8 @@ function render() {
   // Строки добавленных номеров и доп. профилей: количество задаётся прямо в строке
   let extraCur = 0,
     extraTgt = 0,
-    extraOnce = 0;
+    extraOnceCur = 0,
+    extraOnceTgt = 0;
   if (product === "vats")
     extras.forEach((key) => {
       const item = EXTRA_ITEMS.find((x) => x.key === key);
@@ -339,68 +343,91 @@ function render() {
       // Виртуальные мобильные номера: скидка не применяется
       const kC = key === "nMobile" ? 1 : 1 - discPct("x" + key + "c") / 100;
       const kT = key === "nMobile" ? 1 : 1 - discPct("x" + key + "t") / 100;
+      const currentQty = t ? numberQty(t, "current") : 0;
+      const targetQty = t ? numberQty(t, "target") : 0;
       const baseCur = isProfile
         ? qtys.profiles * profilePrice(cur)
         : isDialog
           ? dialogCost()
-          : t.monthly * qtys[key];
+          : t.monthly * currentQty;
       const baseTgt = isProfile
         ? qtys.profiles * profilePrice(tgt)
         : isDialog
           ? dialogCost()
-          : t.monthly * qtys[key];
+          : t.monthly * targetQty;
       // Надбавка за номера сверх лимита добавляется после скидки
       const surCur =
         isProfile || isDialog
           ? 0
-          : feeQty(cur, key) * (NUMBER_RULES[cur]?.fee || 0);
+          : feeQty(cur, key, "current") * (NUMBER_RULES[cur]?.fee || 0);
       const surTgt =
         isProfile || isDialog
           ? 0
-          : feeQty(tgt, key) * (NUMBER_RULES[tgt]?.fee || 0);
+          : feeQty(tgt, key, "target") * (NUMBER_RULES[tgt]?.fee || 0);
       const dCur = round2(baseCur * kC) + surCur;
       const dTgt = round2(baseTgt * kT) + surTgt;
       if (includePct("x" + key + "c")) extraCur += dCur;
       if (includePct("x" + key + "t")) extraTgt += dTgt;
-      const onceAmt = isProfile || isDialog ? 0 : t.once * qtys[key];
-      if (includePct("x" + key + "c") || includePct("x" + key + "t"))
-        extraOnce += onceAmt;
-      const once =
-        isSingle() || isDialog ? "" : " + разово " + fmt(onceAmt) + " руб.";
+      const onceCur = isProfile || isDialog ? 0 : t.once * currentQty;
+      const onceTgt = isProfile || isDialog ? 0 : t.once * targetQty;
+      if (includePct("x" + key + "c")) extraOnceCur += onceCur;
+      if (includePct("x" + key + "t")) extraOnceTgt += onceTgt;
       const curText = isProfile
         ? fmt(dCur) + " руб./мес."
         : isDialog
           ? dialogText(dCur)
-          : fmt(dCur) + " руб./мес." + once;
+          : fmt(dCur) + " руб./мес.";
       const tgtText = isProfile
         ? fmt(dTgt) + " руб./мес."
         : isDialog
           ? dialogText(dTgt)
-          : fmt(dTgt) + " руб./мес." + once;
+          : fmt(dTgt) + " руб./мес.";
       const tr = document.createElement("tr");
       const first = document.createElement("td");
-      const input = document.createElement("input");
-      input.className = "qty";
-      input.type = "text";
-      input.inputMode = "numeric";
-      input.id = "qty-" + key;
-      input.value = qtys[key];
-      // Количество меняется прямо в строке; фокус возвращается в поле после перерисовки
-      input.oninput = (e) => {
-        e.target.value = e.target.value.replace(/\D/g, "");
-        qtys[key] = Math.floor(Number(e.target.value) || 0);
-        update();
-        const again = $("qty-" + key);
-        again.focus();
-        again.setSelectionRange(again.value.length, again.value.length);
+      const quantityInput = (column) => {
+        const input = document.createElement("input");
+        input.className = "qty number-qty";
+        input.type = "text";
+        input.inputMode = "numeric";
+        input.id = "qty-" + key + "-" + column;
+        input.setAttribute("aria-label", `Количество: ${item.label}, ${column === "current" ? "текущий" : "новый"} тариф`);
+        const source = column === "target" ? targetNumberQtys : qtys;
+        input.value = source[key];
+        input.oninput = (e) => {
+          e.target.value = e.target.value.replace(/\D/g, "");
+          source[key] = Math.floor(Number(e.target.value) || 0);
+          update();
+          const again = $(input.id);
+          again.focus();
+          again.setSelectionRange(again.value.length, again.value.length);
+        };
+        return input;
       };
-      first.append(item.label + (isDialog ? " и доп. каналы: " : " × "), input);
+      if (isProfile || isDialog) {
+        const input = document.createElement("input");
+        input.className = "qty";
+        input.type = "text";
+        input.inputMode = "numeric";
+        input.id = "qty-" + key;
+        input.value = qtys[key];
+        input.oninput = (e) => {
+          e.target.value = e.target.value.replace(/\D/g, "");
+          qtys[key] = Math.floor(Number(e.target.value) || 0);
+          update();
+          const again = $(input.id);
+          again.focus();
+          again.setSelectionRange(again.value.length, again.value.length);
+        };
+        first.append(item.label + (isDialog ? " и доп. каналы: " : " × "), input);
+      } else {
+        first.textContent = item.label;
+      }
       const fee = NUMBER_RULES[cur]?.fee || NUMBER_RULES[tgt]?.fee || 0;
       if (
         !isProfile &&
         !isDialog &&
         fee &&
-        (feeQty(cur, key) || feeQty(tgt, key))
+        (feeQty(cur, key, "current") || feeQty(tgt, key, "target"))
       ) {
         first.append(
           document.createElement("br"),
@@ -408,30 +435,56 @@ function render() {
         );
       }
       tr.appendChild(first);
-      tr.appendChild(textCell(curText));
+      if (!isProfile && !isDialog) {
+        const currentCell = textCell(curText);
+        currentCell.append(document.createElement("br"), quantityInput("current"));
+        tr.appendChild(currentCell);
+      } else {
+        tr.appendChild(textCell(curText));
+      }
       tr.appendChild(includeCell("x" + key + "c"));
       tr.appendChild(discountCell("x" + key + "c", key === "nMobile"));
-      tr.appendChild(textCell(tgtText));
+      if (!isProfile && !isDialog) {
+        const targetCell = textCell(tgtText);
+        targetCell.append(document.createElement("br"), quantityInput("target"));
+        tr.appendChild(targetCell);
+      } else {
+        tr.appendChild(textCell(tgtText));
+      }
       tr.appendChild(includeCell("x" + key + "t"));
       tr.appendChild(discountCell("x" + key + "t", key === "nMobile"));
+      const onceDiff = onceTgt - onceCur;
+      const monthlyDiff = compare(curText, tgtText);
       const c =
         includePct("x" + key + "c") && includePct("x" + key + "t")
-          ? compare(curText, tgtText)
+          ? isProfile || isDialog
+            ? monthlyDiff
+            : {
+                text: `${monthlyDiff.text} (${onceDiff > 0 ? "+" : ""}${fmt(onceDiff)} руб. разово)`,
+                cls: monthlyDiff.cls,
+              }
           : { text: "не учитывается", cls: "" };
       const diff = document.createElement("td");
       diff.textContent = c.text;
       diff.className = c.cls;
       tr.appendChild(diff);
-      tr.appendChild(onceTd(isProfile ? "" : fmt(onceAmt) + " руб."));
+      const onceText =
+        isProfile || isDialog
+          ? ""
+          : `${fmt(onceCur)} → ${fmt(onceTgt)} (${onceDiff > 0 ? "+" : ""}${fmt(onceDiff)}) руб.`;
+      tr.appendChild(onceTd(onceText));
       body.appendChild(tr);
     });
 
   curSum += extraCur;
   tgtSum += extraTgt;
   // Предупреждение о превышении включённых номеров и лимита тарифа
-  const numberWarnings = [...new Set([cur, tgt])]
-    .map((k) => {
-      const n = numbersFor(k);
+  const numberWarnings = [
+    [cur, "current"],
+    [tgt, "target"],
+  ]
+    .map(([k, column]) => {
+      const n = numbersFor(k, column);
       const rule = NUMBER_RULES[k];
       if (n.exceeded)
         return `На тарифе «${TARIFF_LABELS[k]}» допускается не более ${n.limit} номера (сейчас ${n.total}).`;
@@ -440,30 +493,42 @@ function render() {
       return "";
     })
     .filter(Boolean);
-  if ([cur, tgt].includes("virtual_number") && qtys.nMobile > 0) {
-    numberWarnings.push(
+  const uniqueNumberWarnings = [...new Set(numberWarnings)];
+  if (
+    [
+      [cur, qtys.nMobile],
+      [tgt, targetNumberQtys.nMobile],
+    ].some(([tariff, qty]) => tariff === "virtual_number" && qty > 0)
+  ) {
+    uniqueNumberWarnings.push(
       "На тарифе «Виртуальный номер» доступно подключение только городского номера.",
     );
   }
   if ([cur, tgt].includes("virtual_number")) {
-    numberWarnings.push(
+    uniqueNumberWarnings.push(
       "К тарифу «Виртуальный номер» подключение КЦ недоступно.",
     );
   }
-  $("numbersWarn").textContent = numberWarnings.join(" ");
+  $("numbersWarn").textContent = uniqueNumberWarnings.join(" ");
 
   // Итоговая строка с разницей в руб./мес.
   const diffSum = tgtSum - curSum;
+  const diffOnce = extraOnceTgt - extraOnceCur;
+  const hasNumberService = extras.some((key) =>
+    NUMBER_TYPES.some((numberType) => numberType.id === key),
+  );
   const cells = [
     "Итого в месяц",
-    fmt(curSum) + " руб./мес.",
+    `${fmt(curSum)} руб./мес.${hasNumberService ? ` (${fmt(extraOnceCur)} руб. разово)` : ""}`,
     "",
     "",
-    fmt(tgtSum) + " руб./мес.",
+    `${fmt(tgtSum)} руб./мес.${hasNumberService ? ` (${fmt(extraOnceTgt)} руб. разово)` : ""}`,
     "",
     "",
-    (diffSum > 0 ? "+" : "") + fmt(diffSum) + " руб./мес.",
-    fmt(extraOnce) + " руб.",
+    `${diffSum > 0 ? "+" : ""}${fmt(diffSum)} руб./мес.${hasNumberService ? ` (${diffOnce > 0 ? "+" : ""}${fmt(diffOnce)} руб. разово)` : ""}`,
+    hasNumberService
+      ? `${fmt(extraOnceCur)} → ${fmt(extraOnceTgt)} (${diffOnce > 0 ? "+" : ""}${fmt(diffOnce)}) руб.`
+      : "",
   ];
   const tr = document.createElement("tr");
   cells.forEach((text, i) => {
@@ -623,6 +688,9 @@ function init() {
   packageOn = true;
   Object.keys(qtys).forEach((k) => {
     qtys[k] = 0;
+  });
+  Object.keys(targetNumberQtys).forEach((k) => {
+    targetNumberQtys[k] = 0;
   });
   Object.keys(storageState).forEach((k) => {
     delete storageState[k];
@@ -1169,8 +1237,10 @@ $("kcAdd").onclick = () =>
 
 function exportCellText(td) {
   const price = td.querySelector(".storage-price");
-  if (price) return price.textContent.trim();
-  return td.textContent.trim();
+  const quantity = td.querySelector("input.number-qty");
+  const text = price ? price.textContent.trim() : td.textContent.trim();
+  if (!quantity) return text;
+  return `${text}\nКоличество: ${quantity.value || "0"}`;
 }
 
 function exportServiceText(td) {
