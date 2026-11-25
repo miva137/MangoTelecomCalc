@@ -452,15 +452,9 @@ body.single th:nth-child(3),
 body.single td:nth-child(3) {
   display: none;
 }
-/* Колонка разового платежа видна только в режиме расчёта */
-body:not(.single) .once-col {
+/* Разовые платежи выводятся рядом с ценой и не требуют отдельной колонки */
+body .once-col {
   display: none;
-}
-body.single th.once-col,
-body.single td.once-col {
-  display: table-cell;
-  width: 12%;
-  white-space: nowrap;
 }
 /* Элементы экспорта расположены непосредственно под итогами таблицы */
 .export-controls {

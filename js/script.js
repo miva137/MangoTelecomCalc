@@ -130,6 +130,9 @@ function update() {
   document.body.classList.toggle("single", single);
   $("targetField").hidden = single;
   $("currentLabel").textContent = single ? "Тариф" : "Текущий тариф";
+  $("onceHeader").textContent = single
+    ? "Разово, руб."
+    : "Разово: текущий → новый (разница), руб.";
   renderChips();
   render();
   renderKc();
@@ -436,7 +439,10 @@ function render() {
       }
       tr.appendChild(first);
       if (!isProfile && !isDialog) {
-        const currentCell = textCell(curText);
+        const currentText = isSingle()
+          ? `${curText} (${fmt(onceCur)} руб. разово)`
+          : curText;
+        const currentCell = textCell(currentText);
         currentCell.append(document.createElement("br"), quantityInput("current"));
         tr.appendChild(currentCell);
       } else {
@@ -471,7 +477,9 @@ function render() {
       const onceText =
         isProfile || isDialog
           ? ""
-          : `${fmt(onceCur)} → ${fmt(onceTgt)} (${onceDiff > 0 ? "+" : ""}${fmt(onceDiff)}) руб.`;
+          : isSingle()
+            ? `${fmt(onceCur)} руб.`
+            : `${fmt(onceCur)} → ${fmt(onceTgt)} (${onceDiff > 0 ? "+" : ""}${fmt(onceDiff)}) руб.`;
       tr.appendChild(onceTd(onceText));
       body.appendChild(tr);
     });
@@ -527,7 +535,9 @@ function render() {
     "",
     `${diffSum > 0 ? "+" : ""}${fmt(diffSum)} руб./мес.${hasNumberService ? ` (${diffOnce > 0 ? "+" : ""}${fmt(diffOnce)} руб. разово)` : ""}`,
     hasNumberService
-      ? `${fmt(extraOnceCur)} → ${fmt(extraOnceTgt)} (${diffOnce > 0 ? "+" : ""}${fmt(diffOnce)}) руб.`
+      ? isSingle()
+        ? `${fmt(extraOnceCur)} руб.`
+        : `${fmt(extraOnceCur)} → ${fmt(extraOnceTgt)} (${diffOnce > 0 ? "+" : ""}${fmt(diffOnce)}) руб.`
       : "",
   ];
   const tr = document.createElement("tr");
@@ -1289,7 +1299,7 @@ function buildExportData() {
         ? `ВАТС: ${mainTarget} / КЦ: ${kcTarget}`
         : mainTarget;
   const header = single
-    ? ["Услуга", currentTariff, "Скидка, %", "Итоговая сумма"]
+    ? ["Услуга", currentTariff, "Скидка, %"]
     : [
         "Услуга",
         currentTariff,
@@ -1303,7 +1313,7 @@ function buildExportData() {
 
   const data = rows.map((row) =>
     single
-      ? [row.service, row.current, row.currentDiscount, row.current]
+      ? [row.service, row.current, row.currentDiscount]
       : [
           row.service,
           row.current,
@@ -1318,7 +1328,7 @@ function buildExportData() {
     const total = kcOn
       ? exportCellText($("kcFoot").rows[1].cells[1])
       : exportCellText($("foot").rows[0].cells[1]);
-    data.push(["Итоговая сумма", "", "", total]);
+    data.push(["Итоговая сумма", total, ""]);
   } else {
     const totalRow = kcOn ? $("kcFoot").rows[1] : $("foot").rows[0];
     data.push([
