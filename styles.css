@@ -135,7 +135,10 @@ input.qty:focus {
 }
 .csel-list li {
   padding: 6px 10px;
-  font-size: 13px;
+  font:
+    13px Roboto,
+    Arial,
+    sans-serif;
   color: var(--text-dark);
   border-radius: 6px;
   cursor: pointer;
@@ -147,6 +150,14 @@ input.qty:focus {
 }
 .csel-list li.selected {
   font-weight: 600;
+}
+.csel-list li.tariff-group-heading {
+  color: #7a7a7a;
+  font-weight: 400;
+  cursor: default;
+}
+.csel-list li.tariff-group-heading:hover {
+  background: transparent;
 }
 /* Цена и компактный выбор объёма в ячейке облачного хранилища */
 .storage-price {
@@ -185,7 +196,7 @@ button {
     sans-serif;
   color: #fff;
   background: var(--orange);
-  border: 1px solid var(--orange);
+  border: 1px solid #000;
   border-radius: 16px;
   cursor: pointer;
 }
@@ -198,7 +209,7 @@ button.row-remove {
 }
 button:hover {
   background: #e8662a;
-  border-color: #e8662a;
+  border-color: #000;
 }
 /* Таблицы сравнения и итогов */
 table {

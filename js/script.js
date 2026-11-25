@@ -591,17 +591,33 @@ function addFeature(inputId, prod, list, rerender) {
   rerender();
 }
 
+function tariffOptions(tariffs) {
+  if (product !== "vats") {
+    return tariffs.map((k) => new Option(TARIFF_LABELS[k], k));
+  }
+
+  const groups = [
+    { label: "Публичные", tariffs: ["basic", "extended", "maximum", "virtual_number"] },
+    { label: "Непубличные", tariffs: ["start", "growth", "perspective"] },
+  ];
+
+  return groups.flatMap(({ label, tariffs: groupTariffs }) => {
+    const heading = new Option(label, "");
+    heading.disabled = true;
+    heading.className = "tariff-group-heading";
+    return [
+      heading,
+      ...groupTariffs.map((k) => new Option(TARIFF_LABELS[k], k)),
+    ];
+  });
+}
+
 // Заполняет выбор тарифов ВАТС, выбирает функции по умолчанию и запускает первую отрисовку
 function init() {
   const d = DATA[product];
-  $("current").replaceChildren(
-    ...d.tariffs.map((k) => new Option(TARIFF_LABELS[k], k)),
-  );
-  $("target").replaceChildren(
-    ...d.tariffs.map((k) => new Option(TARIFF_LABELS[k], k)),
-  );
-  // По умолчанию новый тариф - второй в списке
-  $("target").selectedIndex = Math.min(1, d.tariffs.length - 1);
+  $("current").replaceChildren(...tariffOptions(d.tariffs));
+  $("target").replaceChildren(...tariffOptions(d.tariffs));
+  $("target").value = product === "vats" ? "extended" : d.tariffs[1];
   // Сбрасывает добавленные номера и профили при переключении продукта
   extras = [];
   packageOn = true;

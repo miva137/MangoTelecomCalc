@@ -58,8 +58,11 @@ function customSelect(sel) {
       ...[...sel.options].map((o, i) => {
         const li = document.createElement("li");
         li.textContent = o.text;
-        if (i === sel.selectedIndex) li.className = "selected";
+        li.classList.toggle("selected", i === sel.selectedIndex);
+        li.classList.toggle("tariff-group-heading", o.disabled);
+        if (o.disabled) li.setAttribute("aria-disabled", "true");
         li.onclick = () => {
+          if (o.disabled) return;
           closeSelects();
           sel.selectedIndex = i;
           refresh();
