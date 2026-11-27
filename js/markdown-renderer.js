@@ -1,6 +1,6 @@
 const documentConfigs = {
-  usage: { file: "USAGE.md", title: "Инструкция по использованию" },
-  description: { file: "README.md", title: "Описание проекта" }
+  usage: { file: "../doc/USAGE.md", title: "Инструкция по использованию" },
+  description: { file: "../doc/README.md", title: "Описание проекта" },
 };
 
 function escapeHtml(value) {
