@@ -1618,6 +1618,15 @@ const DATA = {
         },
       },
       {
+        parameter: "Исходящий обзвон роботом",
+        values: {
+          start: "1 кампания до 100 контактов/мес.",
+          optimum: "✓",
+          profi: "✓",
+          corporation: "✓",
+        },
+      },
+      {
         parameter: "Автодозвон по новым заявкам/лидам",
         values: { start: "—", optimum: "✓", profi: "✓", corporation: "✓" },
       },

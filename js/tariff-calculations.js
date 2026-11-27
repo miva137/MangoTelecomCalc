@@ -35,17 +35,18 @@ function compare(a, b) {
   return { text: show(b) + " (не сравнимо)", cls: "" };
 }
 
-// Возвращает целое неотрицательное количество номеров данного типа из поля ввода
-function numberQty(t) {
-  return qtys[t.id] || 0;
+// Возвращает целое неотрицательное количество номеров для колонки сравнения
+function numberQty(t, column = "current") {
+  const source = column === "target" ? targetNumberQtys : qtys;
+  return source[t.id] || 0;
 }
 
 // Считает разовую и ежемесячную стоимость подключаемых номеров
-function numbersCost() {
+function numbersCost(column = "current") {
   let once = 0,
     monthly = 0;
   NUMBER_TYPES.forEach((t) => {
-    const qty = numberQty(t);
+    const qty = numberQty(t, column);
     once += qty * t.once;
     monthly += qty * t.monthly;
   });
@@ -53,9 +54,12 @@ function numbersCost() {
 }
 
 // Считает превышение лимита номеров тарифа и плату за номера сверх лимита
-function numbersFor(tariff) {
+function numbersFor(tariff, column = "current") {
   const rule = NUMBER_RULES[tariff];
-  const total = NUMBER_TYPES.reduce((s, t) => s + numberQty(t), 0);
+  const total = NUMBER_TYPES.reduce(
+    (s, t) => s + numberQty(t, column),
+    0,
+  );
   if (!rule) return { overFee: 0, exceeded: false, total, limit: Infinity };
   const paid = Math.max(0, Math.min(total, rule.limit) - rule.included);
   return {
@@ -67,19 +71,22 @@ function numbersFor(tariff) {
 }
 
 // Сколько номеров типа key платных (сверх включенных) при выбранном тарифе
-function feeQty(tariff, key) {
+function feeQty(tariff, key, column = "current") {
   const rule = NUMBER_RULES[tariff];
   if (!rule) return 0;
-  const total = NUMBER_TYPES.reduce((s, t) => s + numberQty(t), 0);
+  const total = NUMBER_TYPES.reduce(
+    (s, t) => s + numberQty(t, column),
+    0,
+  );
   const cap = Math.min(total, rule.limit);
   const idx = NUMBER_TYPES.findIndex((t) => t.id === key);
   const before = NUMBER_TYPES.slice(0, idx).reduce(
-    (s, t) => s + numberQty(t),
+    (s, t) => s + numberQty(t, column),
     0,
   );
   return Math.max(
     0,
-    Math.min(before + numberQty(NUMBER_TYPES[idx]), cap) -
+    Math.min(before + numberQty(NUMBER_TYPES[idx], column), cap) -
       Math.max(before, rule.included),
   );
 }
