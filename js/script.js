@@ -439,9 +439,7 @@ function render() {
       }
       tr.appendChild(first);
       if (!isProfile && !isDialog) {
-        const currentText = isSingle()
-          ? `${curText} (${fmt(onceCur)} руб. разово)`
-          : curText;
+        const currentText = `${curText} (${fmt(onceCur)} руб. разово)`;
         const currentCell = textCell(currentText);
         currentCell.append(document.createElement("br"), quantityInput("current"));
         tr.appendChild(currentCell);
@@ -451,7 +449,9 @@ function render() {
       tr.appendChild(includeCell("x" + key + "c"));
       tr.appendChild(discountCell("x" + key + "c", key === "nMobile"));
       if (!isProfile && !isDialog) {
-        const targetCell = textCell(tgtText);
+        const targetCell = textCell(
+          `${tgtText} (${fmt(onceTgt)} руб. разово)`,
+        );
         targetCell.append(document.createElement("br"), quantityInput("target"));
         tr.appendChild(targetCell);
       } else {
