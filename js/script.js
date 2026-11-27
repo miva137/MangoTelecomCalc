@@ -608,26 +608,28 @@ function bindSuggest(inputId, listId, rowsFn, onEnter) {
   return hide;
 }
 
-// Список функций продукта для подсказок (без первой строки с абонентской платой)
-function featureRows(prod) {
+// Список ещё не добавленных функций продукта для подсказок
+function featureRows(prod, selectedRows) {
   const rows = DATA[prod].rows
     .map((r, idx) => ({ text: r.parameter, idx }))
     .filter(
       (row) =>
-        prod !== "vats" ||
-        !VATS2_INTEGRATION_PARAMS.has(row.text) ||
-        hasVats2Tariff(
-          $("current").value,
-          isSingle() ? $("current").value : $("target").value,
-        ),
-    )
-    .slice(1);
-  return prod === "vats"
-    ? rows.concat(
-        [{ text: PACKAGE_LABEL, extra: "package" }],
-        EXTRA_ITEMS.map((x) => ({ text: x.text, extra: x.key })),
-      )
-    : rows;
+        row.idx > 0 &&
+        !selectedRows.includes(row.idx) &&
+        (prod !== "vats" ||
+          !VATS2_INTEGRATION_PARAMS.has(row.text) ||
+          hasVats2Tariff(
+            $("current").value,
+            isSingle() ? $("current").value : $("target").value,
+          )),
+    );
+  if (prod !== "vats") return rows;
+
+  const extraRows = EXTRA_ITEMS.filter((item) => !extras.includes(item.key)).map(
+    (item) => ({ text: item.text, extra: item.key }),
+  );
+  if (!packageOn) extraRows.unshift({ text: PACKAGE_LABEL, extra: "package" });
+  return rows.concat(extraRows);
 }
 
 // Добавляет функцию из поля ввода в список по точному названию и перерисовывает
@@ -752,11 +754,37 @@ $("mode").onchange = update;
 const hideSuggestions = bindSuggest(
   "feature",
   "suggestList",
-  () => featureRows(product),
+  () => featureRows(product, selected),
   () => $("add").click(),
 );
 // Кнопка добавления функции ВАТС в сравнение
 $("add").onclick = () => addFeature("feature", product, selected, update);
+// Восстанавливает набор услуг основного блока, выбранный по умолчанию
+$("clearServices").onclick = () => {
+  const defaultFeatures = product === "kc" ? DEFAULT_KC_FEATURES : DEFAULT_FEATURES;
+  selected = DATA[product].rows
+    .map((row, index) => ({ row, index }))
+    .filter(
+      ({ row, index }) =>
+        index > 0 && defaultFeatures.includes(row.parameter),
+    )
+    .map(({ index }) => index);
+  extras = [];
+  packageOn = true;
+  Object.keys(qtys).forEach((key) => {
+    qtys[key] = 0;
+  });
+  Object.keys(targetNumberQtys).forEach((key) => {
+    targetNumberQtys[key] = 0;
+  });
+  profileQtys.current = 0;
+  profileQtys.target = 0;
+  $("feature").value = "";
+  if (product === "vats") {
+    applyDefaultProfile($("current").value, $("target").value);
+  }
+  update();
+};
 
 // Итоги ВАТС без КЦ (текущий и новый тариф), нужны для блока ВАТС + КЦ
 let mainTotals = { cur: 0, tgt: 0 };
@@ -1230,20 +1258,37 @@ function kcInit() {
 const hideKcSuggest = bindSuggest(
   "kcFeature",
   "kcSuggestList",
-  () => featureRows("kc"),
+  () => featureRows("kc", kcState.selected),
   () => $("kcAdd").click(),
 );
 // Показ или скрытие блока КЦ при изменении флажка
 $("addKc").onchange = update;
-// Показ или скрытие столбцов скидок при изменении чекбокса
+// Показ или скрытие столбцов скидок сбрасывает введённые скидки
 $("showDiscounts").onchange = (e) => {
+  Object.keys(rowDiscount).forEach((key) => {
+    delete rowDiscount[key];
+  });
   document.body.classList.toggle("hide-discounts", !e.target.checked);
+  update();
 };
 $("kcCurrent").onchange = renderKc;
 $("kcTarget").onchange = renderKc;
 // Кнопка добавления функции КЦ в сравнение
 $("kcAdd").onclick = () =>
   addFeature("kcFeature", "kc", kcState.selected, renderKc);
+// Восстанавливает набор услуг КЦ, выбранный по умолчанию
+$("kcClearServices").onclick = () => {
+  kcState.selected = [];
+  kcState.qty = {};
+  DATA.kc.rows.forEach((row, index) => {
+    if (index > 0 && DEFAULT_KC_FEATURES.includes(row.parameter)) {
+      kcState.selected.push(index);
+      kcState.qty[index] = 0;
+    }
+  });
+  $("kcFeature").value = "";
+  renderKc();
+};
 
 function exportCellText(td) {
   const price = td.querySelector(".storage-price");

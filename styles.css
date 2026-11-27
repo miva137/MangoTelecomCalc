@@ -218,6 +218,11 @@ button:hover {
   background: #e8662a;
   border-color: #000;
 }
+.service-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 /* Таблицы сравнения и итогов */
 table {
   border-collapse: collapse;
